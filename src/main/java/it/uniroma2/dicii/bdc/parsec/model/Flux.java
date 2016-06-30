@@ -16,16 +16,16 @@ public class Flux extends Measure {
     /**
      * 
      */
-    private atom String;
+    private String atom;
 
     /**
      * 
      */
-    private resolution String;
+    private String resolution;
 
     /**
      * 
      */
-    private type String;
+    private String type;
 
 }

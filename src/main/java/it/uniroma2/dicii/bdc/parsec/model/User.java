@@ -16,35 +16,28 @@ public class User {
     /**
      * 
      */
-    private name String;
+    private String name;
 
     /**
      * 
      */
-    private surname String;
+    private String surname;
 
     /**
      * 
      */
-    private id Long;
+    private Long id;
 
     /**
      * 
      */
-    private password String;
+    private String password;
 
     /**
      * 
      */
-    private email String;
+    private String email;
 
 
-
-    /**
-     * 
-     */
-    public void Operation1() {
-        // TODO implement here
-    }
 
 }

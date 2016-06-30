@@ -16,22 +16,22 @@ public class Declination {
     /**
      * 
      */
-    private declinationSign Integer;
+    private Integer declinationSign;
 
     /**
      * 
      */
-    private declinationMin Integer;
+    private Integer declinationMin;
 
     /**
      * 
      */
-    private declinationDeg Integer;
+    private Integer declinationDeg;
 
     /**
      * 
      */
-    private declinationSec Float;
+    private Float declinationSec;
 
 
 }

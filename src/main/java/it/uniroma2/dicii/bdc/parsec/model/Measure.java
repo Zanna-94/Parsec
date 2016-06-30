@@ -16,27 +16,27 @@ public abstract class Measure {
     /**
      * 
      */
-    public id Long;
+    public Long id;
 
     /**
      * 
      */
-    private galaxy Galaxy;
+    private Galaxy galaxy;
 
     /**
      * 
      */
-    private value Float;
+    private Float value;
 
     /**
      * 
      */
-    private error Float;
+    private Float error;
 
     /**
      * 
      */
-    private limit Char;
+    private Char limit;
 
 
 }

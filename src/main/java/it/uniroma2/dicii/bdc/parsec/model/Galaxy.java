@@ -16,17 +16,17 @@ public class Galaxy {
     /**
      * 
      */
-    private name String;
+    private String name;
 
     /**
      * 
      */
-    private alterName String;
+    private String alterName;
 
     /**
      * 
      */
-    private category String;
+    private String category;
 
 
 }

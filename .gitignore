@@ -1,0 +1,9 @@
+.idea/copyright/
+.idea/libraries/
+.idea/workspace.xml
+lib/
+out/
+/.idea/runConfigurations/*.xml
+/.idea/*.xml
+target/
+*iml

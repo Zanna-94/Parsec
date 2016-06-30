@@ -16,11 +16,11 @@ public class Luminosity extends Measure {
     /**
      * 
      */
-    private atom String;
+    private String atom;
 
     /**
      * 
      */
-    private reference Integer;
+    private Integer reference;
 
 }

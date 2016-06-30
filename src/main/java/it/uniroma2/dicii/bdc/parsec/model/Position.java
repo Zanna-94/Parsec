@@ -16,17 +16,17 @@ public class Position {
     /**
      * 
      */
-    private distanceValue Float;
+    private Float distanceValue;
 
     /**
      * 
      */
-    private distanceReference Integer;
+    private Integer distanceReference;
 
     /**
      * 
      */
-    private Readshift Float;
+    private Float Readshift;
 
 
 

@@ -16,6 +16,6 @@ public class Metallicity extends Measure {
     /**
      * 
      */
-    private reference Integer;
+    private Integer reference;
 
 }

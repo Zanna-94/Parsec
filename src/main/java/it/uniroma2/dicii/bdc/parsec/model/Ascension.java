@@ -16,17 +16,17 @@ public class Ascension {
     /**
      * 
      */
-    private ascensionHour Integer;
+    private Integer ascensionHour;
 
     /**
      * 
      */
-    private ascensionMin Integer;
+    private Integer ascensionMin;
 
     /**
      * 
      */
-    private declinationSign Integer;
+    private Integer declinationSign;
 
 
 }
