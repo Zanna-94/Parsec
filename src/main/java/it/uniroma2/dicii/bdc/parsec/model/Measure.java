@@ -36,7 +36,7 @@ public abstract class Measure {
     /**
      * 
      */
-    private Char limit;
+    private Character limit;
 
 
 }

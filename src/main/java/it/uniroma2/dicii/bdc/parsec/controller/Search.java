@@ -1,9 +1,13 @@
 package it.uniroma2.dicii.bdc.parsec.controller;
 
+import it.uniroma2.dicii.bdc.parsec.model.Flux;
+import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
+import it.uniroma2.dicii.bdc.parsec.model.Position;
+
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class Search {
 
@@ -14,43 +18,42 @@ public class Search {
     }
 
 
-
     /**
-     * 
+     *
      */
     public void importFile() {
         // TODO implement here
     }
 
     /**
-     * @param String
+     * @param name
      */
-    public void searchGalaxyForName(name String) {
+    public void searchGalaxyForName(String name) {
         // TODO implement here
     }
 
     /**
-     * @param Position 
-     * @param Float 
+     * @param range
+     * @param position
      * @return
      */
-    public List<Galaxy> searchGalaxies(position Position, range Float) {
+    public List<Galaxy> searchGalaxies(Position position, Float range) {
         // TODO implement here
         return null;
     }
 
     /**
-     * @param Float
+     * @param readshift
      */
-    public void searchGalaxies(readshift Float) {
+    public void searchGalaxies(Float readshift) {
         // TODO implement here
     }
 
     /**
-     * @param String 
+     * @param atom
      * @return
      */
-    public List<Flux> fluxForLine(atom String) {
+    public List<Flux> fluxForLine( String atom) {
         // TODO implement here
         return null;
     }

@@ -1,4 +1,4 @@
-package it.uniroma2.dicii.bdc.parsec.model;
+package it.uniroma2.dicii.bdc.parsec.model.dao;
 
 import java.util.*;
 

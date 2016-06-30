@@ -17,10 +17,10 @@ public class Login {
 
 
     /**
-     * @param String 
-     * @param String
+     * @param username
+     * @param password
      */
-    public void login(username String, password String) {
+    public void login(String username, String password) {
         // TODO implement here
     }
 
