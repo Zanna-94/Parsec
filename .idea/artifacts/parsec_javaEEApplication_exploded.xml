@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="parsec:javaEEApplication exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/parsec_javaEEApplication_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="parsec/javaeeApplication/javaEEApplication" />
+      <element id="directory" name="parsec.war">
+        <element id="artifact" artifact-name="parsec:Web exploded" />
+      </element>
+      <element id="jpa-descriptors" facet="parsec/jpa/JPA" />
+    </root>
+  </artifact>
+</component>
