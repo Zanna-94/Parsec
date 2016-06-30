@@ -1,11 +1,11 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
-import java.util.*;
-
 /**
- * 
+ * Class representing a role in the System for an User.
+ *
+ * @see Administrator
  */
-public class Role {
+public abstract class Role {
 
     /**
      * Default constructor

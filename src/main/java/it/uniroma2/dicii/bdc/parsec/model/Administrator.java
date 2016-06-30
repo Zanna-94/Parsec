@@ -1,9 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
-import java.util.*;
-
 /**
- * 
+ * An {@link User} who has the role of Administrator has granted more functionality in the System
  */
 public class Administrator extends Role {
 
@@ -12,6 +10,5 @@ public class Administrator extends Role {
      */
     public Administrator() {
     }
-
 
 }
