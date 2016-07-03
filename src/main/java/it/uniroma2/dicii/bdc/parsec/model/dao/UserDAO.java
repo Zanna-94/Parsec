@@ -23,7 +23,7 @@ public class UserDAO {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 
-        User personLoaded = entityManager.find(User.class, toDelete.getId());
+        User personLoaded = entityManager.find(User.class, toDelete.getUsername());
         entityManager.remove(personLoaded);
 
         entityManager.getTransaction().commit();
@@ -33,31 +33,19 @@ public class UserDAO {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 
-        User userLoaded = entityManager.find(User.class, toUpdate.getId());
+        User userLoaded = entityManager.find(User.class, toUpdate.getUsername());
         userLoaded.update(toUpdate);
 
         entityManager.getTransaction().commit();
     }
 
-    public static User findById(Long id) throws NoResultException {
-
-        try {
-            EntityManager entityManager = JPAInitializer.getEntityManager();
-            return entityManager.find(User.class, id);
-
-        } catch (NoResultException e) {
-            throw new NoResultException();
-        }
-
-    }
-
     @SuppressWarnings("JpaQlInspection")
-    public static User findByUserName(String userName) throws NoResultException {
+    public static User findBy(String username) throws NoResultException {
 
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
             return entityManager.createQuery("from User where (username = :name)", User.class)
-                    .setParameter("name", userName)
+                    .setParameter("name", username)
                     .getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultException();
@@ -66,19 +54,18 @@ public class UserDAO {
     }
 
     @SuppressWarnings("JpaQlInspection")
-    public static User findByNameAndPassword(String userName, String passWord) throws NoResultException {
+    public static User findBy(String username, String password) throws NoResultException {
 
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
-            return entityManager.createQuery("select t from Person t where " +
+            return entityManager.createQuery("select t from User t where " +
                     " (username = :name) and (password = :pass) ", User.class)
-                    .setParameter("name", userName)
-                    .setParameter("pass", passWord)
+                    .setParameter("name", username)
+                    .setParameter("pass", password)
                     .getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultException();
         }
-
     }
 
 }

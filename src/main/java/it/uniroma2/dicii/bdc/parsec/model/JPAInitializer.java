@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * This class initializes a static entity manager of JPA for the entire project.
+ * It Initializes a static entity manager of JPA for the entire project.
  **/
 public class JPAInitializer {
     /**

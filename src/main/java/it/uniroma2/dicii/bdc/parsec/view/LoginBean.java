@@ -1,10 +1,8 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
-import java.util.*;
+import it.uniroma2.dicii.bdc.parsec.controller.LoginController;
+import it.uniroma2.dicii.bdc.parsec.model.User;
 
-/**
- *
- */
 public class LoginBean {
 
     private String username;
@@ -14,7 +12,7 @@ public class LoginBean {
     /**
      * Indicates if an user has administration permission
      */
-    private boolean administrator = false;
+    private boolean isAdministrator = false;
 
     /**
      * Indicates if an User is logged on
@@ -23,8 +21,19 @@ public class LoginBean {
 
 
     public boolean validate() {
+
+        if (username == null || password == null)
+            return false;
+
+        LoginController controller = LoginController.getInstance();
+        User user = controller.login(username, password);
+
+        if (user == null)
+            return false;
+
         isLogged = true;
-        // TODO: 30/06/16
+        isAdministrator = user.isAdministrator();
+
         return true;
     }
 
@@ -52,4 +61,11 @@ public class LoginBean {
         isLogged = logged;
     }
 
+    public boolean isAdministrator() {
+        return isAdministrator;
+    }
+
+    public void setAdministrator(boolean administrator) {
+        isAdministrator = administrator;
+    }
 }

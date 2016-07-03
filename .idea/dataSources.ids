@@ -10,8 +10,94 @@
       <schema id="2" parent="1" name="public">
         <object-id>2200</object-id>
         <comment>standard public schema</comment>
-        <introspection-timestamp>2016-06-30.15:01:14.773</introspection-timestamp>
+        <introspection-state-number>745</introspection-state-number>
+        <introspection-timestamp>2016-07-04.01:08:04.495</introspection-timestamp>
       </schema>
+      <sequence id="3" parent="2" name="hibernate_sequence">
+        <object-id>16415</object-id>
+        <state-number>738</state-number>
+      </sequence>
+      <table id="4" parent="2" name="consumer">
+        <object-id>16417</object-id>
+        <state-number>745</state-number>
+      </table>
+      <table id="5" parent="2" name="role">
+        <object-id>16425</object-id>
+        <state-number>745</state-number>
+      </table>
+      <column id="6" parent="4" name="username">
+        <state-number>742</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="7" parent="4" name="email">
+        <state-number>742</state-number>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="8" parent="4" name="firstname">
+        <state-number>742</state-number>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="9" parent="4" name="lastname">
+        <state-number>742</state-number>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="10" parent="4" name="password">
+        <state-number>742</state-number>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="11" parent="4" name="role_id">
+        <state-number>742</state-number>
+        <data-type>bigint</data-type>
+      </column>
+      <index id="12" parent="4" name="consumer_pkey">
+        <object-id>16423</object-id>
+        <columns>username</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="13" parent="4" name="uk_tjcaleeteyk7t6rueam4v6ur7">
+        <object-id>16430</object-id>
+        <columns>password</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="14" parent="4" name="consumer_pkey">
+        <columns>username</columns>
+        <underlying-index>consumer_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+      <key id="15" parent="4" name="uk_tjcaleeteyk7t6rueam4v6ur7">
+        <columns>password</columns>
+        <underlying-index>uk_tjcaleeteyk7t6rueam4v6ur7</underlying-index>
+      </key>
+      <foreign-key id="16" parent="4" name="fk6ha4jtwy2llf4d5gc3tiypqbb">
+        <columns>role_id</columns>
+        <ref-key>~.role.role_pkey</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="17" parent="5" name="dtype">
+        <state-number>743</state-number>
+        <mandatory>1</mandatory>
+        <data-type>varchar(31)</data-type>
+      </column>
+      <column id="18" parent="5" name="id">
+        <state-number>743</state-number>
+        <mandatory>1</mandatory>
+        <data-type>bigint</data-type>
+      </column>
+      <index id="19" parent="5" name="role_pkey">
+        <object-id>16428</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="20" parent="5" name="role_pkey">
+        <columns>id</columns>
+        <underlying-index>role_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
     </database-model>
   </data-source>
 </component>

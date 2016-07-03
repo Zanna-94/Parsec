@@ -5,11 +5,14 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Registered User Class.
  */
 @Entity
+@Table(name = "Consumer")
+@SuppressWarnings("JpaDataSourceORMInspection")
 public class User {
 
     /**
@@ -24,18 +27,18 @@ public class User {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-
-    private String firstname;
-
-    private String lastname;
-
     private String username;
 
+    @Column(unique = true)
     private String password;
 
+    @Column(nullable = true)
+    private String firstname;
+
+    @Column(nullable = true)
+    private String lastname;
+
+    @Column(nullable = true)
     private String email;
 
     @OneToOne
@@ -43,20 +46,18 @@ public class User {
     private Role role;
 
 
-    public void update(User toUpdate){
+    public void update(User toUpdate) {
         // TODO: 30/06/16  
     }
-    
+
+    public boolean isAdministrator() {
+        if (role instanceof Administrator)
+            return true;
+
+        return false;
+    }
+
     /* Getter and Setter */
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 
     public String getFirstname() {
         return firstname;
@@ -96,5 +97,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
