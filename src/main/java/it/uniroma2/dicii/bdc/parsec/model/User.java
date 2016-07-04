@@ -21,24 +21,20 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String userId, String password) {
+        this.userId = userId;
         this.password = password;
     }
 
     @Id
-    private String username;
+    private String userId;
 
-    @Column(unique = true)
     private String password;
 
-    @Column(nullable = true)
     private String firstname;
 
-    @Column(nullable = true)
     private String lastname;
 
-    @Column(nullable = true)
     private String email;
 
     @OneToOne
@@ -75,12 +71,12 @@ public class User {
         this.lastname = lastname;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String username) {
+        this.userId = username;
     }
 
     public String getPassword() {

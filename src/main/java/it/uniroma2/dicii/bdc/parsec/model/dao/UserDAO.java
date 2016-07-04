@@ -10,9 +10,12 @@ import javax.persistence.NoResultException;
 public class UserDAO {
 
 
-    public static void store(User user) {
+    public static void store(User user) throws IllegalArgumentException {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
+
+        if (entityManager.find(User.class, user.getUserId()) != null)
+            throw new IllegalArgumentException("Entity already in db");
 
         entityManager.persist(user);
 
@@ -23,7 +26,7 @@ public class UserDAO {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 
-        User personLoaded = entityManager.find(User.class, toDelete.getUsername());
+        User personLoaded = entityManager.find(User.class, toDelete.getUserId());
         entityManager.remove(personLoaded);
 
         entityManager.getTransaction().commit();
@@ -33,7 +36,7 @@ public class UserDAO {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 
-        User userLoaded = entityManager.find(User.class, toUpdate.getUsername());
+        User userLoaded = entityManager.find(User.class, toUpdate.getUserId());
         userLoaded.update(toUpdate);
 
         entityManager.getTransaction().commit();
@@ -44,7 +47,7 @@ public class UserDAO {
 
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
-            return entityManager.createQuery("from User where (username = :name)", User.class)
+            return entityManager.createQuery("from User where (userId = :name)", User.class)
                     .setParameter("name", username)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -59,7 +62,7 @@ public class UserDAO {
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
             return entityManager.createQuery("select t from User t where " +
-                    " (username = :name) and (password = :pass) ", User.class)
+                    " (userId = :name) and (password = :pass) ", User.class)
                     .setParameter("name", username)
                     .setParameter("pass", password)
                     .getSingleResult();

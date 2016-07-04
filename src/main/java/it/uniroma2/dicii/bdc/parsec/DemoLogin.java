@@ -1,6 +1,5 @@
 package it.uniroma2.dicii.bdc.parsec;
 
-import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 import it.uniroma2.dicii.bdc.parsec.model.User;
 import it.uniroma2.dicii.bdc.parsec.model.dao.UserDAO;
 
@@ -13,12 +12,16 @@ public class DemoLogin {
         user0.setLastname("Vannacci");
 
         User user1 = new User("Triv", "pass");
-        user0.setFirstname("Laura");
-        user0.setLastname("Trivelloni");
+        user1.setFirstname("Laura");
+        user1.setLastname("Trivelloni");
 
-        UserDAO.store(user0);
-        UserDAO.store(user1);
+        try {
+            UserDAO.store(user0);
+            UserDAO.store(user1);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
-        JPAInitializer.getEntityManager();
     }
 }

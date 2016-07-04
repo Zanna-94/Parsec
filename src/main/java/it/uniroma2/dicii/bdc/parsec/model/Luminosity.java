@@ -1,10 +1,11 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
-import java.util.*;
+import javax.persistence.Entity;
 
 /**
  * 
  */
+@Entity
 public class Luminosity extends Measure {
 
     /**

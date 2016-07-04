@@ -5,7 +5,7 @@ import it.uniroma2.dicii.bdc.parsec.model.User;
 
 public class LoginBean {
 
-    private String username;
+    private String userId;
 
     private String password;
 
@@ -22,11 +22,11 @@ public class LoginBean {
 
     public boolean validate() {
 
-        if (username == null || password == null)
+        if (userId == null || password == null)
             return false;
 
         LoginController controller = LoginController.getInstance();
-        User user = controller.login(username, password);
+        User user = controller.login(userId, password);
 
         if (user == null)
             return false;
@@ -37,12 +37,12 @@ public class LoginBean {
         return true;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getPassword() {
