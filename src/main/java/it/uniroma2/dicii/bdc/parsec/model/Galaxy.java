@@ -1,7 +1,11 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
+import javafx.geometry.Pos;
+
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import java.util.*;
 
 /**
@@ -26,6 +30,9 @@ public class Galaxy {
     private String alterName;
 
     private String category;
+
+    @Embedded
+    private Position position;
 
 
     /* Getter and Setter */

@@ -6,4 +6,5 @@ out/
 /.idea/runConfigurations/*.xml
 /.idea/*.xml
 target/
+/web/registration.jsp
 *iml

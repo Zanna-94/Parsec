@@ -1,10 +1,13 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import java.util.*;
 
 /**
  * 
  */
+@Embeddable
 public class Ascension {
 
     /**
@@ -26,7 +29,7 @@ public class Ascension {
     /**
      * 
      */
-    private Integer declinationSign;
+    private Integer ascensionSec;
 
 
 }

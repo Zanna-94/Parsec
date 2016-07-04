@@ -1,10 +1,12 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
+import javax.persistence.Embeddable;
 import java.util.*;
 
 /**
  * 
  */
+@Embeddable
 public class Declination {
 
     /**
