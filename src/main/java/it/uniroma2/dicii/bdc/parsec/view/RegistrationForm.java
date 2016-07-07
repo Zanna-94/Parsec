@@ -13,6 +13,8 @@ public class RegistrationForm {
 
     private String password;
 
+    private String userId;
+
     private String confirmPassword;
 
     private boolean administrator;
@@ -27,8 +29,6 @@ public class RegistrationForm {
         if (controller.register(this) == null)
             return false;
 
-
-        // TODO: 04/07/16
         return true;
     }
 
@@ -70,5 +70,21 @@ public class RegistrationForm {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public boolean isAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(boolean administrator) {
+        this.administrator = administrator;
     }
 }

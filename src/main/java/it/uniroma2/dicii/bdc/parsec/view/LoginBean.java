@@ -37,6 +37,10 @@ public class LoginBean {
         return true;
     }
 
+    public void logout() {
+        isLogged = false;
+    }
+
     public String getUserId() {
         return userId;
     }

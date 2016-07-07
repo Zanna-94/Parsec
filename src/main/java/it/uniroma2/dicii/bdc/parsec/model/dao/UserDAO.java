@@ -10,7 +10,7 @@ import javax.persistence.NoResultException;
 public class UserDAO {
 
 
-    public static void store(User user) throws IllegalArgumentException {
+    public static void store(User user) {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 

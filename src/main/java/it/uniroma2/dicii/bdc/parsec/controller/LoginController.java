@@ -1,6 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.controller;
 
 
+import it.uniroma2.dicii.bdc.parsec.model.Administrator;
 import it.uniroma2.dicii.bdc.parsec.model.User;
 import it.uniroma2.dicii.bdc.parsec.model.dao.UserDAO;
 import it.uniroma2.dicii.bdc.parsec.view.RegistrationForm;
@@ -23,15 +24,15 @@ public class LoginController {
     /**
      * Load the {@link User} matching username and password from database
      *
-     * @param username username
+     * @param userId   username
      * @param password password
      * @return {@link User}
      */
-    public User login(String username, String password) {
+    public User login(String userId, String password) {
 
         try {
 
-            return UserDAO.findBy(username, password);
+            return UserDAO.findBy(userId, password);
 
         } catch (NoResultException e) {
             e.printStackTrace();
@@ -42,17 +43,21 @@ public class LoginController {
 
     /**
      * @param form {@link RegistrationForm}
-     * @return User-id
      */
-    public String register(RegistrationForm form) {
+    public User register(RegistrationForm form) {
 
         User user = new User();
         user.setFirstname(form.getFirstname());
         user.setLastname(form.getLastname());
         user.setPassword(form.getPassword());
         user.setEmail(form.getEmail());
+        user.setUserId(form.getUserId());
 
-        String userId = null;
+        // set the user a an administrator
+        if (form.isAdministrator()) {
+            Administrator administrator = new Administrator();
+            user.setRole(administrator);
+        }
 
         // TODO: 04/07/16 generate userid
 
@@ -63,8 +68,9 @@ public class LoginController {
             return null;
         }
 
-        return userId;
+        return user;
 
     }
+
 }
 

@@ -19,6 +19,15 @@
 
 
 <%
+
+    if (Login.isLogged()) {
+        Login.logout();
+%>
+
+<jsp:forward page="index.jsp"/>
+<%
+    }
+
     if (request.getParameter("Login") != null) {
         if (Login.validate()) {
 %>
@@ -42,7 +51,7 @@
             <hr class="colorgraph">
             <br>
 
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required=""
+            <input type="text" class="form-control" id="userId" name="userId" placeholder="userId" required=""
                    autofocus=""/>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password"
                    required=""/>
@@ -50,6 +59,7 @@
             <button class="btn btn-lg btn-primary btn-block" id="Login" name="Login" value="Login" type="Submit">Login
             </button>
         </form>
+
     </div>
 </div>
 

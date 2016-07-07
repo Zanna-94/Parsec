@@ -49,7 +49,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-        <form role="form">
+        <form role="form" action="registration.jsp">
             <h2>Please Sign Up
                 <small>It's free and always will be.</small>
             </h2>
@@ -73,6 +73,11 @@
                 <input type="email" name="email" id="email" class="form-control input-lg"
                        placeholder="Email Address" tabindex="4" required>
             </div>
+            <div class="form-group ">
+                <input type="userId" name="userId" id="userId" class="form-control input-lg"
+                       pattern=".{6,}" title="min 6 chars" placeholder="User-Id" tabindex="4" required>
+            </div>
+
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="form-group">
@@ -90,12 +95,22 @@
                 </div>
             </div>
 
-            <hr class="colorgraph">
             <div class="row">
-                <div class="col-xs-12 col-md-6"><input type="submit" value="Register"
-                                                       class="btn btn-primary btn-block btn-lg" tabindex="7" required>
+                <div class=" col-xs-12 col-sm-6 col-md-6">
+                    <input type="checkbox" name="administrator" id="administrator">
+                    <medium>Register as administrator</medium>
                 </div>
             </div>
+
+            <hr class="colorgraph">
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <button type="submit" id="Register" name="Register" value="Register"
+                            class="btn btn-primary btn-block btn-lg" tabindex="7"> Register
+                    </button>
+                </div>
+            </div>
+
         </form>
     </div>
 </div>

@@ -2,10 +2,13 @@ package it.uniroma2.dicii.bdc.parsec.model;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Generated;
 
+import javax.annotation.*;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.UUID;
 
 /**
  * Registered User Class.
@@ -75,8 +78,8 @@ public class User {
         return userId;
     }
 
-    public void setUserId(String username) {
-        this.userId = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getPassword() {
