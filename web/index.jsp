@@ -31,12 +31,12 @@
 
     <br/><br/>
 
-    <div class="jumbotron">
-        <h1>Jumbotron heading</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus
-            commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+    <c:if test="${!Login.logged}">
+    <div class="jumbotron" style="background: url('resources/Images/costellation.jpg') no-repeat center center">
+        <h1>Parsec</h1>
+            <a class="btn btn-lg btn-success" href="login.jsp" role="button">Login</a>
     </div>
+    </c:if>
 
     <div class="row marketing">
         <div class="col-lg-6">
