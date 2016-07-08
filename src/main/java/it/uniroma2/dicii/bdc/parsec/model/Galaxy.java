@@ -24,15 +24,23 @@ public class Galaxy {
     @Id
     private String name;
 
-    /**
-     * Alternative name
-     */
     private String alterName;
 
     private String category;
 
     @Embedded
     private Position position;
+
+    /**
+     * Used by {@link it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO#update(Galaxy)}
+     * @param toupdate
+     */
+    public void update(Galaxy toupdate){
+        this.name = toupdate.getName();
+        this.alterName = toupdate.getAlterName();
+        this.category = toupdate.getCategory();
+        this.position = toupdate.getPosition();
+    }
 
 
     /* Getter and Setter */

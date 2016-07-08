@@ -5,9 +5,6 @@ import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 
 import javax.persistence.EntityManager;
 
-/**
- * Created by laura_trive on 08/07/16.
- */
 public class FluxDAO {
 
     public static void store(Flux flux) {
@@ -15,5 +12,32 @@ public class FluxDAO {
         em.getTransaction().begin();
         em.persist(flux);
         em.getTransaction().commit();
+    }
+
+    public static void delete(Flux toDelete) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        Flux fluxLoaded = em.find(Flux.class, toDelete.getId());
+        em.remove(fluxLoaded);
+
+        em.getTransaction().commit();
+    }
+
+    public static void update(Flux toUpdate) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        Flux userLoaded = em.find(Flux.class, toUpdate.getId());
+        userLoaded.update(toUpdate);
+
+        em.getTransaction().commit();
+    }
+
+    public static Flux findByID(Long id) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        return em.find(Flux.class, id);
     }
 }

@@ -1,13 +1,11 @@
 package it.uniroma2.dicii.bdc.parsec.model.dao;
 
-import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
+import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 
 import javax.persistence.EntityManager;
 
-/**
- * Created by laura_trive on 08/07/16.
- */
+
 public class LuminosityDAO {
 
     public static void store(Luminosity luminosity) {
@@ -15,5 +13,32 @@ public class LuminosityDAO {
         em.getTransaction().begin();
         em.persist(luminosity);
         em.getTransaction().commit();
+    }
+
+    public static void delete(Luminosity toDelete) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        Luminosity fluxLoaded = em.find(Luminosity.class, toDelete.getId());
+        em.remove(fluxLoaded);
+
+        em.getTransaction().commit();
+    }
+
+    public static void update(Luminosity toUpdate) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        Luminosity lumLoaded = em.find(Luminosity.class, toUpdate.getId());
+        lumLoaded.update(toUpdate);
+
+        em.getTransaction().commit();
+    }
+
+    public static Luminosity findByID(Long id) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        return em.find(Luminosity.class, id);
     }
 }

@@ -29,20 +29,23 @@ public class Flux extends Measure {
         this.type = type;
     }
 
-    /**
-     *
-     */
     private String atom;
 
-    /**
-     *
-     */
     private String resolution;
 
-    /**
-     *
-     */
     private String type;
+
+    /**
+     * Used by {@link it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO#update(Flux)}
+     *
+     * @param toupdate
+     */
+    public void update(Flux toupdate) {
+        super.update(toupdate);
+        this.atom = toupdate.getAtom();
+        this.resolution = toupdate.getResolution();
+        this.type = toupdate.getType();
+    }
 
     /* Getter and Setter */
 

@@ -21,27 +21,24 @@ public abstract class Measure {
     @GeneratedValue(strategy = GenerationType.TABLE)
     protected Long id;
 
-
-    /**
-     *
-     */
     @ManyToOne
     protected Galaxy galaxy;
 
-    /**
-     *
-     */
     protected Float value;
 
-    /**
-     *
-     */
     protected Float error;
 
-    /**
-     *
-     */
     protected Character upperLimit;
+
+    /**
+     * @param toupdate
+     */
+    public void update(Measure toupdate) {
+        this.galaxy = toupdate.getGalaxy();
+        this.value = toupdate.getValue();
+        this.error = toupdate.getError();
+        this.upperLimit = toupdate.getUpperLimit();
+    }
 
 
     public Galaxy getGalaxy() {
