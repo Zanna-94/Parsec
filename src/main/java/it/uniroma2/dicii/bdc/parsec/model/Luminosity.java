@@ -1,6 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 
 /**
  * 
@@ -19,9 +20,12 @@ public class Luminosity extends Measure {
      */
     private String atom;
 
-    /**
-     * 
-     */
-    private Integer reference;
+    public String getAtom() {
+        return atom;
+    }
+
+    public void setAtom(String atom) {
+        this.atom = atom;
+    }
 
 }

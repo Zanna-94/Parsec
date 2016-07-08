@@ -26,22 +26,55 @@ public abstract class Measure {
      *
      */
     @ManyToOne
-    private Galaxy galaxy;
+    protected Galaxy galaxy;
 
     /**
      *
      */
-    private Float value;
+    protected Float value;
 
     /**
      *
      */
-    private Float error;
+    protected Float error;
 
     /**
      *
      */
-    private Character upperLimit;
+    protected Character upperLimit;
+
+
+    public Galaxy getGalaxy() {
+        return galaxy;
+    }
+
+    public void setGalaxy(Galaxy galaxy) {
+        this.galaxy = galaxy;
+    }
+
+    public Float getValue() {
+        return value;
+    }
+
+    public void setValue(Float value) {
+        this.value = value;
+    }
+
+    public Float getError() {
+        return error;
+    }
+
+    public void setError(Float error) {
+        this.error = error;
+    }
+
+    public Character getUpperLimit() {
+        return upperLimit;
+    }
+
+    public void setUpperLimit(Character upperLimit) {
+        this.upperLimit = upperLimit;
+    }
 
     public Long getId() {
         return id;

@@ -2,8 +2,12 @@ package it.uniroma2.dicii.bdc.parsec.controller;
 
 import it.uniroma2.dicii.bdc.parsec.model.Flux;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
+import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 import it.uniroma2.dicii.bdc.parsec.model.Position;
+import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.*;
 
 /**
@@ -26,10 +30,21 @@ public class Search {
     }
 
     /**
-     * @param name
+     * Query to visualize position, distance and redshift value, luminosity, metallicity
+     * and relative errors
+     *
+     * @param galaxyName name of galaxy to search info about
+     * @return {@link Galaxy}
      */
-    public void searchGalaxyForName(String name) {
-        // TODO implement here
+    public Galaxy searchGalaxyByName(String galaxyName) {
+
+        try {
+            return GalaxyDAO.findByName(galaxyName);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

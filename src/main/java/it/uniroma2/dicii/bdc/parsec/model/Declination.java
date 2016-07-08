@@ -15,10 +15,17 @@ public class Declination {
     public Declination() {
     }
 
+    public Declination(Character declinationSign, Integer declinationMin, Integer declinationDeg, Float declinationSec) {
+        this.declinationSign = declinationSign;
+        this.declinationMin = declinationMin;
+        this.declinationDeg = declinationDeg;
+        this.declinationSec = declinationSec;
+    }
+
     /**
      * 
      */
-    private Integer declinationSign;
+    private Character declinationSign;
 
     /**
      * 
@@ -36,4 +43,35 @@ public class Declination {
     private Float declinationSec;
 
 
+    public Float getDeclinationSec() {
+        return declinationSec;
+    }
+
+    public void setDeclinationSec(Float declinationSec) {
+        this.declinationSec = declinationSec;
+    }
+
+    public Character getDeclinationSign() {
+        return declinationSign;
+    }
+
+    public void setDeclinationSign(Character declinationSign) {
+        this.declinationSign = declinationSign;
+    }
+
+    public Integer getDeclinationMin() {
+        return declinationMin;
+    }
+
+    public void setDeclinationMin(Integer declinationMin) {
+        this.declinationMin = declinationMin;
+    }
+
+    public Integer getDeclinationDeg() {
+        return declinationDeg;
+    }
+
+    public void setDeclinationDeg(Integer declinationDeg) {
+        this.declinationDeg = declinationDeg;
+    }
 }

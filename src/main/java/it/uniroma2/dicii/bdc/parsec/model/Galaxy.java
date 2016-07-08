@@ -1,12 +1,6 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
-import javafx.geometry.Pos;
-
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import java.util.*;
+import javax.persistence.*;
 
 /**
  *
@@ -20,6 +14,12 @@ public class Galaxy {
     public Galaxy() {
     }
 
+    /**
+     * Reference constructor
+     */
+    public Galaxy(String name) {
+        this.name = name;
+    }
 
     @Id
     private String name;
@@ -60,4 +60,13 @@ public class Galaxy {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
 }

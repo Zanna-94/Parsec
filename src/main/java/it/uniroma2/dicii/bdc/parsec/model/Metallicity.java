@@ -1,6 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -13,10 +14,4 @@ public class Metallicity extends Measure {
      */
     public Metallicity() {
     }
-
-    /**
-     *
-     */
-    private Integer reference;
-
 }
