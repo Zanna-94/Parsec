@@ -39,9 +39,11 @@
     </c:if>
 
     <div class="row marketing">
-        <div class="col-lg-6">
-            <h4>Subheading</h4>
-            <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+<c:if test="${Login.logged}">
+    <div class="col-lg-6">
+            <h4><a href="galaxybynamequery.jsp">Search a galaxy</a></h4>
+            <p>Using name of an existent galaxy, you can know its position, distance
+                (with relative redshift error), luminosity and metallicity (with relative errors).</p>
 
             <h4>Subheading</h4>
             <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet
@@ -62,8 +64,8 @@
             <h4>Subheading</h4>
             <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
         </div>
+</c:if>
     </div>
-
     <footer class="footer">
         <p>&copy; 2015 Company, Inc.</p>
     </footer>

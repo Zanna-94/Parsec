@@ -505,7 +505,6 @@ public class CSVManager {
                 Float.parseFloat(m.getValue(record, "RAs")));
 
         Position posGalaxy = new Position(Float.parseFloat(m.getValue(record, "D")),
-                Integer.parseInt(m.getValue(record, "refD")),
                 Float.parseFloat(m.getValue(record, "z")),
                 declination,
                 ascension);

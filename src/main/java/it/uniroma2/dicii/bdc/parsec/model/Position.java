@@ -15,10 +15,9 @@ public class Position {
     public Position() {
     }
 
-    public Position(Float distanceValue, Integer distanceReference, Float redshift,
+    public Position(Float distanceValue, Float redshift,
                     Declination declination, Ascension ascension) {
         this.distanceValue = distanceValue;
-        this.distanceReference = distanceReference;
         this.redshift = redshift;
         this.declination = declination;
         this.ascension = ascension;
@@ -29,12 +28,6 @@ public class Position {
      */
     @Column(name = "distance")
     private Float distanceValue;
-
-    /**
-     *
-     */
-    @Column(name = "reference")
-    private Integer distanceReference;
 
     /**
      *
@@ -64,11 +57,11 @@ public class Position {
         this.declination = declination;
     }
 
-    public Float getReadshift() {
+    public Float getRedshift() {
         return redshift;
     }
 
-    public void setReadshift(Float readshift) {
+    public void setRedshift(Float readshift) {
         redshift = readshift;
     }
 
@@ -78,14 +71,6 @@ public class Position {
 
     public void setDistanceValue(Float distanceValue) {
         this.distanceValue = distanceValue;
-    }
-
-    public Integer getDistanceReference() {
-        return distanceReference;
-    }
-
-    public void setDistanceReference(Integer distanceReference) {
-        this.distanceReference = distanceReference;
     }
 
 }

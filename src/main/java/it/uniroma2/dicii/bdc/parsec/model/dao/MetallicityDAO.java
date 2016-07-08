@@ -40,4 +40,11 @@ public class MetallicityDAO {
 
         return em.find(Metallicity.class, id);
     }
+
+    public static Metallicity findByGalaxy(String galaxy) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        return em.find(Metallicity.class, galaxy);
+    }
 }

@@ -20,18 +20,28 @@ public class QueryBoundary {
     public QueryBoundary() {
     }
 
-    public boolean getGalaxyByName(String galaxyName) {
+    public String getGalaxyName() {
+        return galaxyName;
+    }
+
+    public void setGalaxyName(String galaxyName) {
+        this.galaxyName = galaxyName;
+    }
+
+    public ResultsBean getGalaxyByName() {
 
         if (galaxyName == null)
-            return false;
+            return null;
 
         Search controller = new Search();
+
         Galaxy galaxy = controller.searchGalaxyByName(galaxyName);
 
-        if (galaxy == null)
-            return false;
+        if (galaxy == null) {
+            return null;
+        }
 
-        return true;
+         return new ResultsBean(galaxy);
     }
 
 

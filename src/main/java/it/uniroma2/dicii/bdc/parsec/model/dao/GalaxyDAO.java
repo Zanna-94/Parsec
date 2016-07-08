@@ -14,18 +14,14 @@ public class GalaxyDAO {
     public static void store(Galaxy galaxy) {
 
         EntityManager em = JPAInitializer.getEntityManager();
-        Galaxy g;
-        em.getTransaction().begin();
 
-        if ((g = em.find(Galaxy.class, galaxy.getName())) == null)
+        if (em.find(Galaxy.class, galaxy.getName()) == null) {
+            em.getTransaction().begin();
             em.persist(galaxy);
-        else {
-            g.setName(galaxy.getName());
-            g.setCategory(galaxy.getCategory());
-            g.setAlterName(galaxy.getAlterName());
-            g.setPosition(galaxy.getPosition());
+            em.getTransaction().commit();
+        } else {
+            update(galaxy);
         }
-        em.getTransaction().commit();
     }
 
     public static void delete(Galaxy toDelete) {
@@ -39,11 +35,17 @@ public class GalaxyDAO {
     }
 
     public static void update(Galaxy toUpdate) {
+        // TODO: 09/07/16 NO UPDATE VALUE
         EntityManager em = JPAInitializer.getEntityManager();
         em.getTransaction().begin();
 
         Galaxy userLoaded = em.find(Galaxy.class, toUpdate.getName());
+
+        em.remove(userLoaded);
+
         userLoaded.update(toUpdate);
+
+        em.persist(userLoaded);
 
         em.getTransaction().commit();
     }

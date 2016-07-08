@@ -41,4 +41,11 @@ public class LuminosityDAO {
 
         return em.find(Luminosity.class, id);
     }
+
+    public static Luminosity findByGalaxy(String galaxy) {
+        EntityManager em = JPAInitializer.getEntityManager();
+        em.getTransaction().begin();
+
+        return em.find(Luminosity.class, galaxy);
+    }
 }
