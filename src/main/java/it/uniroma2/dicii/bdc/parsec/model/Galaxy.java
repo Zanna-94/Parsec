@@ -19,6 +19,9 @@ public class Galaxy {
      */
     public Galaxy(String name) {
         this.name = name;
+        this.alterName = "-1";
+        this.category = "-1";
+        this.position = new Position(-1f,-1f, new Declination('*',-1,-1,-1f), new Ascension(-1,-1,-1f));
     }
 
     @Id

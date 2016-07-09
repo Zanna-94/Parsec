@@ -1,9 +1,12 @@
 package it.uniroma2.dicii.bdc.parsec.model.dao;
 
+import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
 import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import java.util.List;
 
 
 public class LuminosityDAO {
@@ -42,10 +45,16 @@ public class LuminosityDAO {
         return em.find(Luminosity.class, id);
     }
 
-    public static Luminosity findByGalaxy(String galaxy) {
-        EntityManager em = JPAInitializer.getEntityManager();
-        em.getTransaction().begin();
+    public static List<Luminosity> findByGalaxy(Galaxy galaxy) {
 
-        return em.find(Luminosity.class, galaxy);
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            return entityManager.createQuery("select l from Luminosity l where " +
+                    "(galaxy = :galaxy)", Luminosity.class)
+                    .setParameter("galaxy", galaxy)
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
     }
 }

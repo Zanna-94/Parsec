@@ -15,13 +15,16 @@ public class GalaxyDAO {
 
         EntityManager em = JPAInitializer.getEntityManager();
 
-        if (em.find(Galaxy.class, galaxy.getName()) == null) {
-            em.getTransaction().begin();
-            em.persist(galaxy);
+        em.getTransaction().begin();
+
+        if (em.find(Galaxy.class, galaxy.getName()) != null) {
+            //throw new IllegalArgumentException("Entity already in db");
             em.getTransaction().commit();
-        } else {
-            update(galaxy);
+            return;
         }
+
+        em.persist(galaxy);
+        em.getTransaction().commit();
     }
 
     public static void delete(Galaxy toDelete) {
@@ -35,7 +38,6 @@ public class GalaxyDAO {
     }
 
     public static void update(Galaxy toUpdate) {
-        // TODO: 09/07/16 NO UPDATE VALUE
         EntityManager em = JPAInitializer.getEntityManager();
         em.getTransaction().begin();
 

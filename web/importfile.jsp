@@ -43,7 +43,7 @@
             <hr class="colorgraph">
             <br>
 
-            <div class="col-xs-12 col-sm-6 col-12">
+            <div class="col-sm-12 col-sm-6 col-12">
                 <h4><small>Please, respect default CSV format.</small></h4>
                 <div class="input-group col-lg-12 col-sm-6 col-12">
                     <label class="input-group-btn">

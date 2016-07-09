@@ -54,7 +54,6 @@
             %>
             <div class="container">
                 <h2>Query results</h2>
-                <p>The .table-condensed class makes a table more compact by cutting cell padding in half:</p>
                 <table class="table table-condensed">
                     <thead>
                     <tr>
@@ -66,9 +65,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <%Results.fillResultsForGalaxyDescription();%>
-                    </tr>
+                        <%  Results.fillResultsForGalaxyDescription();
+                            String res = Results.getResults();
+                            pageContext.setAttribute("res", res);%>
+                        <c:out value="${res}" escapeXml="false"></c:out>
                     </tbody>
                 </table>
             </div>
