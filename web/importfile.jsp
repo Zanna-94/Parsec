@@ -10,9 +10,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
     <%@include file="header.html" %>
@@ -45,7 +45,7 @@
 
             <div class="col-xs-12 col-sm-6 col-12">
                 <h4><small>Please, respect default CSV format.</small></h4>
-                <div class="input-group" class="col-lg-12 col-sm-6 col-12">
+                <div class="input-group col-lg-12 col-sm-6 col-12">
                     <label class="input-group-btn">
                         <span class="btn btn-primary">
                         Browse&hellip; <input type="file" style="display: none;">

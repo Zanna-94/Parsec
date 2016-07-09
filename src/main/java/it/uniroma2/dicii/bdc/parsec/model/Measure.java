@@ -24,11 +24,8 @@ public abstract class Measure {
     @ManyToOne
     protected Galaxy galaxy;
 
+    @Column(columnDefinition = "real default -1")
     protected Float value;
-
-    protected Float error;
-
-    protected Character upperLimit;
 
     /**
      * @param toupdate
@@ -36,8 +33,6 @@ public abstract class Measure {
     public void update(Measure toupdate) {
         this.galaxy = toupdate.getGalaxy();
         this.value = toupdate.getValue();
-        this.error = toupdate.getError();
-        this.upperLimit = toupdate.getUpperLimit();
     }
 
 
@@ -55,22 +50,6 @@ public abstract class Measure {
 
     public void setValue(Float value) {
         this.value = value;
-    }
-
-    public Float getError() {
-        return error;
-    }
-
-    public void setError(Float error) {
-        this.error = error;
-    }
-
-    public Character getUpperLimit() {
-        return upperLimit;
-    }
-
-    public void setUpperLimit(Character upperLimit) {
-        this.upperLimit = upperLimit;
     }
 
     public Long getId() {

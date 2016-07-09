@@ -1,13 +1,35 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 
 /**
  *
  */
 @Entity
 public class Flux extends Measure {
+
+    @Column(columnDefinition = "real default -1")
+    private Float error;
+
+    @Column(columnDefinition = "varchar(1) default '*'")
+    private Character upperLimit;
+
+    public Character getUpperLimit() {
+        return upperLimit;
+    }
+
+    public void setUpperLimit(Character upperLimit) {
+        this.upperLimit = upperLimit;
+    }
+
+    public Float getError() {
+        return error;
+    }
+
+    public void setError(Float error) {
+        this.error = error;
+    }
 
     /**
      * Default constructor
@@ -29,10 +51,13 @@ public class Flux extends Measure {
         this.type = type;
     }
 
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String atom;
 
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String resolution;
 
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String type;
 
     /**
@@ -45,6 +70,8 @@ public class Flux extends Measure {
         this.atom = toupdate.getAtom();
         this.resolution = toupdate.getResolution();
         this.type = toupdate.getType();
+        this.error = toupdate.getError();
+        this.upperLimit = toupdate.getUpperLimit();
     }
 
     /* Getter and Setter */

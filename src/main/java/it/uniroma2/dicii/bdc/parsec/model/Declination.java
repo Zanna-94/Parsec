@@ -1,7 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.util.*;
 
 /**
  * 
@@ -25,21 +25,25 @@ public class Declination {
     /**
      * 
      */
+    @Column(columnDefinition = "varchar(1) default '*'")
     private Character declinationSign;
 
     /**
      * 
      */
+    @Column(columnDefinition = "int default -1")
     private Integer declinationMin;
 
     /**
      * 
      */
+    @Column(columnDefinition = "int default -1")
     private Integer declinationDeg;
 
     /**
      * 
      */
+    @Column(columnDefinition = "real default -1")
     private Float declinationSec;
 
 

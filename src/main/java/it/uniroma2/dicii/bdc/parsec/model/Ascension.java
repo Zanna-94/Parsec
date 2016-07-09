@@ -2,6 +2,7 @@ package it.uniroma2.dicii.bdc.parsec.model;
 
 import org.hibernate.loader.entity.CascadeEntityJoinWalker;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import java.util.*;
@@ -27,16 +28,19 @@ public class Ascension {
     /**
      * 
      */
+    @Column(columnDefinition = "int default -1")
     private Integer ascensionHour;
 
     /**
      * 
      */
+    @Column(columnDefinition = "int default -1")
     private Integer ascensionMin;
 
     /**
      * 
      */
+    @Column(columnDefinition = "real default -1")
     private Float ascensionSec;
 
 

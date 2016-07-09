@@ -33,6 +33,7 @@ public class ResultsBean {
     }
 
     public void fillResultsForGalaxyDescription() {
+
         Luminosity lum;
         Metallicity met;
 
@@ -40,16 +41,23 @@ public class ResultsBean {
         results = results.concat(galaxy.getName());
         results = "<\td>\n";
 
-        // // TODO: 09/07/16 check for null values and if true -
+        String pos[] = { galaxy.getPosition().getAscension().getAscensionHour().toString(),
+                galaxy.getPosition().getAscension().getAscensionMin().toString(),
+                galaxy.getPosition().getAscension().getAscensionSec().toString(),
+                galaxy.getPosition().getDeclination().getDeclinationSign().toString(),
+                galaxy.getPosition().getDeclination().getDeclinationDeg().toString(),
+                galaxy.getPosition().getDeclination().getDeclinationMin().toString(),
+                galaxy.getPosition().getDeclination().getDeclinationSec().toString() };
 
+        Integer i = 0;
+        while (i < pos.length) {
+            if (pos[i] == null || pos[i].compareTo("-1") == 0) {
+                pos[i] = "-";
+            }
+        }
         String position = "<td>" +
-                "A[" + galaxy.getPosition().getAscension().getAscensionHour() + ","
-                + galaxy.getPosition().getAscension().getAscensionMin() + ","
-                + galaxy.getPosition().getAscension().getAscensionSec() + "]-" +
-                "D[" + galaxy.getPosition().getDeclination().getDeclinationSign() +","
-                + galaxy.getPosition().getDeclination().getDeclinationDeg() + ","
-                + galaxy.getPosition().getDeclination().getDeclinationMin() + ","
-                + galaxy.getPosition().getDeclination().getDeclinationSec() + "]<\td>";
+                "A[" + pos[0] + "," + pos[1] + "," + pos[2] + "]-" +
+                "D[" + pos[3] +"," + pos[4] + "," + pos[5] + "," + pos[6] + "]<\td>";
         results = results.concat(position);
 
         String distance = "<td>" + galaxy.getPosition().getDistanceValue() + " ["
@@ -73,19 +81,12 @@ public class ResultsBean {
             }
         }
         if ((lum = LuminosityDAO.findByGalaxy(galaxy.getName())) != null) {
-            Float valueLum, errorLum;
+            Float valueLum;
             if ((valueLum = lum.getValue()) != -1) {
                 results = results.concat(valueLum.toString());
                 results = results.concat("</td>\n");
             } else {
-                results = results.concat("- ");
-            }
-            if ((errorLum = lum.getError()) != -1) {
-                results = results.concat("[");
-                results = results.concat(errorLum.toString());
-                results = results.concat("]</td>\n");
-            } else {
-                results = results.concat("-]</td>\n");
+                results = results.concat("-</td>\n");
             }
         }
     }

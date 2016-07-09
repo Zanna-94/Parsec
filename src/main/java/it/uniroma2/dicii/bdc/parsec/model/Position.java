@@ -26,13 +26,13 @@ public class Position {
     /**
      *
      */
-    @Column(name = "distance")
+    @Column(name = "distance", columnDefinition = "real default -1")
     private Float distanceValue;
 
     /**
      *
      */
-    @Column(name = "redshift")
+    @Column(name = "redshift", columnDefinition = "real default -1")
     private Float redshift;
 
     @Embedded

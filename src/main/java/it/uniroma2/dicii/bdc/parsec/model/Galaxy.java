@@ -24,8 +24,10 @@ public class Galaxy {
     @Id
     private String name;
 
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String alterName;
 
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String category;
 
     @Embedded

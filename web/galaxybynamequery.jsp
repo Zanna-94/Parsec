@@ -61,7 +61,7 @@
                         <th>Galaxy name</th>
                         <th>Position A[hh,mm,ss] D[+/-,deg,mm,ss]</th>
                         <th>Distance [redshift]</th>
-                        <th>Luminosity [error]</th>
+                        <th>Luminosity</th>
                         <th>Metallicity [error]</th>
                     </tr>
                     </thead>

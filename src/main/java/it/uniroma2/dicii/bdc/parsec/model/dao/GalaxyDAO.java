@@ -40,12 +40,8 @@ public class GalaxyDAO {
         em.getTransaction().begin();
 
         Galaxy userLoaded = em.find(Galaxy.class, toUpdate.getName());
-
-        em.remove(userLoaded);
-
+        
         userLoaded.update(toUpdate);
-
-        em.persist(userLoaded);
 
         em.getTransaction().commit();
     }
