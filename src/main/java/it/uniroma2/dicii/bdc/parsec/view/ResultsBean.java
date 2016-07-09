@@ -1,14 +1,12 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
-import it.uniroma2.dicii.bdc.parsec.controller.Search;
+import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
 import it.uniroma2.dicii.bdc.parsec.model.Flux;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
 import it.uniroma2.dicii.bdc.parsec.model.Metallicity;
 import it.uniroma2.dicii.bdc.parsec.model.dao.CSVManager;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
-import it.uniroma2.dicii.bdc.parsec.model.dao.LuminosityDAO;
-import it.uniroma2.dicii.bdc.parsec.model.dao.MetallicityDAO;
 
 import java.io.IOException;
 import java.util.*;
@@ -168,24 +166,69 @@ public class ResultsBean {
         }
     }
 
+    public void fillLineFluxSelection() {
+
+        fluxes = FluxDAO.findAllLinesByGalaxy(galaxy);
+        results = "";
+        Integer iter = 0;
+        while (iter < fluxes.size()) {
+            results = results.concat("<option value=");
+            results = results.concat(fluxes.get(iter).getAtom());
+            results = results.concat(" </option>");
+            iter++;
+        }
+        /*while ( iter < fluxes.size() ) {
+            results = results.concat("<li><a href=\"#\">Flux-");
+            results = results.concat(fluxes.get(iter).getAtom());
+            results = results.concat("</a></li>");
+            iter++;
+        }*/
+    }
+
+    public void fillResultsForFluxRatio() {
+
+        results = "<td>";
+        results = results.concat(fluxes.get(0).getGalaxy().getName());
+        results = results.concat("</td><td>");
+        Integer i = 0;
+        while (fluxes.get(i).getAtom().compareTo(fluxes.get(i+1).getAtom()) == 0
+                && i < ( fluxes.size() - 1) ) {
+            i++;
+        }
+        Float ratio = fluxes.get(0).getValue() / fluxes.get(i+1).getValue();
+        results = results.concat(ratio.toString());
+        results = results.concat("</td><td>");
+        if ( fluxes.get(0).getUpperLimit() != '*' && fluxes.get(0).getUpperLimit() != '-') {
+            results = results.concat("<td>Upper limit</td>");
+        } else if (fluxes.get(i+1).getUpperLimit() != '*' && fluxes.get(i+1).getUpperLimit() != '-') {
+            results = results.concat("<td>Lower limit</td>");
+        } else {
+            results = results.concat("<td>-</td>");
+        }
+    }
+
     public static void main(String args[]) throws IOException {
         CSVManager cm = new CSVManager();
         /*cm.importFile("MRTable4_flux.csv");
-        cm.importFile("MRTable6_cont.csv");*/
-        //cm.importFile("MRTable8_irs.csv");
-        Search s = new Search();
+        cm.importFile("MRTable6_cont.csv");
+        cm.importFile("MRTable8_irs.csv");*/
+        QueryController s = new QueryController();
 
         QueryBoundary w = new QueryBoundary();
         w.setGalaxyName("Mrk622");
-        w.setAtomSIV105(true);
-        w.setAtomOIV259(true);
-        List<Flux> fluxes =  s.searchGalaxySpectralLines(w);
-        System.out.printf("flux size %s\n",fluxes.size());
+        w.setFluxNum("OIV25.9");
+        w.setFluxDen("NeV24.3");
+        List<String> l = new ArrayList<String>();
+        l.add(w.getFluxNum());
+        l.add(w.getFluxDen());
+        List<Flux> fluxes = FluxDAO.findLinesByGalaxy(new Galaxy(w.getGalaxyName()), l);
 
         ResultsBean r = new ResultsBean(fluxes);
-
-        r.fillResultsForGalaxySpectralLines();
+        r.fillResultsForFluxRatio();
         System.out.printf("res %s\n",r.getResults());
+
+        /*r.fillLineFluxSelection();
+        System.out.printf("res %s\n",r.getResults());*/
 
     }
 }

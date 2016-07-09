@@ -1,11 +1,8 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
-import it.uniroma2.dicii.bdc.parsec.controller.Search;
+import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
 import it.uniroma2.dicii.bdc.parsec.model.*;
-import it.uniroma2.dicii.bdc.parsec.model.dao.LuminosityDAO;
-import it.uniroma2.dicii.bdc.parsec.model.dao.MetallicityDAO;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 /**
@@ -14,6 +11,9 @@ import java.util.*;
 public class QueryBoundary {
 
     private String galaxyName;
+
+    private String fluxNum;
+    private String fluxDen;
 
     private Boolean atomOIV259;
     private Boolean atomNEV143;
@@ -36,6 +36,22 @@ public class QueryBoundary {
      * Default constructor
      */
     public QueryBoundary() {
+    }
+
+    public String getFluxNum() {
+        return fluxNum;
+    }
+
+    public void setFluxNum(String fluxNum) {
+        this.fluxNum = fluxNum;
+    }
+
+    public String getFluxDen() {
+        return fluxDen;
+    }
+
+    public void setFluxDen(String fluxDen) {
+        this.fluxDen = fluxDen;
     }
 
     public String getGalaxyName() {
@@ -179,7 +195,7 @@ public class QueryBoundary {
         if (galaxyName == null)
             return null;
 
-        Search controller = new Search();
+        QueryController controller = new QueryController();
 
         Galaxy galaxy = controller.searchGalaxyByName(galaxyName);
         List<Metallicity> metallicities = controller.searchMetallicityByGalaxy(galaxyName);
@@ -197,7 +213,7 @@ public class QueryBoundary {
         if (galaxyName == null)
             return null;
 
-        Search controller = new Search();
+        QueryController controller = new QueryController();
 
         List<Flux> fluxLines = controller.searchGalaxySpectralLines(this);
 
@@ -208,4 +224,35 @@ public class QueryBoundary {
         return new ResultsBean(fluxLines);
     }
 
+    public ResultsBean getAllGalaxySpectralLines() {
+
+        if (galaxyName == null)
+            return null;
+
+        QueryController controller = new QueryController();
+
+        List<Flux> fluxLines = controller.searchAllGalaxySpectralLines(this);
+
+        if (fluxLines == null) {
+            return null;
+        }
+
+        return new ResultsBean(fluxLines);
+    }
+
+    public ResultsBean getTwoLinesFluxRatio() {
+
+        if (galaxyName == null || fluxNum == null || fluxDen == null)
+            return null;
+
+        QueryController controller = new QueryController();
+
+        List<Flux> fluxLines = controller.searchGalaxySpectralLinesForRatio(this);
+
+        if (fluxLines == null) {
+            return null;
+        }
+
+        return new ResultsBean(fluxLines);
+    }
 }

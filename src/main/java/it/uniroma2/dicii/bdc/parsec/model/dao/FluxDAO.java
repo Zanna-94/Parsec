@@ -45,6 +45,20 @@ public class FluxDAO {
         return em.find(Flux.class, id);
     }
 
+    public static List<Flux> findAllLinesByGalaxy(Galaxy galaxy) {
+
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+
+            return entityManager.createQuery("select f from Flux f where " +
+                        "(galaxy = :galaxy) and (typeFlux = 'l')", Flux.class)
+                        .setParameter("galaxy", galaxy)
+                        .getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
+
     public static List<Flux> findLinesByGalaxy(Galaxy galaxy, List<String> lines) {
 
         try {

@@ -7,27 +7,18 @@ import it.uniroma2.dicii.bdc.parsec.model.dao.LuminosityDAO;
 import it.uniroma2.dicii.bdc.parsec.model.dao.MetallicityDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.*;
 
 /**
  *
  */
-public class Search {
+public class QueryController {
 
     /**
      * Default constructor
      */
-    public Search() {
-    }
-
-
-    /**
-     *
-     */
-    public void importFile() {
-        // TODO implement here
+    public QueryController() {
     }
 
     /**
@@ -70,7 +61,7 @@ public class Search {
         }
     }
 
-    private List<String> composeAtomsList(QueryBoundary query) {
+    private List<String> composeLinesList(QueryBoundary query) {
 
         List<java.lang.String> l = new ArrayList<java.lang.String>();
 
@@ -125,11 +116,37 @@ public class Search {
         return l;
     }
 
+    public List<Flux> searchAllGalaxySpectralLines(QueryBoundary query) {
+
+        Galaxy galaxy = new Galaxy(query.getGalaxyName());
+        try {
+            return FluxDAO.findAllLinesByGalaxy(galaxy);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Flux> searchGalaxySpectralLinesForRatio(QueryBoundary query) {
+
+        Galaxy galaxy = new Galaxy(query.getGalaxyName());
+        List<String> lines = new ArrayList<String>();
+        lines.add(query.getFluxNum());
+        lines.add(query.getFluxDen());
+        try {
+            return FluxDAO.findLinesByGalaxy(galaxy, lines);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public List<Flux> searchGalaxySpectralLines(QueryBoundary query) {
 
         Galaxy galaxy = new Galaxy(query.getGalaxyName());
-        List<String> lines = composeAtomsList(query);
+        List<String> lines = composeLinesList(query);
         try {
             return FluxDAO.findLinesByGalaxy(galaxy, lines);
 

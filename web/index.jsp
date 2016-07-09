@@ -49,13 +49,17 @@
             <p>Using name of an existent galaxy and selecting which spectral lines you want to know value of flux,
                 you can visualize the value (and relative error) and the type of atom used for measurement.</p>
 
-            <h4>Subheading</h4>
-            <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        <h4><a href="linesfluxratioquery.jsp">Calculate lines flux ratio</a></h4>
+        <p>Using name of an existent galaxy and selecting which spectral lines you want to divide value of,
+            you can visualize the result of ratio and if it's an upper or lower limit or not.</p>
         </div>
 
         <div class="col-lg-6">
-            <h4>Subheading</h4>
-            <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+            <h4><a href="linesratiostatisticsquery.jsp">Calculate statistics of lines flux ratio</a></h4>
+            <p>Selecting which statistics you want to know (average value, standard deviation, median,
+                absolute average deviation) about spectral lines values ratio, you can visualize
+                results grouped by spectral
+                classification, choosing (if you want) aperture-size (c, 3x3, 5x5) too.</p>
 
             <h4>Subheading</h4>
             <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet
