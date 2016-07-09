@@ -9,11 +9,40 @@ import javax.persistence.Entity;
 @Entity
 public class Flux extends Measure {
 
+    /**
+     * Default constructor
+     */
+    public Flux() {
+    }
+
+    /**
+     * Data constructor
+     */
+    public Flux(Galaxy galaxy, String atom, Float value, Character upperLimit,
+                Float error, String resolution, String type) {
+        this.galaxy = galaxy;
+        this.atom = atom;
+        this.value = value;
+        this.upperLimit = upperLimit;
+        this.error = error;
+        this.resolution = resolution;
+        this.typeFlux = type;
+    }
+
     @Column(columnDefinition = "real default -1")
     private Float error;
 
     @Column(columnDefinition = "varchar(1) default '*'")
     private Character upperLimit;
+
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
+    private String atom;
+
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
+    private String resolution;
+
+    @Column(columnDefinition = "VARCHAR(255) default '-1'")
+    private String typeFlux;
 
     public Character getUpperLimit() {
         return upperLimit;
@@ -32,35 +61,6 @@ public class Flux extends Measure {
     }
 
     /**
-     * Default constructor
-     */
-    public Flux() {
-    }
-
-    /**
-     * Data constructor
-     */
-    public Flux(Galaxy galaxy, String atom, Float value, Character upperLimit,
-                Float error, String resolution, String type) {
-        this.galaxy = galaxy;
-        this.atom = atom;
-        this.value = value;
-        this.upperLimit = upperLimit;
-        this.error = error;
-        this.resolution = resolution;
-        this.type = type;
-    }
-
-    @Column(columnDefinition = "VARCHAR(255) default '-1'")
-    private String atom;
-
-    @Column(columnDefinition = "VARCHAR(255) default '-1'")
-    private String resolution;
-
-    @Column(columnDefinition = "VARCHAR(255) default '-1'")
-    private String type;
-
-    /**
      * Used by {@link it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO#update(Flux)}
      *
      * @param toupdate
@@ -69,7 +69,7 @@ public class Flux extends Measure {
         super.update(toupdate);
         this.atom = toupdate.getAtom();
         this.resolution = toupdate.getResolution();
-        this.type = toupdate.getType();
+        this.typeFlux = toupdate.getTypeFlux();
         this.error = toupdate.getError();
         this.upperLimit = toupdate.getUpperLimit();
     }
@@ -92,12 +92,12 @@ public class Flux extends Measure {
         this.resolution = resolution;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeFlux() {
+        return typeFlux;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeFlux(String type) {
+        this.typeFlux = type;
     }
 
 }

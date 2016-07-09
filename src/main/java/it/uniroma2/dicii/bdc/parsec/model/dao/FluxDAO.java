@@ -1,9 +1,13 @@
 package it.uniroma2.dicii.bdc.parsec.model.dao;
 
 import it.uniroma2.dicii.bdc.parsec.model.Flux;
+import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FluxDAO {
 
@@ -39,5 +43,27 @@ public class FluxDAO {
         em.getTransaction().begin();
 
         return em.find(Flux.class, id);
+    }
+
+    public static List<Flux> findLinesByGalaxy(Galaxy galaxy, List<String> lines) {
+
+        try {
+            List<Flux> results = new ArrayList<Flux>();
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+
+            Integer i = 0;
+            while ( i < lines.size() ) {
+                List<Flux> r = entityManager.createQuery("select f from Flux f where " +
+                        "(galaxy = :galaxy) and (typeFlux = 'l') and (atom = :atom)", Flux.class)
+                        .setParameter("galaxy", galaxy)
+                        .setParameter("atom", lines.get(i))
+                        .getResultList();
+                results.addAll(r);
+                i++;
+            }
+            return results;
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
     }
 }

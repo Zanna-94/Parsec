@@ -45,9 +45,9 @@
             <p>Using name of an existent galaxy, you can know its position, distance
                 (with relative redshift error), luminosity and metallicity (with relative errors).</p>
 
-            <h4>Subheading</h4>
-            <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet
-                fermentum.</p>
+            <h4><a href="linesfluxbynamequery.jsp">Search lines flux</a></h4>
+            <p>Using name of an existent galaxy and selecting which spectral lines you want to know value of flux,
+                you can visualize the value (and relative error) and the type of atom used for measurement.</p>
 
             <h4>Subheading</h4>
             <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>

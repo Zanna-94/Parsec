@@ -200,13 +200,11 @@ public class CSVManager {
         Galaxy refGalaxy = new Galaxy(m.getValue(record, "Name"));
         GalaxyDAO.store(refGalaxy);
 
-        Flux f1, f2, f3, f4, f5, f6, f7, f8, f9;
-
         switch (fileFormat) {
             /*  flux file (FLUX1, FLUX2) */
             case 4 :
 
-                f1 = new Flux(refGalaxy,
+                Flux f14 = new Flux(refGalaxy,
                         "OIII52",
                         Float.parseFloat(m.getValue(record, "Foiii52")),
                         m.getValue(record, "l_Foiii52").charAt(0),
@@ -214,7 +212,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "l");
 
-                f2 = new Flux(refGalaxy,
+                Flux f24 = new Flux(refGalaxy,
                         "NIII57",
                         Float.parseFloat(m.getValue(record, "Fniii57")),
                         m.getValue(record, "l_Fniii57").charAt(0),
@@ -222,7 +220,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "l");
 
-                f3 = new Flux(refGalaxy,
+                Flux f34 = new Flux(refGalaxy,
                         "OI63",
                         Float.parseFloat(m.getValue(record, "Foi63")),
                         m.getValue(record, "l_Foi63").charAt(0),
@@ -230,14 +228,14 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "l");
 
-                f4 = new Flux(refGalaxy,
+                Flux f44 = new Flux(refGalaxy,
                         "OIII88",
                         Float.parseFloat(m.getValue(record, "Foiii88")),
                         m.getValue(record, "l_Foiii88").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Foiii88")),
                         m.getValue(record, "Aper"),
                         "l");
-                f5 = new Flux(refGalaxy,
+                Flux f54 = new Flux(refGalaxy,
                         "NII122",
                         Float.parseFloat(m.getValue(record, "Fnii122")),
                         m.getValue(record, "l_Fnii122").charAt(0),
@@ -245,7 +243,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "l");
 
-                f6 = new Flux(refGalaxy,
+                Flux f64 = new Flux(refGalaxy,
                         "OI145",
                         Float.parseFloat(m.getValue(record, "Foi145")),
                         m.getValue(record, "l_Foi145").charAt(0),
@@ -253,7 +251,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "l");
 
-                f7 = new Flux(refGalaxy,
+                Flux f74 = new Flux(refGalaxy,
                         "CII158",
                         Float.parseFloat(m.getValue(record, "Fcii158")),
                         m.getValue(record, "l_Fcii158").charAt(0),
@@ -261,19 +259,19 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "l");
 
-                FluxDAO.store(f1);
-                FluxDAO.store(f2);
-                FluxDAO.store(f3);
-                FluxDAO.store(f4);
-                FluxDAO.store(f5);
-                FluxDAO.store(f6);
-                FluxDAO.store(f7);
+                FluxDAO.store(f14);
+                FluxDAO.store(f24);
+                FluxDAO.store(f34);
+                FluxDAO.store(f44);
+                FluxDAO.store(f54);
+                FluxDAO.store(f64);
+                FluxDAO.store(f74);
 
                 break;
             /*  continuous flux file (CONT) */
             case 6 :
 
-                f1 = new Flux(refGalaxy,
+                Flux f16 = new Flux(refGalaxy,
                         "OIII52",
                         Float.parseFloat(m.getValue(record, "Coiii52")),
                         '-',
@@ -281,7 +279,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "c");
 
-                f2 = new Flux(refGalaxy,
+                Flux f26 = new Flux(refGalaxy,
                         "NIII57",
                         Float.parseFloat(m.getValue(record, "Cniii57")),
                         '-',
@@ -289,7 +287,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "c");
 
-                f3 = new Flux(refGalaxy,
+                Flux f36 = new Flux(refGalaxy,
                         "OI63",
                         Float.parseFloat(m.getValue(record, "Coi63")),
                         m.getValue(record, "l_Coi63").charAt(0),
@@ -297,7 +295,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "c");
 
-                f4 = new Flux(refGalaxy,
+                Flux f46 = new Flux(refGalaxy,
                         "OIII88",
                         Float.parseFloat(m.getValue(record, "Coiii88")),
                         m.getValue(record, "l_Coiii88").charAt(0),
@@ -305,7 +303,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "c");
 
-                f5 = new Flux(refGalaxy,
+                Flux f56 = new Flux(refGalaxy,
                         "NII122",
                         Float.parseFloat(m.getValue(record, "Cnii122")),
                         m.getValue(record, "l_Cnii122").charAt(0),
@@ -313,7 +311,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "c");
 
-                f6 = new Flux(refGalaxy,
+                Flux f66 = new Flux(refGalaxy,
                         "OI145",
                         Float.parseFloat(m.getValue(record, "Coi145")),
                         m.getValue(record, "l_Coi145").charAt(0),
@@ -321,7 +319,7 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "c");
 
-                f7 = new Flux(refGalaxy,
+                Flux f76 = new Flux(refGalaxy,
                         "CII158",
                         Float.parseFloat(m.getValue(record, "Ccii158")),
                         m.getValue(record, "l_Ccii158").charAt(0),
@@ -329,19 +327,19 @@ public class CSVManager {
                         m.getValue(record, "Aper"),
                         "c");
 
-                FluxDAO.store(f1);
-                FluxDAO.store(f2);
-                FluxDAO.store(f3);
-                FluxDAO.store(f4);
-                FluxDAO.store(f5);
-                FluxDAO.store(f6);
-                FluxDAO.store(f7);
+                FluxDAO.store(f16);
+                FluxDAO.store(f26);
+                FluxDAO.store(f36);
+                FluxDAO.store(f46);
+                FluxDAO.store(f56);
+                FluxDAO.store(f66);
+                FluxDAO.store(f76);
 
                 break;
             /*  irs file (IRS) */
             case 8 :
 
-                f1 = new Flux(refGalaxy,
+                Flux f18 = new Flux(refGalaxy,
                         "SIV10.5",
                         Float.parseFloat(m.getValue(record, "Fsiv10")),
                         m.getValue(record, "l_Fsiv10").charAt(0),
@@ -349,7 +347,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f2 = new Flux(refGalaxy,
+                Flux f28 = new Flux(refGalaxy,
                         "NeII12.8",
                         Float.parseFloat(m.getValue(record, "Fneii12")),
                         m.getValue(record, "l_Fneii12").charAt(0),
@@ -357,7 +355,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f3 = new Flux(refGalaxy,
+                Flux f38 = new Flux(refGalaxy,
                         "NeV14.3",
                         Float.parseFloat(m.getValue(record, "Fnev14")),
                         m.getValue(record, "l_Fnev14").charAt(0),
@@ -365,7 +363,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f4 = new Flux(refGalaxy,
+                Flux f48 = new Flux(refGalaxy,
                         "NeIII15.6",
                         Float.parseFloat(m.getValue(record, "Fneiii15")),
                         m.getValue(record, "l_Fneiii15").charAt(0),
@@ -373,7 +371,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f5 = new Flux(refGalaxy,
+                Flux f58 = new Flux(refGalaxy,
                         "SIII18",
                         Float.parseFloat(m.getValue(record, "Fsiii18")),
                         m.getValue(record, "l_Fsiii18").charAt(0),
@@ -381,7 +379,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f6 = new Flux(refGalaxy,
+                Flux f68 = new Flux(refGalaxy,
                         "NeV24.3",
                         Float.parseFloat(m.getValue(record, "Fnev24")),
                         m.getValue(record, "l_Fnev24").charAt(0),
@@ -389,7 +387,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f7 = new Flux(refGalaxy,
+                Flux f78 = new Flux(refGalaxy,
                         "OIV25.9",
                         Float.parseFloat(m.getValue(record, "Foiv25")),
                         m.getValue(record, "l_Foiv25").charAt(0),
@@ -397,7 +395,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f8 = new Flux(refGalaxy,
+                Flux f88 = new Flux(refGalaxy,
                         "SIII33.5",
                         Float.parseFloat(m.getValue(record, "Fsiii33")),
                         m.getValue(record, "l_Fsiii33").charAt(0),
@@ -405,7 +403,7 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                f9 = new Flux(refGalaxy,
+                Flux f98 = new Flux(refGalaxy,
                         "SII34.8",
                         Float.parseFloat(m.getValue(record, "Fsii34")),
                         m.getValue(record, "l_Fsii34").charAt(0),
@@ -413,15 +411,15 @@ public class CSVManager {
                         m.getValue(record, "Mod"),
                         "l");
 
-                FluxDAO.store(f1);
-                FluxDAO.store(f2);
-                FluxDAO.store(f3);
-                FluxDAO.store(f4);
-                FluxDAO.store(f5);
-                FluxDAO.store(f6);
-                FluxDAO.store(f7);
-                FluxDAO.store(f8);
-                FluxDAO.store(f9);
+                FluxDAO.store(f18);
+                FluxDAO.store(f28);
+                FluxDAO.store(f38);
+                FluxDAO.store(f48);
+                FluxDAO.store(f58);
+                FluxDAO.store(f68);
+                FluxDAO.store(f78);
+                FluxDAO.store(f88);
+                FluxDAO.store(f98);
 
                 break;
             default:
