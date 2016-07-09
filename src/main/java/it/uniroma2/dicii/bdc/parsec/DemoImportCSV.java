@@ -16,9 +16,9 @@ public class DemoImportCSV {
 
         CSVManager csvManager = new CSVManager();
         try {
-            csvManager.importFile(file1);
+            /*csvManager.importFile(file1);
             csvManager.importFile(file2);
-            csvManager.importFile(file3);
+            csvManager.importFile(file3);*/
             csvManager.importFile(file4);
             csvManager.importFile(file5);
         } catch (IOException e) {

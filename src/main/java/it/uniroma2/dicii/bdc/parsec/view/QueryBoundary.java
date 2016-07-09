@@ -15,6 +15,10 @@ public class QueryBoundary {
     private String fluxNum;
     private String fluxDen;
 
+    private String resolution;
+    private String operation;
+    private String category;
+
     private Boolean atomOIV259;
     private Boolean atomNEV143;
     private Boolean atomNEV243;
@@ -36,6 +40,30 @@ public class QueryBoundary {
      * Default constructor
      */
     public QueryBoundary() {
+    }
+
+    public String getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getFluxNum() {
@@ -222,6 +250,22 @@ public class QueryBoundary {
         }
 
         return new ResultsBean(fluxLines);
+    }
+
+    public ResultsBean getStatistics() {
+
+        if (operation == null && resolution == null)
+            return null;
+
+        QueryController controller = new QueryController();
+
+        Float value = controller.calculateStatistics(this);
+
+        if (value == -1) {
+            return null;
+        }
+
+        return new ResultsBean(value);
     }
 
     public ResultsBean getAllGalaxySpectralLines() {

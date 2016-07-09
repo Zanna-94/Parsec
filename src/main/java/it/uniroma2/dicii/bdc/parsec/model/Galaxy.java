@@ -42,9 +42,12 @@ public class Galaxy {
      */
     public void update(Galaxy toupdate){
         this.name = toupdate.getName();
-        this.alterName = toupdate.getAlterName();
-        this.category = toupdate.getCategory();
-        this.position = toupdate.getPosition();
+        if (toupdate.getAlterName().compareTo("-1") != 0)
+            this.alterName = toupdate.getAlterName();
+        if (toupdate.getCategory().compareTo("-1") != 0)
+            this.category = toupdate.getCategory();
+        if (toupdate.getPosition().getDistanceValue() != -1)
+            this.position = toupdate.getPosition();
     }
 
 

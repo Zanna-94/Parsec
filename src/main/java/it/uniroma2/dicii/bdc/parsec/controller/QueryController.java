@@ -143,6 +143,32 @@ public class QueryController {
         }
     }
 
+    public Float calculateStatistics(QueryBoundary query) {
+
+        if (query.getResolution() == null) {
+            if (query.getOperation().compareTo("med") == 0) {
+                return medianLinesRatioValues(query.getCategory());
+            } else if (query.getOperation().compareTo("avg") == 0) {
+                return averageLinesRatioValues(query.getCategory());
+            } else if (query.getOperation().compareTo("std") == 0) {
+                return standarDeviationLinesRatioValues(query.getCategory());
+            } else if (query.getOperation().compareTo("astd") == 0) {
+                return averageAbsoluteDeviationLinesRatioValues(query.getCategory());
+            }
+        } else {
+            if (query.getOperation().compareTo("med") == 0) {
+                return medianLinesRatioValuesByAperture(query.getCategory(), query.getResolution());
+            } else if (query.getOperation().compareTo("avg") == 0) {
+                return averageLinesRatioValuesByAperture(query.getCategory(), query.getResolution());
+            } else if (query.getOperation().compareTo("std") == 0) {
+                return standarDeviationLinesRatioValuesByAperture(query.getCategory(), query.getResolution());
+            } else if (query.getOperation().compareTo("astd") == 0) {
+                return averageAbsoluteDeviationLinesRatioValuesByAperture(query.getCategory(), query.getResolution());
+            }
+        }
+        return null;
+    }
+
     public List<Flux> searchGalaxySpectralLines(QueryBoundary query) {
 
         Galaxy galaxy = new Galaxy(query.getGalaxyName());
@@ -156,30 +182,166 @@ public class QueryController {
         }
     }
 
-    /**
-     * @param range
-     * @param position
-     * @return
-     */
-    public List<Galaxy> searchGalaxies(Position position, Float range) {
-        // TODO implement here
-        return null;
+    public List<Float> linesRatioValues(List<Flux> f) {
+
+        List<Float> list = new ArrayList<Float>();
+        Integer n = f.size();
+        Integer tot = n*(n-1);
+        Integer i = 0, j, k;
+        while ( i < tot) {
+            j = i;
+            while (j >= 0) {
+                if (!i.equals(j))
+                    list.add(f.get(i).getValue() / f.get(j).getValue());
+                j--;
+            }
+            k = i;
+            while (k <= (n-1)) {
+                if (!k.equals(i)){
+                    list.add(f.get(i).getValue() / f.get(k).getValue());
+                }
+                k++;
+            }
+            i++;
+        }
+        return list;
     }
 
-    /**
-     * @param readshift
-     */
-    public void searchGalaxies(Float readshift) {
-        // TODO implement here
+    public Float calculateAverageRatioValues(List<Flux> f) {
+
+        List<Float> list = linesRatioValues(f);
+        Float sum = 0f;
+        Integer i = 0;
+        while ( i < list.size()) {
+            sum += list.get(i);
+            i++;
+        }
+        return sum/list.size();
     }
 
-    /**
-     * @param atom
-     * @return
-     */
-    public List<Flux> fluxForLine( String atom) {
-        // TODO implement here
-        return null;
+    public Float calculateMedianRatioValues(List<Flux> f) {
+
+        List<Float> list = linesRatioValues(f);
+        Collections.sort(list);
+        if (list.size() % 2 != 0) {
+            Integer index = (int) Math.ceil((list.size()/2));
+            return list.get(index);
+        } else {
+            return (list.get((list.size()/2) - 1) + list.get(list.size()/2)) / 2;
+        }
     }
 
+    public Float calculateStandardDeviationRatioValues(List<Flux> f) {
+
+        List<Float> list = linesRatioValues(f);
+        Integer n = list.size();
+        Float m = calculateAverageRatioValues(f);
+        Float sum = 0f;
+        Integer i;
+        for ( i = 0; i < n; i++ ) {
+            sum += (list.get(i) - m)*(list.get(i) - m);
+        }
+        return (float) Math.sqrt((1/n)*sum);
+    }
+
+    public Float calculateAverageAbsoluteDeviationRatioValues(List<Flux> f) {
+
+        return (float) 0.6475 * calculateStandardDeviationRatioValues(f);
+    }
+
+    public Float averageLinesRatioValuesByAperture(String category, String aperture) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategoryAndAperture(category, aperture);
+            return calculateAverageRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Float averageLinesRatioValues(String category) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategory(category);
+            return calculateAverageRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Float medianLinesRatioValuesByAperture(String category, String aperture) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategoryAndAperture(category, aperture);
+            return calculateMedianRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Float medianLinesRatioValues(String category) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategory(category);
+            return calculateMedianRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Float averageAbsoluteDeviationLinesRatioValuesByAperture(String category, String aperture) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategoryAndAperture(category, aperture);
+            return calculateAverageAbsoluteDeviationRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Float averageAbsoluteDeviationLinesRatioValues(String category) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategory(category);
+            return calculateAverageAbsoluteDeviationRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Float standarDeviationLinesRatioValuesByAperture(String category, String aperture) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategoryAndAperture(category, aperture);
+            return calculateStandardDeviationRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Float standarDeviationLinesRatioValues(String category) {
+
+        try {
+            List<Flux> f = FluxDAO.findLinesByCategory(category);
+            return calculateStandardDeviationRatioValues(f);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

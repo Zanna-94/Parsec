@@ -21,6 +21,7 @@ public class ResultsBean {
     private List<Metallicity> metallicities;
     private List<Luminosity> luminosities;
     private List<Flux> fluxes;
+    private Float value;
 
     /**
      * Default constructor
@@ -38,6 +39,18 @@ public class ResultsBean {
         this.fluxes = fluxes;
     }
 
+    public ResultsBean(Float value) {
+        this.value = value;
+    }
+
+    public Float getValue() {
+        return value;
+    }
+    
+    public void setValue(Float value) {
+        this.value = value;
+    }
+    
     public Galaxy getGalaxy() {
         return galaxy;
     }
@@ -207,28 +220,7 @@ public class ResultsBean {
         }
     }
 
-    public static void main(String args[]) throws IOException {
-        CSVManager cm = new CSVManager();
-        /*cm.importFile("MRTable4_flux.csv");
-        cm.importFile("MRTable6_cont.csv");
-        cm.importFile("MRTable8_irs.csv");*/
-        QueryController s = new QueryController();
-
-        QueryBoundary w = new QueryBoundary();
-        w.setGalaxyName("Mrk622");
-        w.setFluxNum("OIV25.9");
-        w.setFluxDen("NeV24.3");
-        List<String> l = new ArrayList<String>();
-        l.add(w.getFluxNum());
-        l.add(w.getFluxDen());
-        List<Flux> fluxes = FluxDAO.findLinesByGalaxy(new Galaxy(w.getGalaxyName()), l);
-
-        ResultsBean r = new ResultsBean(fluxes);
-        r.fillResultsForFluxRatio();
-        System.out.printf("res %s\n",r.getResults());
-
-        /*r.fillLineFluxSelection();
-        System.out.printf("res %s\n",r.getResults());*/
-
+    public void fillResultsForStatistics() {
+        // TODO: 10/07/16      
     }
 }

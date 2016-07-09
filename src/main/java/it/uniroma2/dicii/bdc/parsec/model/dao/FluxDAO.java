@@ -67,10 +67,56 @@ public class FluxDAO {
 
             Integer i = 0;
             while ( i < lines.size() ) {
-                List<Flux> r = entityManager.createQuery("select f from Flux f where " +
+                List<Flux> r = entityManager.createQuery("select distinct f from Flux f where " +
                         "(galaxy = :galaxy) and (typeFlux = 'l') and (atom = :atom)", Flux.class)
                         .setParameter("galaxy", galaxy)
                         .setParameter("atom", lines.get(i))
+                        .getResultList();
+                results.addAll(r);
+                i++;
+            }
+            return results;
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
+
+    public static List<Flux> findLinesByCategory(String category) {
+
+        try {
+            List<Flux> results = new ArrayList<Flux>();
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            List<Galaxy> g = GalaxyDAO.findByCategory(category);
+
+            Integer i = 0;
+            while ( i < g.size() ) {
+                List<Flux> r = entityManager.createQuery("select distinct f from Flux f where " +
+                        "(galaxy = :galaxy) and (typeFlux = 'l')", Flux.class)
+                        .setParameter("galaxy", g.get(i))
+                        .getResultList();
+                results.addAll(r);
+                i++;
+            }
+            return results;
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
+
+    public static List<Flux> findLinesByCategoryAndAperture(String category, String aperture) {
+
+        try {
+            List<Flux> results = new ArrayList<Flux>();
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            List<Galaxy> g = GalaxyDAO.findByCategory(category);
+
+            Integer i = 0;
+            while ( i < g.size() ) {
+                List<Flux> r = entityManager.createQuery("select distinct f from Flux f where " +
+                        "(galaxy = :galaxy) and (typeFlux = 'l') " +
+                        "and (resolution = :aperture)", Flux.class)
+                        .setParameter("galaxy", g.get(i))
+                        .setParameter("aperture", aperture)
                         .getResultList();
                 results.addAll(r);
                 i++;

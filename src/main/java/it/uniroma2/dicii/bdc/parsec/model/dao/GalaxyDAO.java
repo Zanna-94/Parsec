@@ -17,8 +17,9 @@ public class GalaxyDAO {
 
         em.getTransaction().begin();
 
-        if (em.find(Galaxy.class, galaxy.getName()) != null) {
-            //throw new IllegalArgumentException("Entity already in db");
+        Galaxy old;
+        if (( old = em.find(Galaxy.class, galaxy.getName())) != null) {
+            old.update(galaxy);
             em.getTransaction().commit();
             return;
         }
@@ -56,6 +57,19 @@ public class GalaxyDAO {
                     " (name = :name)", Galaxy.class)
                     .setParameter("name", galaxyName)
                     .getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
+
+    public static List<Galaxy> findByCategory(String category) throws NoResultException {
+
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            return entityManager.createQuery("select t from Galaxy t " +
+                    "where (category = :category)", Galaxy.class)
+                    .setParameter("category", category)
+                    .getResultList();
         } catch (NoResultException e) {
             throw new NoResultException();
         }
