@@ -29,6 +29,7 @@
           <element id="library" level="project" name="commons-logging-1.0.4" />
           <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.2.2" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-csv:1.4" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="parsec/javaeeApplication/javaEEApplication" />

@@ -7,18 +7,15 @@ import org.apache.commons.csv.*;
 import java.io.*;
 import java.util.Random;
 
-import static it.uniroma2.dicii.bdc.parsec.model.dao.MetallicityDAO.store;
 
 /**
- *  Manage importation of new CSV file, loading data into database.
- *
- *  Recognized files' format listed into Format enumeration.
- *
+ * Manage importation of new CSV file, loading data into database.
+ * <p/>
+ * Recognized files' format listed into Format enumeration.
  */
 public class CSVManager {
 
-    private static String tmpFile = "/home/laura_trive/Scrivania/tmp";
-    private static String PATH = "/home/laura_trive/Scrivania/ProgettoBDC/progetto15161/";
+    private static String tmpFile = "tmp";
 
     /**
      * Enumeration of default CSV file formats.
@@ -56,29 +53,33 @@ public class CSVManager {
     /**
      * Writing a unique temporary file to compose a CSV file, based on a parsable format
      *
-     * @param filename path of original CSV file
-     * @param delimiter char as delimiter of data in the CSV file
+     * @param filename   path of original CSV file
+     * @param delimiter  char as delimiter of data in the CSV file
      * @param fileFormat type of CSV file to read
      * @return path of the new CSV formatted file
      * @throws IOException
      */
-    private String composeFileToParse(String filename, Character delimiter, Integer fileFormat)
-            throws IOException
-    {
+    private String composeFileToParse(File filename, Character delimiter, Integer fileFormat)
+            throws IOException {
         /*  creating unique temporary file to write csv formatted file */
         Random r = new Random();
-        Integer random = r.nextInt(100000-1)+1;
+        Integer random = r.nextInt(100000 - 1) + 1;
+
+        // Buld temporany file's name
         tmpFile = tmpFile.concat(fileFormat.toString());
         tmpFile = tmpFile.concat(random.toString());
 
-        FileWriter w = new FileWriter(tmpFile, true);
+        // Create temporany file
+        File temp = File.createTempFile("tempfile", ".tmp");
+
+        FileWriter w = new FileWriter(temp, true);
         String header = "";
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         Long indexCols = 0L;
         String line;
         int i = 1;
-	    while ((line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             if (line.startsWith("----")) {
                 i++;
             } else {
@@ -99,12 +100,12 @@ public class CSVManager {
                     header += delimiter;
                 } else if (
                         i > 4 ||
-                        (!line.startsWith("Note") && !line.startsWith("References") && line.length()==1
-                                && !line.startsWith("     ") && !line.startsWith("   Bytes"))) {
+                                (!line.startsWith("Note") && !line.startsWith("References") && line.length() == 1
+                                        && !line.startsWith("     ") && !line.startsWith("   Bytes"))) {
                     break;
                 }
             }
-	    }
+        }
 
         if (!header.startsWith("Name"))
             header = header.substring(2, header.length() - 1);
@@ -123,7 +124,7 @@ public class CSVManager {
 
         w.close();
 
-        return tmpFile;
+        return temp.getPath();
     }
 
     /**
@@ -134,14 +135,18 @@ public class CSVManager {
      */
     public Boolean importFile(String name) throws IOException {
 
-        String filename = PATH + name;
+        // Obtain file from resources
+        ClassLoader classLoader = getClass().getClassLoader();
+        File oldFile = new File(classLoader.getResource("files/" + name).getFile());
 
-        Integer fileFormat = readFormat(filename);
+        // file's format
+        Integer fileFormat = readFormat(name);
 
+        // Obtain delimiter
         Character delimiter = getDelimiterByFormat(fileFormat);
 
-        String f = composeFileToParse(filename, delimiter, fileFormat);
-
+        // compose new file without header and references
+        String f = composeFileToParse(oldFile, delimiter, fileFormat);
         FileReader file = new FileReader(f);
 
         CSVFormat format = CSVFormat.EXCEL.withDelimiter(delimiter).withHeader();
@@ -161,7 +166,7 @@ public class CSVManager {
     /**
      * Save into database record's data, reading them in according to format of file
      *
-     * @param record line of CSV file
+     * @param record     line of CSV file
      * @param fileFormat type of format of CSV file
      * @throws IOException
      */
@@ -190,7 +195,7 @@ public class CSVManager {
     /**
      * Update of 'flux' table into database reading info contained in the record
      *
-     * @param record line of CSV file
+     * @param record     line of CSV file
      * @param fileFormat type of CSV file format
      */
     private void insertFlux(CSVRecord record, Integer fileFormat) {
@@ -202,7 +207,7 @@ public class CSVManager {
 
         switch (fileFormat) {
             /*  flux file (FLUX1, FLUX2) */
-            case 4 :
+            case 4:
 
                 Flux f14 = new Flux(refGalaxy,
                         "OIII52",
@@ -269,7 +274,7 @@ public class CSVManager {
 
                 break;
             /*  continuous flux file (CONT) */
-            case 6 :
+            case 6:
 
                 Flux f16 = new Flux(refGalaxy,
                         "OIII52",
@@ -337,7 +342,7 @@ public class CSVManager {
 
                 break;
             /*  irs file (IRS) */
-            case 8 :
+            case 8:
 
                 Flux f18 = new Flux(refGalaxy,
                         "SIV10.5",
@@ -522,7 +527,7 @@ public class CSVManager {
      * Get the value of column into record without empty characters
      *
      * @param record line of CSV file
-     * @param col name of column of CSV file
+     * @param col    name of column of CSV file
      * @return string containing value of column specified
      */
     private String getValue(CSVRecord record, String col) {
@@ -541,13 +546,13 @@ public class CSVManager {
 
             int j = len;
             while (j > i) {
-                if (s.charAt(j-1) == ' ')
+                if (s.charAt(j - 1) == ' ')
                     j--;
                 else
                     break;
             }
 
-            s = s.substring(i,j);
+            s = s.substring(i, j);
 
             /*  if value of column is empty */
             if (s.length() == 0) {
@@ -567,9 +572,9 @@ public class CSVManager {
     private Character getDelimiterByFormat(Integer f) {
 
         switch (f) {
-            case 8 :
+            case 8:
                 return ',';
-            default :
+            default:
                 return ';';
         }
     }
@@ -577,15 +582,13 @@ public class CSVManager {
     /**
      * Read format of file by filename
      *
-     * @param filename path of file
+     * @param s path of file of type '/path/file'
      * @return integer describing CSV file format
      */
-    private Integer readFormat(String filename) {
-        String s = filename.substring(filename.lastIndexOf('/'));
-
+    private Integer readFormat(String s) {
         Integer f = 0;
 
-        for (Format i: Format.values()) {
+        for (Format i : Format.values()) {
             if (s.contains(Integer.toString(i.getFormatNum())) && s.contains(i.getFormatName())) {
                 f = i.getFormatNum();
             }
