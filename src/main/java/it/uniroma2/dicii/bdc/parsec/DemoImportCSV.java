@@ -38,11 +38,11 @@ public class DemoImportCSV {
         CSVManager c5 = new CSVManager(f5.getFilename());
 
         try {
-            c5.saveNewFile(f5);
-            c1.saveNewFile(f1);
-            c2.saveNewFile(f2);
+            //c5.saveNewFile(f5);
+            //c1.saveNewFile(f1);
+            //c2.saveNewFile(f2);
             c3.saveNewFile(f3);
-            c4.saveNewFile(f4);
+            //c4.saveNewFile(f4);
 
         } catch (IOException e) {
             e.printStackTrace();

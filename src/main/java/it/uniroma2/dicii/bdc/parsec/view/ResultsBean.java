@@ -236,25 +236,24 @@ public class ResultsBean {
             results = results.concat(" </option>");
             iter++;
         }
-        /*while ( iter < fluxes.size() ) {
-            results = results.concat("<li><a href=\"#\">Flux-");
-            results = results.concat(fluxes.get(iter).getAtom());
-            results = results.concat("</a></li>");
-            iter++;
-        }*/
     }
 
     public void fillResultsForFluxRatio() {
 
+        Integer i = 0;
+        while (fluxes.get(i).getAtom().compareTo(fluxes.get(i + 1).getAtom()) == 0
+                && i < (fluxes.size() - 1)) {
+            i++;
+        }
+        Double ratio;
+        if ( fluxes.get(i).getVal() == 0d) {
+            results = "<p>Division by 0.</p>";
+            return;
+        }
+        ratio = fluxes.get(0).getVal() / fluxes.get(i+1).getVal();
         results = "<td>";
         results = results.concat(fluxes.get(0).getGalaxy().getName());
         results = results.concat("</td><td>");
-        Integer i = 0;
-        while (fluxes.get(i).getAtom().compareTo(fluxes.get(i+1).getAtom()) == 0
-                && i < ( fluxes.size() - 1) ) {
-            i++;
-        }
-        Double ratio = fluxes.get(0).getVal() / fluxes.get(i+1).getVal();
         results = results.concat(ratio.toString());
         results = results.concat("</td><td>");
         if ( fluxes.get(0).getUpperLimit() != '*' && fluxes.get(0).getUpperLimit() != '-') {

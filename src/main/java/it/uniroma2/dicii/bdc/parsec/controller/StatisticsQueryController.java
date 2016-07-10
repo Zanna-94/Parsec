@@ -8,19 +8,15 @@ import it.uniroma2.dicii.bdc.parsec.model.dao.MetallicityDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 
 import javax.persistence.NoResultException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
-/**
- *
- */
-public class QueryController {
+public class StatisticsQueryController {
 
-    /**
-     * Default constructor
-     */
-    public QueryController() {
-    }
 
+    public StatisticsQueryController() {
     /**
      * @param redshift    value on which search
      * @param searchLower It indicates whether we have to search for all values less than specified one
@@ -226,19 +222,6 @@ public class QueryController {
         return null;
     }
 
-    public List<Flux> searchGalaxySpectralLines(QueryBoundary query) {
-
-        Galaxy galaxy = new Galaxy(query.getGalaxyName());
-        List<String> lines = composeLinesList(query);
-        try {
-            return FluxDAO.findLinesByGalaxy(galaxy, lines);
-
-        } catch (NoResultException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private List<Double> linesRatioValues(List<Double> f) {
 
         List<Double> list = new ArrayList<Double>();
@@ -247,13 +230,13 @@ public class QueryController {
         while (i < n) {
             j = i;
             while (j >= 0) {
-                if (!i.equals(j))
+                if (!i.equals(j) && !f.get(j).equals(0d))
                     list.add(f.get(i) / f.get(j));
                 j--;
             }
             k = i;
-            while (k <= (n - 1)) {
-                if (!k.equals(i)) {
+            while (k <= (n-1)) {
+                if (!k.equals(i) && !f.get(k).equals(0d)){
                     list.add(f.get(i) / f.get(k));
                 }
                 k++;
@@ -262,6 +245,7 @@ public class QueryController {
         }
         return list;
     }
+
 
     private Double calculateAverageRatioValues(List<Double> f, List<Double> list) {
 
