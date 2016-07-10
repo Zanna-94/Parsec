@@ -4,6 +4,7 @@ import it.uniroma2.dicii.bdc.parsec.controller.SearchQueryController;
 import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.*;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -229,25 +230,24 @@ public class QueryBoundary {
         this.redshift = redshift;
     }
 
-    public ResultsBean getGalaxyByName() {
+    public ResultsBean getGalaxyDescriptionByName()
+            throws SQLException, ClassNotFoundException {
 
         if (galaxyName == null)
             return null;
 
         SearchQueryController controller = new SearchQueryController();
 
-        Galaxy galaxy = controller.searchGalaxyByName(galaxyName);
-        List<Metallicity> metallicities = controller.searchMetallicityByGalaxy(galaxyName);
-        List<Luminosity> luminosities = controller.searchLuminosityByGalaxy(galaxyName);
+        List<List<String>> description = controller.searchGalaxyDescriptionByName(galaxyName);
 
-        if (galaxy == null) {
+        if (description == null) {
             return null;
         }
 
-        return new ResultsBean(galaxy, luminosities, metallicities);
+        return new ResultsBean(description);
     }
 
-    public ResultsBean getGalaxySpectralLines() {
+    /*public ResultsBean getGalaxySpectralLines() {
 
         if (galaxyName == null)
             return null;
@@ -261,7 +261,7 @@ public class QueryBoundary {
         }
 
         return new ResultsBean(fluxLines);
-    }
+    }*/
 
     public ResultsBean getStatistics() {
 
@@ -279,7 +279,7 @@ public class QueryBoundary {
         return new ResultsBean(value, operation, category, resolution);
     }
 
-    public ResultsBean getAllGalaxySpectralLines() {
+    /*public ResultsBean getAllGalaxySpectralLines() {
 
         if (galaxyName == null)
             return null;
@@ -293,8 +293,8 @@ public class QueryBoundary {
         }
 
         return new ResultsBean(fluxLines);
-    }
-
+    }*/
+/*
     public ResultsBean getTwoLinesFluxRatio() {
 
         if (galaxyName == null || fluxNum == null || fluxDen == null)
@@ -309,5 +309,5 @@ public class QueryBoundary {
         }
 
         return new ResultsBean(fluxLines);
-    }
+    }*/
 }

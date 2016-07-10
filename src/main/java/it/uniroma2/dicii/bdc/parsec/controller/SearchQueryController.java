@@ -1,10 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.controller;
 
 
-import it.uniroma2.dicii.bdc.parsec.model.Flux;
-import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
-import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
-import it.uniroma2.dicii.bdc.parsec.model.Metallicity;
+import it.uniroma2.dicii.bdc.parsec.model.*;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 import it.uniroma2.dicii.bdc.parsec.model.dao.LuminosityDAO;
@@ -12,6 +9,7 @@ import it.uniroma2.dicii.bdc.parsec.model.dao.MetallicityDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 
 import javax.persistence.NoResultException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +19,49 @@ public class SearchQueryController {
     }
 
     /**
+     * @param redshift    value on which search
+     * @param searchLower It indicates whether we have to search for all values less than specified one
+     * @return list of {@link Galaxy} ordered by redshift value
+     */
+    public List<Galaxy> searchForRedshift(float redshift, boolean searchLower) {
+
+        if (searchLower)
+            return GalaxyDAO.findLower(redshift);
+        else
+            return GalaxyDAO.findGreater(redshift);
+    }
+
+    public List<Galaxy> searchInRange(Position position) {
+        ArrayList<Galaxy> galaxies = null;
+        // TODO: 10/07/16
+
+        return galaxies;
+    }
+
+    public Float calculateRatio(String fluxLine) {
+
+        return null;
+    }
+
+    /**
      * Query to visualize position, distance and redshift value, luminosity, metallicity
      * and relative errors
      *
      * @param galaxyName name of galaxy to search info about
      * @return {@link Galaxy}
      */
-    public Galaxy searchGalaxyByName(String galaxyName) {
+    public List<List<String>> searchGalaxyDescriptionByName(String galaxyName)
+            throws SQLException, ClassNotFoundException {
 
         try {
-            return GalaxyDAO.findByName(galaxyName);
-
+            return GalaxyDAO.findDescriptionByName(galaxyName);
         } catch (NoResultException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
 
     public List<Metallicity> searchMetallicityByGalaxy(String galaxyName) {
 

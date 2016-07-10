@@ -1,5 +1,6 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
+import javax.persistence.Access;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 

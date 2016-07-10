@@ -15,15 +15,14 @@ import java.util.*;
  */
 public class ResultsBean {
 
-    private Galaxy galaxy;
     private String results;
-    private List<Metallicity> metallicities;
-    private List<Luminosity> luminosities;
+    private List<List<String>> description;
     private List<Flux> fluxes;
     private Double value;
     private String category;
     private String operation;
     private String resolution;
+
 
     /**
      * Default constructor
@@ -31,14 +30,12 @@ public class ResultsBean {
     public ResultsBean() {
     }
 
-    public ResultsBean(Galaxy galaxy, List<Luminosity> luminosities, List<Metallicity> metallicities) {
-        this.galaxy = galaxy;
-        this.metallicities = metallicities;
-        this.luminosities = luminosities;
-    }
-
-    public ResultsBean(List<Flux> fluxes) {
+    /*public ResultsBean(List<Flux> fluxes) {
         this.fluxes = fluxes;
+    }*/
+
+    public ResultsBean(List<List<String>> description) {
+        this.description = description;
     }
 
     public ResultsBean(Double value, String operation, String category, String resolution) {
@@ -46,6 +43,14 @@ public class ResultsBean {
         this.category = category;
         this.operation = operation;
         this.resolution = resolution;
+    }
+
+    public List<List<String>> getDescription() {
+        return description;
+    }
+
+    public void setDescription(List<List<String>> description) {
+        this.description = description;
     }
 
     public String getResolution() {
@@ -62,14 +67,6 @@ public class ResultsBean {
     
     public void setValue(Double value) {
         this.value = value;
-    }
-    
-    public Galaxy getGalaxy() {
-        return galaxy;
-    }
-
-    public void setGalaxy(Galaxy galaxy) {
-        this.galaxy = galaxy;
     }
 
     public String getResults() {
@@ -104,84 +101,43 @@ public class ResultsBean {
         this.operation = operation;
     }
 
-    public List<Luminosity> getLuminosities() {
-        return luminosities;
-    }
+    public void fillResultsForGalaxyDescription(List<List<String>> description) {
 
-    public void setLuminosities(List<Luminosity> luminosities) {
-        this.luminosities = luminosities;
-    }
-
-    public List<Metallicity> getMetallicities() {
-        return metallicities;
-    }
-
-    public void setMetallicities(List<Metallicity> metallicities) {
-        this.metallicities = metallicities;
-    }
-
-    public void fillResultsForGalaxyDescription() {
-
-        String s = "<tr>\n<td>";
-        s = s.concat(galaxy.getName());
-        s = s.concat("</td>\n");
-
-        String pos[] = {galaxy.getPosition().getAscension().getAscensionHour().toString(),
-                galaxy.getPosition().getAscension().getAscensionMin().toString(),
-                galaxy.getPosition().getAscension().getAscensionSec().toString(),
-                galaxy.getPosition().getDeclination().getDeclinationSign().toString(),
-                galaxy.getPosition().getDeclination().getDeclinationDeg().toString(),
-                galaxy.getPosition().getDeclination().getDeclinationMin().toString(),
-                galaxy.getPosition().getDeclination().getDeclinationSec().toString()};
-
-        Integer i = 0;
-        while (i < pos.length) {
-            if (pos[i].compareTo("-1") == 0 || pos[i].charAt(0) == '*') {
-                pos[i] = "-";
-            }
-            i++;
-        }
-        String position = "<td>" +
-                "A[" + pos[0] + "," + pos[1] + "," + pos[2] + "]-" +
-                "D[" + pos[3] + "," + pos[4] + "," + pos[5] + "," + pos[6] + "]</td>";
-        s = s.concat(position);
-
-        String distance = "<td>" + galaxy.getPosition().getDistanceValue() + " ["
-                + galaxy.getPosition().getRedshift() + "]</td>";
-        s = s.concat(distance);
-
+        Integer n = description.size();
         Integer iter = 0;
-        while (iter < Math.max(luminosities.size(), metallicities.size())) {
-            results += s;
+        results = "";
 
-            if (iter < metallicities.size()) {
-                Double valueMet;
-                Float errorMet;
-                results = results.concat("<td>");
-                if ((valueMet = metallicities.get(iter).getVal()) != -1d) {
-                    results = results.concat(valueMet.toString());
-                } else {
-                    results = results.concat("- ");
+        while (iter < n) {
+            results += "<tr>\n<td>"
+                    + description.get(iter).get(0) +
+                    "</td>\n" +
+                    "<td>\n";
+
+            String pos[] = {description.get(iter).get(1),
+                    description.get(iter).get(2),
+                    description.get(iter).get(3),
+                    description.get(iter).get(4),
+                    description.get(iter).get(5),
+                    description.get(iter).get(6),
+                    description.get(iter).get(7),
+                    description.get(iter).get(8),
+                    description.get(iter).get(9),
+                    description.get(iter).get(10),
+                    description.get(iter).get(11),
+                    description.get(iter).get(12)};
+            Integer i = 0;
+            while (i < pos.length) {
+                if (pos[i].compareTo("-1") == 0 || pos[i].charAt(0) == '*') {
+                    pos[i] = "-";
                 }
-                results = results.concat("[");
-                if ((errorMet = metallicities.get(iter).getError()) != -1) {
-                    results = results.concat(errorMet.toString());
-                    results = results.concat("]</td>\n");
-                } else {
-                    results = results.concat("-]</td>\n");
-                }
+                i++;
             }
-            if (iter < luminosities.size()) {
-                Double valueLum;
-                if ((valueLum = luminosities.get(iter).getVal()) != -1d) {
-                    results = results.concat("<td>");
-                    results = results.concat(valueLum.toString());
-                    results = results.concat("</td>\n");
-                } else {
-                    results = results.concat("-</td>\n");
-                }
-            }
-            results = results.concat("</tr>\n");
+            results += "A[" + pos[0] + "," + pos[1] + "," + pos[2] + "]-" +
+                    "D[" + pos[3] + "," + pos[4] + "," + pos[5] + "," + pos[6] + "]</td>\n" +
+                    "<td>" + pos[7] + " [" + pos[8] + "]</td>" +
+                    "<td>" + pos[9] + " [" + pos[10] + "]</td>" +
+                    "<td>" + pos[11] + "</td>";
+            results += "</tr>";
             iter++;
         }
     }
@@ -225,7 +181,7 @@ public class ResultsBean {
         }
     }
 
-    public void fillLineFluxSelection() {
+    /*public void fillLineFluxSelection() {
 
         fluxes = FluxDAO.findAllLinesByGalaxy(galaxy);
         results = "";
@@ -236,7 +192,7 @@ public class ResultsBean {
             results = results.concat(" </option>");
             iter++;
         }
-    }
+    }*/
 
     public void fillResultsForFluxRatio() {
 

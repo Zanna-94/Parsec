@@ -46,7 +46,7 @@
 
             <%
                 if (request.getParameter("Query") != null) {
-                    if ((Results = Query.getGalaxyByName()) == null) {
+                    if ((Results = Query.getGalaxyDescriptionByName()) == null) {
             %>
             <jsp:forward page="noresultsfound.jsp"/>
             <%

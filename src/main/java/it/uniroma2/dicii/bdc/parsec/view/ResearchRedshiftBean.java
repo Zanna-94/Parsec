@@ -1,13 +1,13 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
-import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
+import it.uniroma2.dicii.bdc.parsec.controller.SearchQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 
 import java.util.ArrayList;
 
 /**
  * JavaBean contains information entered by User.
- * This bean exchange message with {@link QueryController } to obtain the list of Galaxies
+ * This bean exchange message with {@link SearchQueryController } to obtain the list of Galaxies
  * that have a value of redshift less or greater than specified one.
  *
  * @see GalaxiesBean
@@ -41,7 +41,7 @@ public class ResearchRedshiftBean {
     }
 
     public GalaxiesBean research() {
-        QueryController controller = new QueryController();
+        SearchQueryController controller = new SearchQueryController();
 
         ArrayList<Galaxy> list = (ArrayList<Galaxy>) controller.searchForRedshift(redshift, searchLower);
         GalaxiesBean bean = new GalaxiesBean(list);
