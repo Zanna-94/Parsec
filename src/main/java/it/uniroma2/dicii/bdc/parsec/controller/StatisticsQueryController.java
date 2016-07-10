@@ -1,8 +1,5 @@
 package it.uniroma2.dicii.bdc.parsec.controller;
 
-
-import it.uniroma2.dicii.bdc.parsec.model.Flux;
-import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 
