@@ -7,6 +7,8 @@ import it.uniroma2.dicii.bdc.parsec.view.ImportForm;
 import org.apache.commons.csv.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -16,6 +18,8 @@ import java.util.Random;
  * Recognized files' format listed into Format enumeration.
  */
 public class CSVManager {
+
+    private String filename;
 
     private static String tmpFile = "tmp";
 
@@ -50,6 +54,10 @@ public class CSVManager {
      * Default constructor
      */
     public CSVManager() {
+    }
+
+    public CSVManager(String filename) {
+        this.filename = filename;
     }
 
     /**
@@ -131,17 +139,16 @@ public class CSVManager {
     /**
      * Read CSV file specified in input and insert data into database
      *
-     * @param name file to parse
      * @throws IOException
      */
-    public Boolean importFile(String name) throws IOException {
+    private Boolean importFile() throws IOException {
 
         // Obtain file from resources
         ClassLoader classLoader = getClass().getClassLoader();
-        File oldFile = new File(classLoader.getResource("files/" + name).getFile());
+        File oldFile = new File(classLoader.getResource("files/" + filename).getFile());
 
         // file's format
-        Integer fileFormat = readFormat(name);
+        Integer fileFormat = readFormat(filename);
 
         // Obtain delimiter
         Character delimiter = getDelimiterByFormat(fileFormat);
@@ -447,7 +454,7 @@ public class CSVManager {
 
         Metallicity metallicity = new Metallicity();
         metallicity.setGalaxy(refGalaxy);
-        metallicity.setValue(Float.parseFloat(m.getValue(record, "Z")));
+        metallicity.setVal(Float.parseFloat(m.getValue(record, "Z")));
         metallicity.setError(Float.parseFloat(m.getValue(record, "e_Z")));
 
         MetallicityDAO.store(metallicity);
@@ -468,19 +475,19 @@ public class CSVManager {
         Luminosity lum1 = new Luminosity();
         lum1.setGalaxy(refGalaxy);
         lum1.setAtom("NeV14.3");
-        lum1.setValue(Float.parseFloat(m.getValue(record, "Lnev1")));
+        lum1.setVal(Float.parseFloat(m.getValue(record, "Lnev1")));
         lum1.setUpperLimit(m.getValue(record, "l_Lnev1").charAt(0));
 
         Luminosity lum2 = new Luminosity();
         lum2.setGalaxy(refGalaxy);
         lum2.setAtom("NeV24.3");
-        lum2.setValue(Float.parseFloat(m.getValue(record, "Lnev2")));
+        lum2.setVal(Float.parseFloat(m.getValue(record, "Lnev2")));
         lum2.setUpperLimit(m.getValue(record, "l_Lnev2").charAt(0));
 
         Luminosity lum3 = new Luminosity();
         lum3.setGalaxy(refGalaxy);
         lum3.setAtom("OIV25.9");
-        lum3.setValue(Float.parseFloat(m.getValue(record, "Loiv")));
+        lum3.setVal(Float.parseFloat(m.getValue(record, "Loiv")));
         lum3.setUpperLimit(m.getValue(record, "l_Loiv").charAt(0));
 
         LuminosityDAO.store(lum1);
@@ -597,13 +604,15 @@ public class CSVManager {
         return f;
     }
 
-
-
-    public CSVFile saveNewFile(ImportForm form) {
+    public CSVFile saveNewFile(ImportForm form) throws IOException {
 
         CSVFile file = new CSVFile();
         file.setName(form.getFilename());
         file.setFormat(readFormat(form.getFilename()));
+
+        if (!importFile()) {
+            return null;
+        }
 
         try {
             CSV_DAO.store(file);
@@ -614,4 +623,14 @@ public class CSVManager {
         return file;
     }
 
+    public List<String> getAllFiles() {
+
+        List<String> files = new ArrayList<String>();
+        List<CSVFile> csvFiles = CSV_DAO.allFiles();
+        Integer i;
+        for (i = 0; i < csvFiles.size(); i++) {
+            files.add(csvFiles.get(i).getName());
+        }
+        return files;
+    }
 }

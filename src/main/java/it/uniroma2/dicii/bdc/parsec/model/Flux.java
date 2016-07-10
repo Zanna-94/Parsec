@@ -22,7 +22,7 @@ public class Flux extends Measure {
                 Float error, String resolution, String type) {
         this.galaxy = galaxy;
         this.atom = atom;
-        this.value = value;
+        this.val = value;
         this.upperLimit = upperLimit;
         this.error = error;
         this.resolution = resolution;

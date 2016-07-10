@@ -84,11 +84,12 @@
                         </tr>
                         </thead>
                         <tbody>
-
-                        <% /* Results.fillResultsForStatistics();
-                            String ratio = Results.getResults();
-                            pageContext.setAttribute("statistics", statistics);*/%>
-                        <!--<c:out value="${statistics}" escapeXml="false"></c:out>-->
+                        <%
+                            Results.fillResultsForStatistics();
+                            String statistics = Results.getResults();
+                            pageContext.setAttribute("statistics", statistics);
+                        %>
+                        <c:out value="${statistics}" escapeXml="false"></c:out>
                         </tbody>
                     </table>
                 </div>

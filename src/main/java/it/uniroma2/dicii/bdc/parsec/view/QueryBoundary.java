@@ -265,7 +265,7 @@ public class QueryBoundary {
             return null;
         }
 
-        return new ResultsBean(value);
+        return new ResultsBean(value, operation, category, resolution);
     }
 
     public ResultsBean getAllGalaxySpectralLines() {

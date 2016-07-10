@@ -1,7 +1,6 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
 import javax.persistence.*;
-import java.util.*;
 
 /**
  *
@@ -25,14 +24,14 @@ public abstract class Measure {
     protected Galaxy galaxy;
 
     @Column(columnDefinition = "real default -1")
-    protected Float value;
+    protected Float val;
 
     /**
      * @param toupdate
      */
     public void update(Measure toupdate) {
         this.galaxy = toupdate.getGalaxy();
-        this.value = toupdate.getValue();
+        this.val = toupdate.getVal();
     }
 
 
@@ -44,12 +43,12 @@ public abstract class Measure {
         this.galaxy = galaxy;
     }
 
-    public Float getValue() {
-        return value;
+    public Float getVal() {
+        return val;
     }
 
-    public void setValue(Float value) {
-        this.value = value;
+    public void setVal(Float val) {
+        this.val = val;
     }
 
     public Long getId() {

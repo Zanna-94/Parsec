@@ -81,47 +81,53 @@ public class FluxDAO {
         }
     }
 
-    public static List<Flux> findLinesByCategory(String category) {
+    public static List<Float> findLinesByCategory(String category) {
 
         try {
-            List<Flux> results = new ArrayList<Flux>();
             EntityManager entityManager = JPAInitializer.getEntityManager();
-            List<Galaxy> g = GalaxyDAO.findByCategory(category);
+            List<Float> results = new ArrayList<Float>();
 
-            Integer i = 0;
-            while ( i < g.size() ) {
-                List<Flux> r = entityManager.createQuery("select distinct f from Flux f where " +
-                        "(galaxy = :galaxy) and (typeFlux = 'l')", Flux.class)
-                        .setParameter("galaxy", g.get(i))
-                        .getResultList();
-                results.addAll(r);
-                i++;
+            List<Flux> f = entityManager.createQuery("" +
+                    "select distinct f from Galaxy g, Flux f " +
+                    "where (g.name = f.galaxy) and (g.category = :category) and (f.typeFlux = 'l')", Flux.class)
+                    .setParameter("category", category)
+                    .getResultList();
+
+            if ( f.size() > 0 ) {
+                Integer i;
+                for ( i = 0; i < f.size(); i++ ){
+                    results.add(f.get(i).getVal());
+                }
             }
             return results;
+
         } catch (NoResultException e) {
             throw new NoResultException();
         }
     }
 
-    public static List<Flux> findLinesByCategoryAndAperture(String category, String aperture) {
+    public static List<Float> findLinesByCategoryAndAperture(String category, String aperture) {
 
         try {
-            List<Flux> results = new ArrayList<Flux>();
             EntityManager entityManager = JPAInitializer.getEntityManager();
-            List<Galaxy> g = GalaxyDAO.findByCategory(category);
+            List<Float> results = new ArrayList<Float>();
 
-            Integer i = 0;
-            while ( i < g.size() ) {
-                List<Flux> r = entityManager.createQuery("select distinct f from Flux f where " +
-                        "(galaxy = :galaxy) and (typeFlux = 'l') " +
-                        "and (resolution = :aperture)", Flux.class)
-                        .setParameter("galaxy", g.get(i))
-                        .setParameter("aperture", aperture)
-                        .getResultList();
-                results.addAll(r);
-                i++;
+            List<Flux> f = entityManager.createQuery("" +
+                    "select distinct f from Galaxy g, Flux f " +
+                    "where (g.name = f.galaxy) and (g.category = :category) " +
+                    "and (f.resolution = :aperture) and (f.typeFlux = 'l')", Flux.class)
+                    .setParameter("category", category)
+                    .setParameter("aperture", aperture)
+                    .getResultList();
+
+            if ( f.size() > 0 ) {
+                Integer i;
+                for ( i = 0; i < f.size(); i++ ){
+                    results.add(f.get(i).getVal());
+                }
             }
             return results;
+
         } catch (NoResultException e) {
             throw new NoResultException();
         }

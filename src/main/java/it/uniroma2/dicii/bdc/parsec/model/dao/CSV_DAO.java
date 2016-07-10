@@ -1,15 +1,10 @@
 package it.uniroma2.dicii.bdc.parsec.model.dao;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import it.uniroma2.dicii.bdc.parsec.controller.CSVManager;
 import it.uniroma2.dicii.bdc.parsec.model.CSVFile;
 import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.criteria.Predicate;
+import javax.persistence.*;
+import java.util.List;
 
 
 public class CSV_DAO {
@@ -32,7 +27,7 @@ public class CSV_DAO {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 
-        if (entityManager.find(CSVManager.class, file.getName()) != null)
+        if (entityManager.find(CSVFile.class, file.getName()) != null)
             throw new IllegalArgumentException("File already uploaded");
 
         entityManager.persist(file);
@@ -41,7 +36,16 @@ public class CSV_DAO {
 
     }
 
+    public static List<CSVFile> allFiles() {
 
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            return entityManager.createQuery("select f from files f ", CSVFile.class)
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
 
 
 
