@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class DemoImportCSV {
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
 
         String file1 = "MRTable8_irs.csv";
         String file2 = "MRTable4_flux.csv";
@@ -15,24 +15,35 @@ public class DemoImportCSV {
         String file4 = "MRTable3_sample.csv";
         String file5 = "MRTable11_C_3x3_5x5_flux.csv";
 
+
         ImportForm f1 = new ImportForm();
         f1.setFilename(file1);
-        ImportForm f2 = new ImportForm();
-        f1.setFilename(file2);
-        ImportForm f3 = new ImportForm();
-        f1.setFilename(file3);
-        ImportForm f4 = new ImportForm();
-        f1.setFilename(file4);
-        ImportForm f5 = new ImportForm();
-        f1.setFilename(file5);
+        CSVManager c1 = new CSVManager(f1.getFilename());
 
-        CSVManager csvManager = new CSVManager();
+        ImportForm f2 = new ImportForm();
+        f2.setFilename(file2);
+        CSVManager c2 = new CSVManager(f2.getFilename());
+
+        ImportForm f3 = new ImportForm();
+        f3.setFilename(file3);
+        CSVManager c3 = new CSVManager(f3.getFilename());
+
+        ImportForm f4 = new ImportForm();
+        f4.setFilename(file4);
+        CSVManager c4 = new CSVManager(f4.getFilename());
+
+
+        ImportForm f5 = new ImportForm();
+        f5.setFilename(file5);
+        CSVManager c5 = new CSVManager(f5.getFilename());
+
         try {
-            csvManager.saveNewFile(f1);
-            csvManager.saveNewFile(f2);
-            csvManager.saveNewFile(f3);
-            csvManager.saveNewFile(f4);
-            csvManager.saveNewFile(f5);
+            c1.saveNewFile(f1);
+            c2.saveNewFile(f2);
+            c3.saveNewFile(f3);
+            c4.saveNewFile(f4);
+            c5.saveNewFile(f5);
+
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
