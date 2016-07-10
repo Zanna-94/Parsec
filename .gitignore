@@ -8,3 +8,6 @@ out/
 target/
 /web/registration.jsp
 *iml
+.gitignore
+src/main/resources/META-INF/persistence.xml
+

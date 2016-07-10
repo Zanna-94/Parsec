@@ -2,6 +2,7 @@ package it.uniroma2.dicii.bdc.parsec.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Flux extends Measure {
     /**
      * Data constructor
      */
-    public Flux(Galaxy galaxy, String atom, Float value, Character upperLimit,
+    public Flux(Galaxy galaxy, String atom, Double value, Character upperLimit,
                 Float error, String resolution, String type) {
         this.galaxy = galaxy;
         this.atom = atom;

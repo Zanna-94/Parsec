@@ -20,7 +20,7 @@ public class ResultsBean {
     private List<Metallicity> metallicities;
     private List<Luminosity> luminosities;
     private List<Flux> fluxes;
-    private Float value;
+    private Double value;
     private String category;
     private String operation;
     private String resolution;
@@ -41,7 +41,7 @@ public class ResultsBean {
         this.fluxes = fluxes;
     }
 
-    public ResultsBean(Float value, String operation, String category, String resolution) {
+    public ResultsBean(Double value, String operation, String category, String resolution) {
         this.value = value;
         this.category = category;
         this.operation = operation;
@@ -56,11 +56,11 @@ public class ResultsBean {
         this.resolution = resolution;
     }
 
-    public Float getValue() {
+    public Double getValue() {
         return value;
     }
     
-    public void setValue(Float value) {
+    public void setValue(Double value) {
         this.value = value;
     }
     
@@ -155,9 +155,10 @@ public class ResultsBean {
             results += s;
 
             if (iter < metallicities.size()) {
-                Float valueMet, errorMet;
+                Double valueMet;
+                Float errorMet;
                 results = results.concat("<td>");
-                if ((valueMet = metallicities.get(iter).getVal()) != -1) {
+                if ((valueMet = metallicities.get(iter).getVal()) != -1d) {
                     results = results.concat(valueMet.toString());
                 } else {
                     results = results.concat("- ");
@@ -171,8 +172,8 @@ public class ResultsBean {
                 }
             }
             if (iter < luminosities.size()) {
-                Float valueLum;
-                if ((valueLum = luminosities.get(iter).getVal()) != -1) {
+                Double valueLum;
+                if ((valueLum = luminosities.get(iter).getVal()) != -1d) {
                     results = results.concat("<td>");
                     results = results.concat(valueLum.toString());
                     results = results.concat("</td>\n");
@@ -195,7 +196,8 @@ public class ResultsBean {
             results = results.concat(fluxes.get(iter).getAtom());
             results = results.concat("</td>\n");
 
-            Float valueFlux, errorFlux;
+            Double valueFlux;
+            Float errorFlux;
             results = results.concat("<td>");
 
             if ((valueFlux = fluxes.get(iter).getVal()) != -1) {
@@ -252,7 +254,7 @@ public class ResultsBean {
                 && i < ( fluxes.size() - 1) ) {
             i++;
         }
-        Float ratio = fluxes.get(0).getVal() / fluxes.get(i+1).getVal();
+        Double ratio = fluxes.get(0).getVal() / fluxes.get(i+1).getVal();
         results = results.concat(ratio.toString());
         results = results.concat("</td><td>");
         if ( fluxes.get(0).getUpperLimit() != '*' && fluxes.get(0).getUpperLimit() != '-') {

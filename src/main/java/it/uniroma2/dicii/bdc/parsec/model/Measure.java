@@ -21,10 +21,11 @@ public abstract class Measure {
     protected Long id;
 
     @ManyToOne
+    @JoinColumn
     protected Galaxy galaxy;
 
     @Column(columnDefinition = "real default -1")
-    protected Float val;
+    protected Double val;
 
     /**
      * @param toupdate
@@ -43,11 +44,11 @@ public abstract class Measure {
         this.galaxy = galaxy;
     }
 
-    public Float getVal() {
+    public Double getVal() {
         return val;
     }
 
-    public void setVal(Float val) {
+    public void setVal(Double val) {
         this.val = val;
     }
 
@@ -58,6 +59,4 @@ public abstract class Measure {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 }

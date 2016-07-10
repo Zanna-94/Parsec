@@ -81,15 +81,17 @@ public class FluxDAO {
         }
     }
 
-    public static List<Float> findLinesByCategory(String category) {
+    public static List<Double> findLinesByCategory(String category) {
 
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
-            List<Float> results = new ArrayList<Float>();
+            List<Double> results = new ArrayList<Double>();
 
             List<Flux> f = entityManager.createQuery("" +
-                    "select distinct f from Galaxy g, Flux f " +
-                    "where (g.name = f.galaxy) and (g.category = :category) and (f.typeFlux = 'l')", Flux.class)
+                    "select distinct f from Flux f " +
+                    "inner join f.galaxy " +
+                    "where (f.galaxy.category = :category) " +
+                    "and (f.typeFlux = 'l')", Flux.class)
                     .setParameter("category", category)
                     .getResultList();
 
@@ -106,15 +108,16 @@ public class FluxDAO {
         }
     }
 
-    public static List<Float> findLinesByCategoryAndAperture(String category, String aperture) {
+    public static List<Double> findLinesByCategoryAndAperture(String category, String aperture) {
 
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
-            List<Float> results = new ArrayList<Float>();
+            List<Double> results = new ArrayList<Double>();
 
             List<Flux> f = entityManager.createQuery("" +
-                    "select distinct f from Galaxy g, Flux f " +
-                    "where (g.name = f.galaxy) and (g.category = :category) " +
+                    "select distinct f from Flux f " +
+                    "inner join f.galaxy " +
+                    "where (f.galaxy.category = :category) " +
                     "and (f.resolution = :aperture) and (f.typeFlux = 'l')", Flux.class)
                     .setParameter("category", category)
                     .setParameter("aperture", aperture)
@@ -123,7 +126,9 @@ public class FluxDAO {
             if ( f.size() > 0 ) {
                 Integer i;
                 for ( i = 0; i < f.size(); i++ ){
-                    results.add(f.get(i).getVal());
+                    Double v = f.get(i).getVal();
+                    if ( !v.equals(-1d) )
+                        results.add(v);
                 }
             }
             return results;
