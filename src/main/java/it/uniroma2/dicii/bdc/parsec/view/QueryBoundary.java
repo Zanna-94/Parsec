@@ -269,13 +269,13 @@ public class QueryBoundary {
 
         QueryController controller = new QueryController();
 
-        Float value = controller.calculateStatistics(this);
+        Double value = controller.calculateStatistics(this);
 
-        if (value == -1) {
+        if ( value.equals(-1d) ) {
             return null;
         }
 
-        return new ResultsBean(value);
+        return new ResultsBean(value, operation, category, resolution);
     }
 
     public ResultsBean getAllGalaxySpectralLines() {

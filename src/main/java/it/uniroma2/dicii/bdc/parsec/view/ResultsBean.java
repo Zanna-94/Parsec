@@ -1,9 +1,11 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
+import it.uniroma2.dicii.bdc.parsec.controller.CSVManager;
 import it.uniroma2.dicii.bdc.parsec.model.Flux;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
 import it.uniroma2.dicii.bdc.parsec.model.Metallicity;
+import it.uniroma2.dicii.bdc.parsec.model.dao.CSV_DAO;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 
 import java.util.*;
@@ -18,7 +20,10 @@ public class ResultsBean {
     private List<Metallicity> metallicities;
     private List<Luminosity> luminosities;
     private List<Flux> fluxes;
-    private Float value;
+    private Double value;
+    private String category;
+    private String operation;
+    private String resolution;
 
     /**
      * Default constructor
@@ -36,15 +41,26 @@ public class ResultsBean {
         this.fluxes = fluxes;
     }
 
-    public ResultsBean(Float value) {
+    public ResultsBean(Double value, String operation, String category, String resolution) {
         this.value = value;
+        this.category = category;
+        this.operation = operation;
+        this.resolution = resolution;
     }
 
-    public Float getValue() {
+    public String getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
+    }
+
+    public Double getValue() {
         return value;
     }
     
-    public void setValue(Float value) {
+    public void setValue(Double value) {
         this.value = value;
     }
     
@@ -72,6 +88,37 @@ public class ResultsBean {
         this.fluxes = fluxes;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public List<Luminosity> getLuminosities() {
+        return luminosities;
+    }
+
+    public void setLuminosities(List<Luminosity> luminosities) {
+        this.luminosities = luminosities;
+    }
+
+    public List<Metallicity> getMetallicities() {
+        return metallicities;
+    }
+
+    public void setMetallicities(List<Metallicity> metallicities) {
+        this.metallicities = metallicities;
+    }
 
     public void fillResultsForGalaxyDescription() {
 
@@ -108,9 +155,10 @@ public class ResultsBean {
             results += s;
 
             if (iter < metallicities.size()) {
-                Float valueMet, errorMet;
+                Double valueMet;
+                Float errorMet;
                 results = results.concat("<td>");
-                if ((valueMet = metallicities.get(iter).getValue()) != -1) {
+                if ((valueMet = metallicities.get(iter).getVal()) != -1d) {
                     results = results.concat(valueMet.toString());
                 } else {
                     results = results.concat("- ");
@@ -124,8 +172,8 @@ public class ResultsBean {
                 }
             }
             if (iter < luminosities.size()) {
-                Float valueLum;
-                if ((valueLum = luminosities.get(iter).getValue()) != -1) {
+                Double valueLum;
+                if ((valueLum = luminosities.get(iter).getVal()) != -1d) {
                     results = results.concat("<td>");
                     results = results.concat(valueLum.toString());
                     results = results.concat("</td>\n");
@@ -148,10 +196,11 @@ public class ResultsBean {
             results = results.concat(fluxes.get(iter).getAtom());
             results = results.concat("</td>\n");
 
-            Float valueFlux, errorFlux;
+            Double valueFlux;
+            Float errorFlux;
             results = results.concat("<td>");
 
-            if ((valueFlux = fluxes.get(iter).getValue()) != -1) {
+            if ((valueFlux = fluxes.get(iter).getVal()) != -1) {
                 results = results.concat(valueFlux.toString());
             } else {
                 results = results.concat("- ");
@@ -205,7 +254,7 @@ public class ResultsBean {
                 && i < ( fluxes.size() - 1) ) {
             i++;
         }
-        Float ratio = fluxes.get(0).getValue() / fluxes.get(i+1).getValue();
+        Double ratio = fluxes.get(0).getVal() / fluxes.get(i+1).getVal();
         results = results.concat(ratio.toString());
         results = results.concat("</td><td>");
         if ( fluxes.get(0).getUpperLimit() != '*' && fluxes.get(0).getUpperLimit() != '-') {
@@ -218,6 +267,36 @@ public class ResultsBean {
     }
 
     public void fillResultsForStatistics() {
-        // TODO: 10/07/16      
+
+        results = "<td>";
+        results = results.concat(category);
+        results = results.concat("</td><td>");
+        results = results.concat(operation);
+        results = results.concat("</td><td>");
+        results = results.concat(value.toString());
+        results = results.concat("</td><td>");
+        if ( resolution.length() > 0) {
+            results = results.concat("resolution");
+        }
+        results = results.concat("</td>");
+    }
+
+    public void getListOfFiles() {
+
+        CSVManager cm = new CSVManager();
+        List<String> files = cm.getAllFiles();
+
+        if (files.size() == 0) {
+            results = "No files uploaded.";
+        } else {
+            results += "<ul class=\"list-group\">";
+                    Integer i;
+            for ( i = 0; i < files.size(); i++) {
+                results = results.concat("<li class=\"list-group-item\">");
+                results = results.concat(files.get(i));
+                results = results.concat("</li>");
+            }
+            results += "</ul>";
+        }
     }
 }

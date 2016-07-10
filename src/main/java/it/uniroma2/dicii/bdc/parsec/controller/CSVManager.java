@@ -7,6 +7,8 @@ import it.uniroma2.dicii.bdc.parsec.view.ImportForm;
 import org.apache.commons.csv.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -16,6 +18,8 @@ import java.util.Random;
  * Recognized files' format listed into Format enumeration.
  */
 public class CSVManager {
+
+    private String filename;
 
     private static String tmpFile = "tmp";
 
@@ -50,6 +54,10 @@ public class CSVManager {
      * Default constructor
      */
     public CSVManager() {
+    }
+
+    public CSVManager(String filename) {
+        this.filename = filename;
     }
 
     /**
@@ -131,17 +139,16 @@ public class CSVManager {
     /**
      * Read CSV file specified in input and insert data into database
      *
-     * @param name file to parse
      * @throws IOException
      */
-    public Boolean importFile(String name) throws IOException {
+    private Boolean importFile() throws IOException {
 
         // Obtain file from resources
         ClassLoader classLoader = getClass().getClassLoader();
-        File oldFile = new File(classLoader.getResource("files/" + name).getFile());
+        File oldFile = new File(classLoader.getResource("files/" + filename).getFile());
 
         // file's format
-        Integer fileFormat = readFormat(name);
+        Integer fileFormat = readFormat(filename);
 
         // Obtain delimiter
         Character delimiter = getDelimiterByFormat(fileFormat);
@@ -212,7 +219,7 @@ public class CSVManager {
 
                 Flux f14 = new Flux(refGalaxy,
                         "OIII52",
-                        Float.parseFloat(m.getValue(record, "Foiii52")),
+                        Double.parseDouble(m.getValue(record, "Foiii52")),
                         m.getValue(record, "l_Foiii52").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Foiii52")),
                         m.getValue(record, "Aper"),
@@ -220,7 +227,7 @@ public class CSVManager {
 
                 Flux f24 = new Flux(refGalaxy,
                         "NIII57",
-                        Float.parseFloat(m.getValue(record, "Fniii57")),
+                        Double.parseDouble(m.getValue(record, "Fniii57")),
                         m.getValue(record, "l_Fniii57").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fniii57")),
                         m.getValue(record, "Aper"),
@@ -228,7 +235,7 @@ public class CSVManager {
 
                 Flux f34 = new Flux(refGalaxy,
                         "OI63",
-                        Float.parseFloat(m.getValue(record, "Foi63")),
+                        Double.parseDouble(m.getValue(record, "Foi63")),
                         m.getValue(record, "l_Foi63").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Foi63")),
                         m.getValue(record, "Aper"),
@@ -236,14 +243,14 @@ public class CSVManager {
 
                 Flux f44 = new Flux(refGalaxy,
                         "OIII88",
-                        Float.parseFloat(m.getValue(record, "Foiii88")),
+                        Double.parseDouble(m.getValue(record, "Foiii88")),
                         m.getValue(record, "l_Foiii88").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Foiii88")),
                         m.getValue(record, "Aper"),
                         "l");
                 Flux f54 = new Flux(refGalaxy,
                         "NII122",
-                        Float.parseFloat(m.getValue(record, "Fnii122")),
+                        Double.parseDouble(m.getValue(record, "Fnii122")),
                         m.getValue(record, "l_Fnii122").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fnii122")),
                         m.getValue(record, "Aper"),
@@ -251,7 +258,7 @@ public class CSVManager {
 
                 Flux f64 = new Flux(refGalaxy,
                         "OI145",
-                        Float.parseFloat(m.getValue(record, "Foi145")),
+                        Double.parseDouble(m.getValue(record, "Foi145")),
                         m.getValue(record, "l_Foi145").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Foi145")),
                         m.getValue(record, "Aper"),
@@ -259,7 +266,7 @@ public class CSVManager {
 
                 Flux f74 = new Flux(refGalaxy,
                         "CII158",
-                        Float.parseFloat(m.getValue(record, "Fcii158")),
+                        Double.parseDouble(m.getValue(record, "Fcii158")),
                         m.getValue(record, "l_Fcii158").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fcii158")),
                         m.getValue(record, "Aper"),
@@ -279,7 +286,7 @@ public class CSVManager {
 
                 Flux f16 = new Flux(refGalaxy,
                         "OIII52",
-                        Float.parseFloat(m.getValue(record, "Coiii52")),
+                        Double.parseDouble(m.getValue(record, "Coiii52")),
                         '-',
                         Float.parseFloat(m.getValue(record, "e_Coiii52")),
                         m.getValue(record, "Aper"),
@@ -287,7 +294,7 @@ public class CSVManager {
 
                 Flux f26 = new Flux(refGalaxy,
                         "NIII57",
-                        Float.parseFloat(m.getValue(record, "Cniii57")),
+                        Double.parseDouble(m.getValue(record, "Cniii57")),
                         '-',
                         Float.parseFloat(m.getValue(record, "e_Cniii57")),
                         m.getValue(record, "Aper"),
@@ -295,7 +302,7 @@ public class CSVManager {
 
                 Flux f36 = new Flux(refGalaxy,
                         "OI63",
-                        Float.parseFloat(m.getValue(record, "Coi63")),
+                        Double.parseDouble(m.getValue(record, "Coi63")),
                         m.getValue(record, "l_Coi63").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Coi63")),
                         m.getValue(record, "Aper"),
@@ -303,7 +310,7 @@ public class CSVManager {
 
                 Flux f46 = new Flux(refGalaxy,
                         "OIII88",
-                        Float.parseFloat(m.getValue(record, "Coiii88")),
+                        Double.parseDouble(m.getValue(record, "Coiii88")),
                         m.getValue(record, "l_Coiii88").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Coiii88")),
                         m.getValue(record, "Aper"),
@@ -311,7 +318,7 @@ public class CSVManager {
 
                 Flux f56 = new Flux(refGalaxy,
                         "NII122",
-                        Float.parseFloat(m.getValue(record, "Cnii122")),
+                        Double.parseDouble(m.getValue(record, "Cnii122")),
                         m.getValue(record, "l_Cnii122").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Cnii122")),
                         m.getValue(record, "Aper"),
@@ -319,7 +326,7 @@ public class CSVManager {
 
                 Flux f66 = new Flux(refGalaxy,
                         "OI145",
-                        Float.parseFloat(m.getValue(record, "Coi145")),
+                        Double.parseDouble(m.getValue(record, "Coi145")),
                         m.getValue(record, "l_Coi145").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Coi145")),
                         m.getValue(record, "Aper"),
@@ -327,7 +334,7 @@ public class CSVManager {
 
                 Flux f76 = new Flux(refGalaxy,
                         "CII158",
-                        Float.parseFloat(m.getValue(record, "Ccii158")),
+                        Double.parseDouble(m.getValue(record, "Ccii158")),
                         m.getValue(record, "l_Ccii158").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Ccii158")),
                         m.getValue(record, "Aper"),
@@ -347,7 +354,7 @@ public class CSVManager {
 
                 Flux f18 = new Flux(refGalaxy,
                         "SIV10.5",
-                        Float.parseFloat(m.getValue(record, "Fsiv10")),
+                        Double.parseDouble(m.getValue(record, "Fsiv10")),
                         m.getValue(record, "l_Fsiv10").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fsiv10")),
                         m.getValue(record, "Mod"),
@@ -355,7 +362,7 @@ public class CSVManager {
 
                 Flux f28 = new Flux(refGalaxy,
                         "NeII12.8",
-                        Float.parseFloat(m.getValue(record, "Fneii12")),
+                        Double.parseDouble(m.getValue(record, "Fneii12")),
                         m.getValue(record, "l_Fneii12").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fneii12")),
                         m.getValue(record, "Mod"),
@@ -363,7 +370,7 @@ public class CSVManager {
 
                 Flux f38 = new Flux(refGalaxy,
                         "NeV14.3",
-                        Float.parseFloat(m.getValue(record, "Fnev14")),
+                        Double.parseDouble(m.getValue(record, "Fnev14")),
                         m.getValue(record, "l_Fnev14").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fnev14")),
                         m.getValue(record, "Mod"),
@@ -371,7 +378,7 @@ public class CSVManager {
 
                 Flux f48 = new Flux(refGalaxy,
                         "NeIII15.6",
-                        Float.parseFloat(m.getValue(record, "Fneiii15")),
+                        Double.parseDouble(m.getValue(record, "Fneiii15")),
                         m.getValue(record, "l_Fneiii15").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fneiii15")),
                         m.getValue(record, "Mod"),
@@ -379,7 +386,7 @@ public class CSVManager {
 
                 Flux f58 = new Flux(refGalaxy,
                         "SIII18",
-                        Float.parseFloat(m.getValue(record, "Fsiii18")),
+                        Double.parseDouble(m.getValue(record, "Fsiii18")),
                         m.getValue(record, "l_Fsiii18").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fsiii18")),
                         m.getValue(record, "Mod"),
@@ -387,7 +394,7 @@ public class CSVManager {
 
                 Flux f68 = new Flux(refGalaxy,
                         "NeV24.3",
-                        Float.parseFloat(m.getValue(record, "Fnev24")),
+                        Double.parseDouble(m.getValue(record, "Fnev24")),
                         m.getValue(record, "l_Fnev24").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fnev24")),
                         m.getValue(record, "Mod"),
@@ -395,7 +402,7 @@ public class CSVManager {
 
                 Flux f78 = new Flux(refGalaxy,
                         "OIV25.9",
-                        Float.parseFloat(m.getValue(record, "Foiv25")),
+                        Double.parseDouble(m.getValue(record, "Foiv25")),
                         m.getValue(record, "l_Foiv25").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Foiv25")),
                         m.getValue(record, "Mod"),
@@ -403,7 +410,7 @@ public class CSVManager {
 
                 Flux f88 = new Flux(refGalaxy,
                         "SIII33.5",
-                        Float.parseFloat(m.getValue(record, "Fsiii33")),
+                        Double.parseDouble(m.getValue(record, "Fsiii33")),
                         m.getValue(record, "l_Fsiii33").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fsiii33")),
                         m.getValue(record, "Mod"),
@@ -411,7 +418,7 @@ public class CSVManager {
 
                 Flux f98 = new Flux(refGalaxy,
                         "SII34.8",
-                        Float.parseFloat(m.getValue(record, "Fsii34")),
+                        Double.parseDouble(m.getValue(record, "Fsii34")),
                         m.getValue(record, "l_Fsii34").charAt(0),
                         Float.parseFloat(m.getValue(record, "e_Fsii34")),
                         m.getValue(record, "Mod"),
@@ -447,7 +454,7 @@ public class CSVManager {
 
         Metallicity metallicity = new Metallicity();
         metallicity.setGalaxy(refGalaxy);
-        metallicity.setValue(Float.parseFloat(m.getValue(record, "Z")));
+        metallicity.setVal(Double.parseDouble(m.getValue(record, "Z")));
         metallicity.setError(Float.parseFloat(m.getValue(record, "e_Z")));
 
         MetallicityDAO.store(metallicity);
@@ -468,19 +475,19 @@ public class CSVManager {
         Luminosity lum1 = new Luminosity();
         lum1.setGalaxy(refGalaxy);
         lum1.setAtom("NeV14.3");
-        lum1.setValue(Float.parseFloat(m.getValue(record, "Lnev1")));
+        lum1.setVal(Double.parseDouble(m.getValue(record, "Lnev1")));
         lum1.setUpperLimit(m.getValue(record, "l_Lnev1").charAt(0));
 
         Luminosity lum2 = new Luminosity();
         lum2.setGalaxy(refGalaxy);
         lum2.setAtom("NeV24.3");
-        lum2.setValue(Float.parseFloat(m.getValue(record, "Lnev2")));
+        lum2.setVal(Double.parseDouble(m.getValue(record, "Lnev2")));
         lum2.setUpperLimit(m.getValue(record, "l_Lnev2").charAt(0));
 
         Luminosity lum3 = new Luminosity();
         lum3.setGalaxy(refGalaxy);
         lum3.setAtom("OIV25.9");
-        lum3.setValue(Float.parseFloat(m.getValue(record, "Loiv")));
+        lum3.setVal(Double.parseDouble(m.getValue(record, "Loiv")));
         lum3.setUpperLimit(m.getValue(record, "l_Loiv").charAt(0));
 
         LuminosityDAO.store(lum1);
@@ -597,13 +604,15 @@ public class CSVManager {
         return f;
     }
 
-
-
-    public CSVFile saveNewFile(ImportForm form) {
+    public CSVFile saveNewFile(ImportForm form) throws IOException {
 
         CSVFile file = new CSVFile();
         file.setName(form.getFilename());
         file.setFormat(readFormat(form.getFilename()));
+
+        if (!importFile()) {
+            return null;
+        }
 
         try {
             CSV_DAO.store(file);
@@ -614,4 +623,14 @@ public class CSVManager {
         return file;
     }
 
+    public List<String> getAllFiles() {
+
+        List<String> files = new ArrayList<String>();
+        List<CSVFile> csvFiles = CSV_DAO.allFiles();
+        Integer i;
+        for (i = 0; i < csvFiles.size(); i++) {
+            files.add(csvFiles.get(i).getName());
+        }
+        return files;
+    }
 }

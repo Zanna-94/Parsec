@@ -58,7 +58,8 @@
                         pageContext.setAttribute("msg", msg);
                         }
                 %>
-                        <c:out value="${msg}">
+                        <jsp:forward page="importfile.jsp"/>
+                        <c:out value="${msg}"></c:out>
                 <%
                     }
                 %>
