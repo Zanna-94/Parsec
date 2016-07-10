@@ -3,14 +3,12 @@ package it.uniroma2.dicii.bdc.parsec;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 
-/**
- * Created by laura_trive on 09/07/16.
- */
+import java.util.List;
+
 public class DemoSearchGalaxy {
 
-    public static void main(String args[]) {
-
-        Galaxy galaxy = new Galaxy("Mk622");
+    private static void byName(String name) {
+        Galaxy galaxy = new Galaxy(name);
 
         try {
             GalaxyDAO.findByName(galaxy.getName());
@@ -18,8 +16,19 @@ public class DemoSearchGalaxy {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private static void byRedshift() {
+
+        List<Galaxy> list = GalaxyDAO.findLower((float) 0.0612);
+        for (Galaxy g : list)
+            System.out.print(g.getName() + "\n");
+    }
+
+    public static void main(String args[]) {
+
+        byRedshift();
 
         System.exit(0);
-
     }
 }

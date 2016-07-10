@@ -22,6 +22,31 @@ public class QueryController {
     }
 
     /**
+     * @param redshift    value on which search
+     * @param searchLower It indicates whether we have to search for all values less than specified one
+     * @return list of {@link Galaxy} ordered by redshift value
+     */
+    public List<Galaxy> searchForRedshift(float redshift, boolean searchLower) {
+
+        if (searchLower)
+            return GalaxyDAO.findLower(redshift);
+        else
+            return GalaxyDAO.findGreater(redshift);
+    }
+
+    public List<Galaxy> searchInRange(Position position) {
+        ArrayList<Galaxy> galaxies = null;
+        // TODO: 10/07/16
+
+        return galaxies;
+    }
+
+    public Float calculateRatio(String fluxLine) {
+        // TODO: 10/07/16
+        return null;
+    }
+
+    /**
      * Query to visualize position, distance and redshift value, luminosity, metallicity
      * and relative errors
      *
@@ -65,52 +90,52 @@ public class QueryController {
 
         List<java.lang.String> l = new ArrayList<java.lang.String>();
 
-        if ( query.isAtomOIV259() != null && query.isAtomOIV259() ) {
+        if (query.isAtomOIV259() != null && query.isAtomOIV259()) {
             l.add("OIV25.9");
         }
-        if ( query.isAtomNEV143() != null && query.isAtomNEV143() ) {
+        if (query.isAtomNEV143() != null && query.isAtomNEV143()) {
             l.add("NEV14.3");
         }
-        if ( query.isAtomNEV243() != null && query.isAtomNEV243() ) {
+        if (query.isAtomNEV243() != null && query.isAtomNEV243()) {
             l.add("NEV24.3");
         }
-        if ( query.isAtomOIII52() != null && query.isAtomOIII52() ) {
+        if (query.isAtomOIII52() != null && query.isAtomOIII52()) {
             l.add("OIII52");
         }
-        if ( query.isAtomNIII57() != null && query.isAtomNIII57() ) {
+        if (query.isAtomNIII57() != null && query.isAtomNIII57()) {
             l.add("NIII57");
         }
-        if ( query.isAtomOI63() != null && query.isAtomOI63() ) {
+        if (query.isAtomOI63() != null && query.isAtomOI63()) {
             l.add("OI63");
         }
-        if ( query.isAtomOIII88() != null && query.isAtomOIII88() ) {
+        if (query.isAtomOIII88() != null && query.isAtomOIII88()) {
             l.add("OIII88");
         }
-        if ( query.isAtomNII122() != null && query.isAtomNII122() ) {
+        if (query.isAtomNII122() != null && query.isAtomNII122()) {
             l.add("NII122");
         }
-        if ( query.isAtomOI145() != null && query.isAtomOI145() ) {
+        if (query.isAtomOI145() != null && query.isAtomOI145()) {
             l.add("OI145");
         }
-        if ( query.isAtomCII158() != null && query.isAtomCII158() ) {
+        if (query.isAtomCII158() != null && query.isAtomCII158()) {
             l.add("CII158");
         }
-        if ( query.isAtomSIV105() != null && query.isAtomSIV105() ) {
+        if (query.isAtomSIV105() != null && query.isAtomSIV105()) {
             l.add("SIV10.5");
         }
-        if ( query.isAtomNEII128() != null && query.isAtomNEII128() ) {
+        if (query.isAtomNEII128() != null && query.isAtomNEII128()) {
             l.add("NEII12.8");
         }
-        if ( query.isAtomNEIII156() != null && query.isAtomNEIII156() ) {
+        if (query.isAtomNEIII156() != null && query.isAtomNEIII156()) {
             l.add("NEIII15.6");
         }
-        if ( query.isAtomSIII187() != null && query.isAtomSIII187() ) {
+        if (query.isAtomSIII187() != null && query.isAtomSIII187()) {
             l.add("SIII18.7");
         }
-        if ( query.isAtomSIII335() != null && query.isAtomSIII335() ) {
+        if (query.isAtomSIII335() != null && query.isAtomSIII335()) {
             l.add("SIII33.5");
         }
-        if ( query.isAtomSII348() != null && query.isAtomSII348() ) {
+        if (query.isAtomSII348() != null && query.isAtomSII348()) {
             l.add("SII34.8");
         }
         return l;
@@ -186,9 +211,9 @@ public class QueryController {
 
         List<Float> list = new ArrayList<Float>();
         Integer n = f.size();
-        Integer tot = n*(n-1);
+        Integer tot = n * (n - 1);
         Integer i = 0, j, k;
-        while ( i < tot) {
+        while (i < tot) {
             j = i;
             while (j >= 0) {
                 if (!i.equals(j))
@@ -196,8 +221,8 @@ public class QueryController {
                 j--;
             }
             k = i;
-            while (k <= (n-1)) {
-                if (!k.equals(i)){
+            while (k <= (n - 1)) {
+                if (!k.equals(i)) {
                     list.add(f.get(i).getValue() / f.get(k).getValue());
                 }
                 k++;
@@ -212,11 +237,11 @@ public class QueryController {
         List<Float> list = linesRatioValues(f);
         Float sum = 0f;
         Integer i = 0;
-        while ( i < list.size()) {
+        while (i < list.size()) {
             sum += list.get(i);
             i++;
         }
-        return sum/list.size();
+        return sum / list.size();
     }
 
     public Float calculateMedianRatioValues(List<Flux> f) {
@@ -224,10 +249,10 @@ public class QueryController {
         List<Float> list = linesRatioValues(f);
         Collections.sort(list);
         if (list.size() % 2 != 0) {
-            Integer index = (int) Math.ceil((list.size()/2));
+            Integer index = (int) Math.ceil((list.size() / 2));
             return list.get(index);
         } else {
-            return (list.get((list.size()/2) - 1) + list.get(list.size()/2)) / 2;
+            return (list.get((list.size() / 2) - 1) + list.get(list.size() / 2)) / 2;
         }
     }
 
@@ -238,10 +263,10 @@ public class QueryController {
         Float m = calculateAverageRatioValues(f);
         Float sum = 0f;
         Integer i;
-        for ( i = 0; i < n; i++ ) {
-            sum += (list.get(i) - m)*(list.get(i) - m);
+        for (i = 0; i < n; i++) {
+            sum += (list.get(i) - m) * (list.get(i) - m);
         }
-        return (float) Math.sqrt((1/n)*sum);
+        return (float) Math.sqrt((1 / n) * sum);
     }
 
     public Float calculateAverageAbsoluteDeviationRatioValues(List<Flux> f) {
