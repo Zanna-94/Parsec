@@ -168,4 +168,21 @@ public class GalaxyDAO {
             throw new NoResultException();
         }
     }
+
+    public static List<String> findAllName() {
+
+        EntityManager entityManager = JPAInitializer.getEntityManager();
+        return entityManager.createQuery("select t.name from Galaxy t", String.class)
+                .getResultList();
+
+    }
+
+    public static List<Galaxy> searchInRange(Ascension ascension, Declination declination, Integer howMany)
+            throws NoResultException{
+
+        List<Galaxy> galaxy = new ArrayList<Galaxy>();
+        return galaxy;
+
+        // TODO: 10/07/16
+    }
 }

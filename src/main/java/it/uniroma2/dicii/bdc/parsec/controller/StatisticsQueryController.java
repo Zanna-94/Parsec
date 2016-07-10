@@ -1,17 +1,102 @@
 package it.uniroma2.dicii.bdc.parsec.controller;
 
+import it.uniroma2.dicii.bdc.parsec.model.*;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
+import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class StatisticsQueryController {
 
 
     public StatisticsQueryController() {
+    }
+
+    /**
+     * @param redshift    value on which search
+     * @param searchLower It indicates whether we have to search for all values less than specified one
+     * @return list of {@link Galaxy} ordered by redshift value
+     */
+    public List<Galaxy> searchForRedshift(float redshift, boolean searchLower) {
+
+        if (searchLower)
+            // find al Galaxies that have a
+            // redshift value lower than specified one
+            return GalaxyDAO.findLower(redshift);
+        else
+            // find al Galaxies that have a
+            // redshift value greater than specified one
+            return GalaxyDAO.findGreater(redshift);
+    }
+
+    public List<Galaxy> searchInRange(Ascension ascension, Declination declination, Integer howMany) {
+
+        ArrayList<Galaxy> galaxies;
+
+        try {
+            galaxies = (ArrayList<Galaxy>) GalaxyDAO.searchInRange(ascension, declination, howMany);
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return galaxies;
+    }
+
+    /**
+     * @param fluxLine: {@link Flux#atom}
+     * @param galaxy    {@link Galaxy#name}
+     * @return An HashMap that contains all division between flux's value and the corresponding continuous flux.
+     * The key of the HashMap represents the resolution of the flux line.
+     */
+    public HashMap<String, Double> calculateRatio(String fluxLine, String galaxy) {
+
+        //Contains all results from the division of the flux's value and the continuous flux.
+        // The Key of the hashmap is the resolution of the flux line (3x3 , 5x5 , c )
+        HashMap<String, Double> results = new HashMap<String, Double>();
+
+        //declare here vars to use them out of try/catch
+        List<Flux> elements;
+        Flux cont;
+
+        try {
+            elements = FluxDAO.findLine(fluxLine, galaxy); // all flux not continuous
+            cont = FluxDAO.findContinuousFlux(fluxLine, galaxy); // return only continuous flux
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            System.out.print(results.size());
+            return null;
+        }
+
+        // calculate division and put results in the hashmap
+        for (Flux elem : elements) {
+            results.put(elem.getResolution(), elem.getVal() / cont.getVal());
+        }
+
+        return results;
+    }
+
+    /**
+     * Query to visualize position, distance and redshift value, luminosity, metallicity
+     * and relative errors
+     *
+     * @param galaxyName name of galaxy to search info about
+     * @return {@link Galaxy}
+     */
+    public Galaxy searchGalaxyByName(String galaxyName) {
+
+        try {
+            return GalaxyDAO.findByName(galaxyName);
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Double calculateStatistics(QueryBoundary query) {
@@ -45,7 +130,7 @@ public class StatisticsQueryController {
         List<Double> list = new ArrayList<Double>();
         Integer n = f.size();
         Integer i = 0, j, k;
-        while ( i < n) {
+        while (i < n) {
             j = i;
             while (j >= 0) {
                 if (!i.equals(j) && !f.get(j).equals(0d))
@@ -53,8 +138,8 @@ public class StatisticsQueryController {
                 j--;
             }
             k = i;
-            while (k <= (n-1)) {
-                if (!k.equals(i) && !f.get(k).equals(0d)){
+            while (k <= (n - 1)) {
+                if (!k.equals(i) && !f.get(k).equals(0d)) {
                     list.add(f.get(i) / f.get(k));
                 }
                 k++;
@@ -67,18 +152,18 @@ public class StatisticsQueryController {
 
     private Double calculateAverageRatioValues(List<Double> f, List<Double> list) {
 
-        if ( f.size() == 0) {
+        if (f.size() == 0) {
             return null;
         }
         if (list == null)
             list = linesRatioValues(f);
         Double sum = 0d;
         Integer i = 0;
-        while ( i < list.size()) {
+        while (i < list.size()) {
             sum += list.get(i);
             i++;
         }
-        return sum/list.size();
+        return sum / list.size();
     }
 
     private Double calculateMedianRatioValues(List<Double> f) {
@@ -89,18 +174,18 @@ public class StatisticsQueryController {
         List<Double> list = linesRatioValues(f);
         Collections.sort(list);
         if (list.size() % 2 != 0) {
-            Integer index = (int) Math.ceil((list.size()/2));
+            Integer index = (int) Math.ceil((list.size() / 2));
             return list.get(index);
         } else {
-            Integer index1 = (list.size()/2) - 1;
-            Integer index2 = list.size()/2;
-            return  (list.get(index1) + list.get(index2)) / 2d;
+            Integer index1 = (list.size() / 2) - 1;
+            Integer index2 = list.size() / 2;
+            return (list.get(index1) + list.get(index2)) / 2d;
         }
     }
 
     private Double calculateStandardDeviationRatioValues(List<Double> f) {
 
-        if ( f.size() == 0) {
+        if (f.size() == 0) {
             return null;
         }
         List<Double> list = linesRatioValues(f);
@@ -108,15 +193,15 @@ public class StatisticsQueryController {
         Double m = calculateAverageRatioValues(f, list);
         Double sum = 0d;
         Integer i;
-        for ( i = 0; i < n; i++ ) {
-            sum += (list.get(i) - m)*(list.get(i) - m);
+        for (i = 0; i < n; i++) {
+            sum += (list.get(i) - m) * (list.get(i) - m);
         }
-        return Math.sqrt((1d/n)*sum);
+        return Math.sqrt((1d / n) * sum);
     }
 
     private Double calculateAverageAbsoluteDeviationRatioValues(List<Double> f) {
 
-        if ( f.size() == 0) {
+        if (f.size() == 0) {
             return null;
         }
         return 0.6475d * calculateStandardDeviationRatioValues(f);

@@ -45,8 +45,17 @@ public class User {
     private Role role;
 
 
+    /**
+     * @param toUpdate entity to update in database
+     * @see it.uniroma2.dicii.bdc.parsec.model.dao.UserDAO#update(User)
+     */
     public void update(User toUpdate) {
-        // TODO: 30/06/16  
+        this.userId = toUpdate.getUserId();
+        this.password = toUpdate.getPassword();
+        this.email = toUpdate.getEmail();
+        this.firstname = toUpdate.getFirstname();
+        this.lastname = toUpdate.getLastname();
+        this.role = toUpdate.getRole();
     }
 
     public boolean isAdministrator() {

@@ -51,13 +51,48 @@ public class FluxDAO {
             EntityManager entityManager = JPAInitializer.getEntityManager();
 
             return entityManager.createQuery("select f from Flux f where " +
-                        "(galaxy = :galaxy) and (typeFlux = 'l')", Flux.class)
-                        .setParameter("galaxy", galaxy)
-                        .getResultList();
+                    "(galaxy = :galaxy) and (typeFlux = 'l')", Flux.class)
+                    .setParameter("galaxy", galaxy)
+                    .getResultList();
         } catch (NoResultException e) {
             throw new NoResultException();
         }
     }
+
+    @SuppressWarnings("JpaQlInspection")
+    public static List<Flux> findLine(String fluxLine, String galaxy) throws NoResultException {
+        EntityManager entityManager = JPAInitializer.getEntityManager();
+
+        try {
+            return entityManager.createQuery("select f from Flux f " +
+                    "where galaxy_name = :galaxy and atom = :line and typeFlux != 'c'", Flux.class)
+                    .setParameter("galaxy", galaxy)
+                    .setParameter("line", fluxLine)
+                    .getResultList();
+
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+
+    }
+
+    @SuppressWarnings("JpaQlInspection")
+    public static Flux findContinuousFlux(String fluxLine, String galaxy) throws NoResultException {
+        EntityManager entityManager = JPAInitializer.getEntityManager();
+
+        try {
+            return entityManager.createQuery("select f from Flux f " +
+                    "where galaxy_name = :galaxy and atom = :line and typeFlux = 'c'", Flux.class)
+                    .setParameter("galaxy", galaxy)
+                    .setParameter("line", fluxLine)
+                    .getSingleResult();
+
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+
+    }
+
 
     public static List<Flux> findLinesByGalaxy(Galaxy galaxy, List<String> lines) {
 
@@ -66,7 +101,7 @@ public class FluxDAO {
             EntityManager entityManager = JPAInitializer.getEntityManager();
 
             Integer i = 0;
-            while ( i < lines.size() ) {
+            while (i < lines.size()) {
                 List<Flux> r = entityManager.createQuery("select distinct f from Flux f where " +
                         "(galaxy = :galaxy) and (typeFlux = 'l') and (atom = :atom)", Flux.class)
                         .setParameter("galaxy", galaxy)
@@ -95,9 +130,9 @@ public class FluxDAO {
                     .setParameter("category", category)
                     .getResultList();
 
-            if ( f.size() > 0 ) {
+            if (f.size() > 0) {
                 Integer i;
-                for ( i = 0; i < f.size(); i++ ){
+                for (i = 0; i < f.size(); i++) {
                     results.add(f.get(i).getVal());
                 }
             }
@@ -123,11 +158,11 @@ public class FluxDAO {
                     .setParameter("aperture", aperture)
                     .getResultList();
 
-            if ( f.size() > 0 ) {
+            if (f.size() > 0) {
                 Integer i;
-                for ( i = 0; i < f.size(); i++ ){
+                for (i = 0; i < f.size(); i++) {
                     Double v = f.get(i).getVal();
-                    if ( !v.equals(-1d) )
+                    if (!v.equals(-1d))
                         results.add(v);
                 }
             }

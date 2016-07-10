@@ -1,6 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec;
 
 
+import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ public class DemoStatistics {
 
     public static void main(String args[]) throws IOException {
 
-        QueryController q = new QueryController();
+        StatisticsQueryController q = new StatisticsQueryController();
 
         String category = "S2";
         String resolution = "c";

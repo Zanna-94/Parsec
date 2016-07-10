@@ -5,9 +5,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/BDC"/>
-            <property name="javax.persistence.jdbc.user" value="laura_trive"/>
-            <property name="javax.persistence.jdbc.password" value="laura"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/parsec_db"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="password"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update" />

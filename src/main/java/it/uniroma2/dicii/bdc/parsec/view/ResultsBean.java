@@ -5,7 +5,6 @@ import it.uniroma2.dicii.bdc.parsec.model.Flux;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
 import it.uniroma2.dicii.bdc.parsec.model.Metallicity;
-import it.uniroma2.dicii.bdc.parsec.model.dao.CSV_DAO;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 
 import java.util.*;
