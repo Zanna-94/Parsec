@@ -1,6 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec;
 
 
+import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.Ascension;
 import it.uniroma2.dicii.bdc.parsec.model.Declination;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
@@ -20,7 +21,7 @@ public class SearchGalaxyTest {
                 new Declination('+',0,39,15.2424f),
                 new Ascension(8,7,41.003f)));
 
-        QueryController q = new QueryController();
+        StatisticsQueryController q = new StatisticsQueryController();
 
         Galaxy r = q.searchGalaxyByName("Mrk622");
 

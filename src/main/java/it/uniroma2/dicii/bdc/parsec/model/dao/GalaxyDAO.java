@@ -1,9 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.model.dao;
 
+import it.uniroma2.dicii.bdc.parsec.model.*;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
-import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
-import it.uniroma2.dicii.bdc.parsec.model.JPAInitializer;
-import it.uniroma2.dicii.bdc.parsec.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -107,5 +105,14 @@ public class GalaxyDAO {
         return entityManager.createQuery("select t.name from Galaxy t", String.class)
                 .getResultList();
 
+    }
+
+    public static List<Galaxy> searchInRange(Ascension ascension, Declination declination, Integer howMany)
+            throws NoResultException{
+
+        List<Galaxy> galaxy = new ArrayList<Galaxy>();
+        return galaxy;
+
+        // TODO: 10/07/16
     }
 }

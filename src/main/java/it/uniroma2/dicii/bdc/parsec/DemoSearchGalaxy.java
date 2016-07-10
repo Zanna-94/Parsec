@@ -1,6 +1,6 @@
 package it.uniroma2.dicii.bdc.parsec;
 
-import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
+import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 
@@ -29,7 +29,7 @@ public class DemoSearchGalaxy {
 
     private static void ratio() {
 
-        QueryController controller = new QueryController();
+        StatisticsQueryController controller = new StatisticsQueryController();
         HashMap<String, Double> h = controller.calculateRatio("OI63", "IRAS00182-7112");
 
         System.out.print(h.values());

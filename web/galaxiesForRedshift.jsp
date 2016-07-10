@@ -90,7 +90,7 @@
                         </thead>
 
                         <tbody>
-                        <c:forEach var="i" begin="0" end="${galaxyBean.size}">
+                        <c:forEach var="i" begin="0" end="${galaxyBean.size-1}">
 
                             <tr>
                                 <td><c:out value="${galaxyBean.getName(i)}"/></td>

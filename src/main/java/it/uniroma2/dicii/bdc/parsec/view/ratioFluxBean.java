@@ -1,7 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
 
-import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
+import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
 
 import java.util.HashMap;
 
@@ -18,7 +18,7 @@ public class ratioFluxBean {
         if (this.lineFlux == null)
             return false;
 
-        QueryController controller = new QueryController();
+        StatisticsQueryController controller = new StatisticsQueryController();
         this.ratio = controller.calculateRatio(lineFlux, galaxyName);
 
         if (this.ratio != null)
