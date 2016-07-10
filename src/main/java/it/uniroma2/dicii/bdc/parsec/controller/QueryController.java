@@ -22,6 +22,31 @@ public class QueryController {
     }
 
     /**
+     * @param redshift    value on which search
+     * @param searchLower It indicates whether we have to search for all values less than specified one
+     * @return list of {@link Galaxy} ordered by redshift value
+     */
+    public List<Galaxy> searchForRedshift(float redshift, boolean searchLower) {
+
+        if (searchLower)
+            return GalaxyDAO.findLower(redshift);
+        else
+            return GalaxyDAO.findGreater(redshift);
+    }
+
+    public List<Galaxy> searchInRange(Position position) {
+        ArrayList<Galaxy> galaxies = null;
+        // TODO: 10/07/16
+
+        return galaxies;
+    }
+
+    public Float calculateRatio(String fluxLine) {
+        // TODO: 10/07/16
+        return null;
+    }
+
+    /**
      * Query to visualize position, distance and redshift value, luminosity, metallicity
      * and relative errors
      *
