@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="10914040">
+  <component name="DataSourceManagerImpl" format="xml" hash="3092025880">
     <data-source source="LOCAL" name="PostgreSQL - parsec_db@localhost" uuid="80dc6ccf-9640-4b2d-981f-1b1d252e7bf0">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>

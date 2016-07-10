@@ -1,8 +1,10 @@
 package it.uniroma2.dicii.bdc.parsec;
 
+import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class DemoSearchGalaxy {
@@ -25,9 +27,17 @@ public class DemoSearchGalaxy {
             System.out.print(g.getName() + "\n");
     }
 
+    private static void ratio() {
+
+        QueryController controller = new QueryController();
+        HashMap<String, Double> h = controller.calculateRatio("OI63", "IRAS00182-7112");
+
+        System.out.print(h.values());
+    }
+
     public static void main(String args[]) {
 
-        byRedshift();
+        ratio();
 
         System.exit(0);
     }

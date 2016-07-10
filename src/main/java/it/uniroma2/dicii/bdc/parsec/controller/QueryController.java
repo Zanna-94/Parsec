@@ -29,8 +29,12 @@ public class QueryController {
     public List<Galaxy> searchForRedshift(float redshift, boolean searchLower) {
 
         if (searchLower)
+            // find al Galaxies that have a
+            // redshift value lower than specified one
             return GalaxyDAO.findLower(redshift);
         else
+            // find al Galaxies that have a
+            // redshift value greater than specified one
             return GalaxyDAO.findGreater(redshift);
     }
 
@@ -41,9 +45,37 @@ public class QueryController {
         return galaxies;
     }
 
-    public Float calculateRatio(String fluxLine) {
-        // TODO: 10/07/16
-        return null;
+    /**
+     * @param fluxLine: {@link Flux#atom}
+     * @param galaxy    {@link Galaxy#name}
+     * @return An HashMap that contains all division between flux's value and the corresponding continuous flux.
+     * The key of the HashMap represents the resolution of the flux line.
+     */
+    public HashMap<String, Double> calculateRatio(String fluxLine, String galaxy) {
+
+        //Contains all results from the division of the flux's value and the continuous flux.
+        // The Key of the hashmap is the resolution of the flux line (3x3 , 5x5 , c )
+        HashMap<String, Double> results = new HashMap<String, Double>();
+
+        //declare here vars to use them out of try/catch
+        List<Flux> elements;
+        Flux cont;
+
+        try {
+            elements = FluxDAO.findLine(fluxLine, galaxy); // all flux not continuous
+            cont = FluxDAO.findContinuousFlux(fluxLine, galaxy); // return only continuous flux
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            System.out.print(results.size());
+            return null;
+        }
+
+        // calculate division and put results in the hashmap
+        for (Flux elem : elements) {
+            results.put(elem.getResolution(), elem.getVal() / cont.getVal());
+        }
+
+        return results;
     }
 
     /**
@@ -90,52 +122,52 @@ public class QueryController {
 
         List<java.lang.String> l = new ArrayList<java.lang.String>();
 
-        if ( query.isAtomOIV259() != null && query.isAtomOIV259() ) {
+        if (query.isAtomOIV259() != null && query.isAtomOIV259()) {
             l.add("OIV25.9");
         }
-        if ( query.isAtomNEV143() != null && query.isAtomNEV143() ) {
+        if (query.isAtomNEV143() != null && query.isAtomNEV143()) {
             l.add("NEV14.3");
         }
-        if ( query.isAtomNEV243() != null && query.isAtomNEV243() ) {
+        if (query.isAtomNEV243() != null && query.isAtomNEV243()) {
             l.add("NEV24.3");
         }
-        if ( query.isAtomOIII52() != null && query.isAtomOIII52() ) {
+        if (query.isAtomOIII52() != null && query.isAtomOIII52()) {
             l.add("OIII52");
         }
-        if ( query.isAtomNIII57() != null && query.isAtomNIII57() ) {
+        if (query.isAtomNIII57() != null && query.isAtomNIII57()) {
             l.add("NIII57");
         }
-        if ( query.isAtomOI63() != null && query.isAtomOI63() ) {
+        if (query.isAtomOI63() != null && query.isAtomOI63()) {
             l.add("OI63");
         }
-        if ( query.isAtomOIII88() != null && query.isAtomOIII88() ) {
+        if (query.isAtomOIII88() != null && query.isAtomOIII88()) {
             l.add("OIII88");
         }
-        if ( query.isAtomNII122() != null && query.isAtomNII122() ) {
+        if (query.isAtomNII122() != null && query.isAtomNII122()) {
             l.add("NII122");
         }
-        if ( query.isAtomOI145() != null && query.isAtomOI145() ) {
+        if (query.isAtomOI145() != null && query.isAtomOI145()) {
             l.add("OI145");
         }
-        if ( query.isAtomCII158() != null && query.isAtomCII158() ) {
+        if (query.isAtomCII158() != null && query.isAtomCII158()) {
             l.add("CII158");
         }
-        if ( query.isAtomSIV105() != null && query.isAtomSIV105() ) {
+        if (query.isAtomSIV105() != null && query.isAtomSIV105()) {
             l.add("SIV10.5");
         }
-        if ( query.isAtomNEII128() != null && query.isAtomNEII128() ) {
+        if (query.isAtomNEII128() != null && query.isAtomNEII128()) {
             l.add("NEII12.8");
         }
-        if ( query.isAtomNEIII156() != null && query.isAtomNEIII156() ) {
+        if (query.isAtomNEIII156() != null && query.isAtomNEIII156()) {
             l.add("NEIII15.6");
         }
-        if ( query.isAtomSIII187() != null && query.isAtomSIII187() ) {
+        if (query.isAtomSIII187() != null && query.isAtomSIII187()) {
             l.add("SIII18.7");
         }
-        if ( query.isAtomSIII335() != null && query.isAtomSIII335() ) {
+        if (query.isAtomSIII335() != null && query.isAtomSIII335()) {
             l.add("SIII33.5");
         }
-        if ( query.isAtomSII348() != null && query.isAtomSII348() ) {
+        if (query.isAtomSII348() != null && query.isAtomSII348()) {
             l.add("SII34.8");
         }
         return l;
@@ -212,7 +244,7 @@ public class QueryController {
         List<Double> list = new ArrayList<Double>();
         Integer n = f.size();
         Integer i = 0, j, k;
-        while ( i < n) {
+        while (i < n) {
             j = i;
             while (j >= 0) {
                 if (!i.equals(j))
@@ -220,8 +252,8 @@ public class QueryController {
                 j--;
             }
             k = i;
-            while (k <= (n-1)) {
-                if (!k.equals(i)){
+            while (k <= (n - 1)) {
+                if (!k.equals(i)) {
                     list.add(f.get(i) / f.get(k));
                 }
                 k++;
@@ -233,18 +265,18 @@ public class QueryController {
 
     private Double calculateAverageRatioValues(List<Double> f, List<Double> list) {
 
-        if ( f.size() == 0) {
+        if (f.size() == 0) {
             return null;
         }
         if (list == null)
             list = linesRatioValues(f);
         Double sum = 0d;
         Integer i = 0;
-        while ( i < list.size()) {
+        while (i < list.size()) {
             sum += list.get(i);
             i++;
         }
-        return sum/list.size();
+        return sum / list.size();
     }
 
     private Double calculateMedianRatioValues(List<Double> f) {
@@ -255,18 +287,18 @@ public class QueryController {
         List<Double> list = linesRatioValues(f);
         Collections.sort(list);
         if (list.size() % 2 != 0) {
-            Integer index = (int) Math.ceil((list.size()/2));
+            Integer index = (int) Math.ceil((list.size() / 2));
             return list.get(index);
         } else {
-            Integer index1 = (list.size()/2) - 1;
-            Integer index2 = list.size()/2;
-            return  (list.get(index1) + list.get(index2)) / 2d;
+            Integer index1 = (list.size() / 2) - 1;
+            Integer index2 = list.size() / 2;
+            return (list.get(index1) + list.get(index2)) / 2d;
         }
     }
 
     private Double calculateStandardDeviationRatioValues(List<Double> f) {
 
-        if ( f.size() == 0) {
+        if (f.size() == 0) {
             return null;
         }
         List<Double> list = linesRatioValues(f);
@@ -274,15 +306,15 @@ public class QueryController {
         Double m = calculateAverageRatioValues(f, list);
         Double sum = 0d;
         Integer i;
-        for ( i = 0; i < n; i++ ) {
-            sum += (list.get(i) - m)*(list.get(i) - m);
+        for (i = 0; i < n; i++) {
+            sum += (list.get(i) - m) * (list.get(i) - m);
         }
-        return Math.sqrt((1d/n)*sum);
+        return Math.sqrt((1d / n) * sum);
     }
 
     private Double calculateAverageAbsoluteDeviationRatioValues(List<Double> f) {
 
-        if ( f.size() == 0) {
+        if (f.size() == 0) {
             return null;
         }
         return 0.6475d * calculateStandardDeviationRatioValues(f);

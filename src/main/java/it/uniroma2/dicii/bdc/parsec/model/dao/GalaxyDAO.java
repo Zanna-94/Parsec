@@ -100,4 +100,12 @@ public class GalaxyDAO {
             throw new NoResultException();
         }
     }
+
+    public static List<String> findAllName() {
+
+        EntityManager entityManager = JPAInitializer.getEntityManager();
+        return entityManager.createQuery("select t.name from Galaxy t", String.class)
+                .getResultList();
+
+    }
 }

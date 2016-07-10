@@ -1,6 +1,8 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
+import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
+import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 
 import java.util.List;
 
@@ -21,7 +23,15 @@ public class GalaxiesBean {
      * {@link Galaxy} sorted by redshift
      * in ascending order
      */
-    List<Galaxy> galaxies;
+    private List<Galaxy> galaxies;
+
+    private List<String> galaxyName;
+
+    public void populate() {
+
+        galaxyName = GalaxyDAO.findAllName();
+
+    }
 
     public String getName(int index) {
         return galaxies.get(index).getName();
@@ -41,5 +51,13 @@ public class GalaxiesBean {
 
     public int getSize() {
         return galaxies.size();
+    }
+
+    public List<String> getGalaxyName() {
+        return galaxyName;
+    }
+
+    public void setGalaxyName(List<String> galaxyName) {
+        this.galaxyName = galaxyName;
     }
 }
