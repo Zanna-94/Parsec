@@ -7,7 +7,7 @@ import it.uniroma2.dicii.bdc.parsec.model.*;
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class QueryBoundary {
 
@@ -36,6 +36,8 @@ public class QueryBoundary {
     private Boolean atomSIII187;
     private Boolean atomSIII335;
     private Boolean atomSII348;
+
+    private Float redshift;
 
     /**
      * Default constructor
@@ -219,6 +221,14 @@ public class QueryBoundary {
         this.atomSII348 = atomSII348;
     }
 
+    public Float getRedshift() {
+        return redshift;
+    }
+
+    public void setRedshift(Float redshift) {
+        this.redshift = redshift;
+    }
+
     public ResultsBean getGalaxyByName() {
 
         if (galaxyName == null)
@@ -234,7 +244,7 @@ public class QueryBoundary {
             return null;
         }
 
-         return new ResultsBean(galaxy, luminosities, metallicities);
+        return new ResultsBean(galaxy, luminosities, metallicities);
     }
 
     public ResultsBean getGalaxySpectralLines() {

@@ -18,7 +18,7 @@ public class GalaxyDAO {
         em.getTransaction().begin();
 
         Galaxy old;
-        if (( old = em.find(Galaxy.class, galaxy.getName())) != null) {
+        if ((old = em.find(Galaxy.class, galaxy.getName())) != null) {
             old.update(galaxy);
             em.getTransaction().commit();
             return;
@@ -43,7 +43,7 @@ public class GalaxyDAO {
         em.getTransaction().begin();
 
         Galaxy userLoaded = em.find(Galaxy.class, toUpdate.getName());
-        
+
         userLoaded.update(toUpdate);
 
         em.getTransaction().commit();
@@ -69,6 +69,32 @@ public class GalaxyDAO {
             return entityManager.createQuery("select t from Galaxy t " +
                     "where (category = :category)", Galaxy.class)
                     .setParameter("category", category)
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
+
+    @SuppressWarnings("JpaQlInspection")
+    public static List<Galaxy> findLower(Float redshiftValue) throws NoResultException {
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            return entityManager.createQuery("select t from Galaxy t " +
+                    "where (redshift <= :r) ORDER BY redshift", Galaxy.class)
+                    .setParameter("r", redshiftValue)
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
+
+    @SuppressWarnings("JpaQlInspection")
+    public static List<Galaxy> findGreater(Float redshiftValue) throws NoResultException {
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            return entityManager.createQuery("select t from Galaxy t " +
+                    "where (redshift >= :r) ORDER BY redshift", Galaxy.class)
+                    .setParameter("r", redshiftValue)
                     .getResultList();
         } catch (NoResultException e) {
             throw new NoResultException();
