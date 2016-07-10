@@ -1,7 +1,6 @@
 package it.uniroma2.dicii.bdc.parsec.controller;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.uniroma2.dicii.bdc.parsec.model.*;
 import it.uniroma2.dicii.bdc.parsec.model.dao.*;
 import it.uniroma2.dicii.bdc.parsec.view.ImportForm;
@@ -17,8 +16,6 @@ import java.util.Random;
  * Recognized files' format listed into Format enumeration.
  */
 public class CSVManager {
-
-    private String filename;
 
     private static String tmpFile = "tmp";
 
@@ -55,18 +52,6 @@ public class CSVManager {
     public CSVManager() {
     }
 
-    public CSVManager(String filename) {
-        this.filename = filename;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
     /**
      * Writing a unique temporary file to compose a CSV file, based on a parsable format
      *
@@ -75,22 +60,22 @@ public class CSVManager {
      * @return path of the new CSV formatted file
      * @throws IOException
      */
-    private String composeFileToParse(Character delimiter, Integer fileFormat)
+    private String composeFileToParse(File file, Character delimiter, Integer fileFormat)
             throws IOException {
         /*  creating unique temporary file to write csv formatted file */
         Random r = new Random();
         Integer random = r.nextInt(100000 - 1) + 1;
 
-        // Buld temporany file's name
+        // Build temporary file's name
         tmpFile = tmpFile.concat(fileFormat.toString());
         tmpFile = tmpFile.concat(random.toString());
 
-        // Create temporany file
-        File temp = File.createTempFile("tempfile", ".tmp");
+        // Create temporary file
+        File temp = File.createTempFile(tmpFile, ".tmp");
 
         FileWriter w = new FileWriter(temp, true);
         String header = "";
-        BufferedReader br = new BufferedReader(new FileReader(filename));
+        BufferedReader br = new BufferedReader(new FileReader(file));
 
         Long indexCols = 0L;
         String line;
@@ -162,7 +147,7 @@ public class CSVManager {
         Character delimiter = getDelimiterByFormat(fileFormat);
 
         // compose new file without header and references
-        String f = composeFileToParse(delimiter, fileFormat);
+        String f = composeFileToParse(oldFile, delimiter, fileFormat);
         FileReader file = new FileReader(f);
 
         CSVFormat format = CSVFormat.EXCEL.withDelimiter(delimiter).withHeader();
