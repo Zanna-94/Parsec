@@ -1,6 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
-import it.uniroma2.dicii.bdc.parsec.model.dao.CSVManager;
+import it.uniroma2.dicii.bdc.parsec.controller.CSVManager;
+import it.uniroma2.dicii.bdc.parsec.model.CSVFile;
 
 import java.io.IOException;
 
@@ -27,9 +28,11 @@ public class ImportForm {
         if (filename == null)
             return false;
 
-        CSVManager cm = new CSVManager();
+        CSVManager fileManager = new CSVManager();
+        CSVFile file = fileManager.saveNewFile(this);
 
-        if (!cm.importFile(filename)) {
+
+        if (file == null) {
             return false;
         }
 

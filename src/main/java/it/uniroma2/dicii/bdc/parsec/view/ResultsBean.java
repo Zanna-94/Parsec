@@ -1,14 +1,11 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
-import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
 import it.uniroma2.dicii.bdc.parsec.model.Flux;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
 import it.uniroma2.dicii.bdc.parsec.model.Metallicity;
-import it.uniroma2.dicii.bdc.parsec.model.dao.CSVManager;
 import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 
-import java.io.IOException;
 import java.util.*;
 
 /**

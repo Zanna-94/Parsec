@@ -19,17 +19,6 @@
 
 </head>
 
-
-<%
-    if (request.getParameter("Upload") != null) {
-        if (Upload.validate()) {
-%>
-<jsp:forward page="index.jsp"/>
-<%
-        }
-    }
-%>
-
 <body>
 
 <%@include file="navbar.jsp" %>
@@ -57,6 +46,23 @@
                 <br>
                 <button class="btn btn-lg-1 btn-primary btn-block" id="Upload" name="Upload" value="Upload" type="Submit">Upload!
                 </button>
+
+                <%
+                    if (request.getParameter("Upload") != null) {
+                        if (Upload.validate()) {
+                %>
+                <jsp:forward page="index.jsp"/>
+                <%
+                } else {
+                        String msg = "File just uploaded before.";
+                        pageContext.setAttribute("msg", msg);
+                        }
+                %>
+                        <c:out value="${msg}">
+                <%
+                    }
+                %>
+
             </div>
         </form>
     </div>

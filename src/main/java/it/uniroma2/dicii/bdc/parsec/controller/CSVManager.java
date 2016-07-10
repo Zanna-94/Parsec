@@ -1,7 +1,10 @@
-package it.uniroma2.dicii.bdc.parsec.model.dao;
+package it.uniroma2.dicii.bdc.parsec.controller;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.uniroma2.dicii.bdc.parsec.model.*;
+import it.uniroma2.dicii.bdc.parsec.model.dao.*;
+import it.uniroma2.dicii.bdc.parsec.view.ImportForm;
 import org.apache.commons.csv.*;
 
 import java.io.*;
@@ -14,6 +17,8 @@ import java.util.Random;
  * Recognized files' format listed into Format enumeration.
  */
 public class CSVManager {
+
+    private String filename;
 
     private static String tmpFile = "tmp";
 
@@ -50,16 +55,27 @@ public class CSVManager {
     public CSVManager() {
     }
 
+    public CSVManager(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     /**
      * Writing a unique temporary file to compose a CSV file, based on a parsable format
      *
-     * @param filename   path of original CSV file
      * @param delimiter  char as delimiter of data in the CSV file
      * @param fileFormat type of CSV file to read
      * @return path of the new CSV formatted file
      * @throws IOException
      */
-    private String composeFileToParse(File filename, Character delimiter, Integer fileFormat)
+    private String composeFileToParse(Character delimiter, Integer fileFormat)
             throws IOException {
         /*  creating unique temporary file to write csv formatted file */
         Random r = new Random();
@@ -146,7 +162,7 @@ public class CSVManager {
         Character delimiter = getDelimiterByFormat(fileFormat);
 
         // compose new file without header and references
-        String f = composeFileToParse(oldFile, delimiter, fileFormat);
+        String f = composeFileToParse(delimiter, fileFormat);
         FileReader file = new FileReader(f);
 
         CSVFormat format = CSVFormat.EXCEL.withDelimiter(delimiter).withHeader();
@@ -595,4 +611,22 @@ public class CSVManager {
         }
         return f;
     }
+
+
+
+    public CSVFile saveNewFile(ImportForm form) {
+
+        CSVFile file = new CSVFile();
+        file.setName(form.getFilename());
+        file.setFormat(readFormat(form.getFilename()));
+
+        try {
+            CSV_DAO.store(file);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return file;
+    }
+
 }

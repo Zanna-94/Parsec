@@ -1,6 +1,6 @@
 package it.uniroma2.dicii.bdc.parsec;
 
-import it.uniroma2.dicii.bdc.parsec.model.dao.CSVManager;
+import it.uniroma2.dicii.bdc.parsec.controller.CSVManager;
 
 import java.io.IOException;
 
