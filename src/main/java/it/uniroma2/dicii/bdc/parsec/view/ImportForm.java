@@ -31,12 +31,10 @@ public class ImportForm {
         CSVManager fileManager = new CSVManager();
         CSVFile file = fileManager.saveNewFile(this);
 
-
         if (file == null) {
             return false;
         }
 
         return true;
     }
-
 }

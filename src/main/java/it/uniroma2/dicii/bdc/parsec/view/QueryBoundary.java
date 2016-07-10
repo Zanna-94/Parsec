@@ -1,6 +1,7 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
-import it.uniroma2.dicii.bdc.parsec.controller.QueryController;
+import it.uniroma2.dicii.bdc.parsec.controller.SearchQueryController;
+import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.*;
 
 import java.util.*;
@@ -223,7 +224,7 @@ public class QueryBoundary {
         if (galaxyName == null)
             return null;
 
-        QueryController controller = new QueryController();
+        SearchQueryController controller = new SearchQueryController();
 
         Galaxy galaxy = controller.searchGalaxyByName(galaxyName);
         List<Metallicity> metallicities = controller.searchMetallicityByGalaxy(galaxyName);
@@ -241,7 +242,7 @@ public class QueryBoundary {
         if (galaxyName == null)
             return null;
 
-        QueryController controller = new QueryController();
+        SearchQueryController controller = new SearchQueryController();
 
         List<Flux> fluxLines = controller.searchGalaxySpectralLines(this);
 
@@ -257,7 +258,7 @@ public class QueryBoundary {
         if (operation == null && resolution == null)
             return null;
 
-        QueryController controller = new QueryController();
+        StatisticsQueryController controller = new StatisticsQueryController();
 
         Double value = controller.calculateStatistics(this);
 
@@ -273,7 +274,7 @@ public class QueryBoundary {
         if (galaxyName == null)
             return null;
 
-        QueryController controller = new QueryController();
+        SearchQueryController controller = new SearchQueryController();
 
         List<Flux> fluxLines = controller.searchAllGalaxySpectralLines(this);
 
@@ -289,7 +290,7 @@ public class QueryBoundary {
         if (galaxyName == null || fluxNum == null || fluxDen == null)
             return null;
 
-        QueryController controller = new QueryController();
+        SearchQueryController controller = new SearchQueryController();
 
         List<Flux> fluxLines = controller.searchGalaxySpectralLinesForRatio(this);
 
