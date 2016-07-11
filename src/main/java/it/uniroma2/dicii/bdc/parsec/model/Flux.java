@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 
 /**
- *
+ * A Flux is a measurement for {@link Galaxy}. It can be continuous or associated to a line.
  */
 @Entity
 public class Flux extends Measure {
@@ -30,18 +30,33 @@ public class Flux extends Measure {
         this.typeFlux = type;
     }
 
+    /**
+     * it describes the error commits in the measurement
+     */
     @Column(columnDefinition = "real default -1")
     private Float error;
 
+    /**
+     * Indicates whether the measure is an upper limit
+     */
     @Column(columnDefinition = "varchar(1) default '*'")
     private Character upperLimit;
 
+    /**
+     * Flux line
+     */
     @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String atom;
 
+    /**
+     * 3x3 , 5x5 or c
+     */
     @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String resolution;
 
+    /**
+     * Continuos or associated to a line. If continuous atom is null
+     */
     @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String typeFlux;
 

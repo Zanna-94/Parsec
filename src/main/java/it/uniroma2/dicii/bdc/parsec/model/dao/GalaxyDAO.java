@@ -48,6 +48,51 @@ public class GalaxyDAO {
         em.getTransaction().commit();
     }
 
+    public static List<Galaxy> findInRange(Ascension ascension, Declination declination, Integer howMany)
+            throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement = null;
+        String query =
+                "select" +
+                        "  H.name," +
+                        "  altername," +
+                        "  category," +
+                        "  dist " +
+                        "from galaxy as H join (" +
+                        "                        select" +
+                        "                          G.name," +
+                        "                          acos(" +
+                        "                              sin(15 * ( ? + ? / 60 + ? / 3600)) *" +
+                        "                              sin(15 * (G.ascensionhour + G.ascensionmin / 60 + G.ascensionsec / 3600)) +" +
+                        "                              cos(15 * ( ? + ? / 60 + ? / 3600)) *" +
+                        "                              cos(15 * (G.ascensionhour + G.ascensionmin / 60 + G.ascensionsec / 3600)) *" +
+                        "                              cos(( ? + ? / 60 + ? / 3600) -" +
+                        "                                  (G.declinationdeg + G.declinationmin / 60 + G.declinationsec / 3600))" +
+                        "                          ) as dist" +
+                        "                        from galaxy as G" +
+                        "                      ) as D on H.name = D.name " +
+                        "order by dist";
+
+        statement = connection.prepareStatement(query);
+        statement.setInt(1, ascension.getAscensionHour());
+        statement.setInt(2, ascension.getAscensionMin());
+        statement.setFloat(3, ascension.getAscensionSec());
+        statement.setInt(4, ascension.getAscensionHour());
+        statement.setInt(5, ascension.getAscensionMin());
+        statement.setFloat(6, ascension.getAscensionSec());
+        statement.setInt(7, declination.getDeclinationDeg());
+        statement.setInt(8, declination.getDeclinationMin());
+        statement.setFloat(9, declination.getDeclinationSec());
+        ResultSet rs = statement.executeQuery();
+
+        // TODO: 11/07/16  
+
+        return null;
+
+
+    }
+
     public static List<List<String>> findDescriptionByName(String galaxyName)
             throws SQLException, ClassNotFoundException {
 
@@ -55,12 +100,12 @@ public class GalaxyDAO {
         PreparedStatement statement = null;
         String query =
                 "select distinct name, ascensionhour, ascensionmin, ascensionsec, " +
-                "declinationsign,declinationdeg,declinationmin,declinationsec," +
-                "distance, redshift, l.val, m.val, m.error " +
-                "from (" +
-                "galaxy as g join luminosity as l on g.name=l.galaxy_name\n" +
-                "join metallicity as m on l.galaxy_name=m.galaxy_name) " +
-                "where g.name = ?";
+                        "declinationsign,declinationdeg,declinationmin,declinationsec," +
+                        "distance, redshift, l.val, m.val, m.error " +
+                        "from (" +
+                        "galaxy as g join luminosity as l on g.name=l.galaxy_name" +
+                        "join metallicity as m on l.galaxy_name=m.galaxy_name) " +
+                        "where g.name = ?";
         List<List<String>> results = new ArrayList<List<String>>();
         try {
             statement = connection.prepareStatement(query);
@@ -85,14 +130,14 @@ public class GalaxyDAO {
                 i++;
             }
             return results;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
         }
@@ -147,7 +192,7 @@ public class GalaxyDAO {
     }
 
     public static List<Galaxy> searchInRange(Ascension ascension, Declination declination, Integer howMany)
-            throws NoResultException{
+            throws NoResultException {
 
         List<Galaxy> galaxy = new ArrayList<Galaxy>();
         return galaxy;

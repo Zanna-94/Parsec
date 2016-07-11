@@ -1,7 +1,6 @@
 package it.uniroma2.dicii.bdc.parsec.controller;
 
 
-import it.uniroma2.dicii.bdc.parsec.model.Administrator;
 import it.uniroma2.dicii.bdc.parsec.model.User;
 import it.uniroma2.dicii.bdc.parsec.model.dao.UserDAO;
 import it.uniroma2.dicii.bdc.parsec.view.RegistrationForm;
@@ -55,11 +54,8 @@ public class LoginController {
 
         // set the user a an administrator
         if (form.isAdministrator()) {
-            Administrator administrator = new Administrator();
-            user.setRole(administrator);
+            user.setAdministrator(true);
         }
-
-        // TODO: 04/07/16 generate userid
 
         try {
             UserDAO.store(user);

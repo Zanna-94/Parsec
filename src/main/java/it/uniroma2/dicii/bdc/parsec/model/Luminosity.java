@@ -5,14 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
 /**
- *
+ * Class represents the measure of luminosity for a {@link Galaxy}.
  */
 @Entity
 public class Luminosity extends Measure {
 
+    /**
+     * The measurement is associated to an atom
+     */
     @Column(columnDefinition = "varchar(255) default '-1'")
     private String atom;
 
+    /**
+     * Indicates whether the measure is an upper limit
+     */
     @Column(columnDefinition = "varchar(1) default '*'")
     private Character upperLimit;
 

@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JavaBean contains entity results from a query.
- *
- * @see ResearchRedshiftBean
- * @see Galaxy
+ * JavaBean contains all information required from the view, about {@link Galaxy},
+ * In general it contains information about a list of Galaxies.
+ * * @see Galaxy
  */
 public class GalaxiesBean {
 

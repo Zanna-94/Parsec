@@ -22,10 +22,15 @@ public class DemoStatistics {
         if (fluxes == null) {
             System.out.printf("No values\n");
         } else {
-            System.out.printf("avg %f\n", q.averageLinesRatioValues(category));
-            System.out.printf("med %f\n", q.medianLinesRatioValues(category));
-            System.out.printf("std %f\n", q.standarDeviationLinesRatioValues(category));
-            System.out.printf("astd %f\n", q.averageAbsoluteDeviationLinesRatioValues(category));
+            try {
+                System.out.printf("avg %f\n", q.averageLinesRatioValues(category));
+                System.out.printf("med %f\n", q.medianLinesRatioValues(category));
+                System.out.printf("std %f\n", q.standarDeviationLinesRatioValues(category));
+                System.out.printf("astd %f\n", q.averageAbsoluteDeviationLinesRatioValues(category));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
         }
 
         List<Double> fluxesByAperture = FluxDAO.findLinesByCategoryAndAperture(category, resolution);

@@ -3,7 +3,7 @@ package it.uniroma2.dicii.bdc.parsec.model;
 import javax.persistence.*;
 
 /**
- *
+ * Class represent a Galaxy with a name, a position and a category associated
  */
 @Entity
 public class Galaxy {
@@ -21,26 +21,35 @@ public class Galaxy {
         this.name = name;
         this.alterName = "-1";
         this.category = "-1";
-        this.position = new Position(-1f,-1f, new Declination('*',-1,-1,-1f), new Ascension(-1,-1,-1f));
+        this.position = new Position(-1f, -1f, new Declination('*', -1, -1, -1f), new Ascension(-1, -1, -1f));
     }
 
     @Id
     private String name;
 
+    /**
+     * Alternative name
+     */
     @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String alterName;
 
+    /**
+     * Each galaxy is classified according to the spectral characteristics
+     */
     @Column(columnDefinition = "VARCHAR(255) default '-1'")
     private String category;
 
+    /**
+     * @see Position
+     */
     @Embedded
     private Position position;
 
     /**
-     * Used by {@link it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO#update(Galaxy)}
-     * @param toupdate
+     * @param toupdate Entity to update in database
+     * @see it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO#update(Galaxy)
      */
-    public void update(Galaxy toupdate){
+    public void update(Galaxy toupdate) {
         this.name = toupdate.getName();
         if (toupdate.getAlterName().compareTo("-1") != 0)
             this.alterName = toupdate.getAlterName();
@@ -49,7 +58,6 @@ public class Galaxy {
         if (toupdate.getPosition().getDistanceValue() != -1)
             this.position = toupdate.getPosition();
     }
-
 
     /* Getter and Setter */
 

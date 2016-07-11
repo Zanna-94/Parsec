@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
- *
+ * Class represents a location of a {@link Galaxy} in the space
  */
 @Embeddable
 public class Position {
@@ -23,23 +23,25 @@ public class Position {
         this.ascension = ascension;
     }
 
-    /**
-     *
-     */
     @Column(name = "distance", columnDefinition = "real default -1")
     private Float distanceValue;
 
-    /**
-     *
-     */
     @Column(name = "redshift", columnDefinition = "real default -1")
     private Float redshift;
 
+    /**
+     * @see Ascension
+     */
     @Embedded
     private Ascension ascension;
 
+    /**
+     * @see Declination
+     */
     @Embedded
     private Declination declination;
+
+    /* Getter and Setter */
 
     public Ascension getAscension() {
         return ascension;

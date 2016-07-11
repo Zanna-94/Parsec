@@ -1,9 +1,24 @@
+<%@ page import="it.uniroma2.dicii.bdc.parsec.view.GalaxiesBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="PositionBean" class="it.uniroma2.dicii.bdc.parsec.view.PositionBean" scope="request"/>
 
 <jsp:setProperty name="PositionBean" property="*"/>
+
+<%
+    if (request.getParameter("Query") != null) {
+        GalaxiesBean galaxiesBean = PositionBean.calculate();
+        request.setAttribute("galaxyBean", galaxiesBean);
+
+%>
+<c:if test="${galaxyBean== null}">
+    <jsp:forward page="noresultsfound.jsp"/>
+</c:if>
+<%
+    }
+
+%>
 
 
 <!DOCTYPE html>
@@ -90,32 +105,36 @@
 
     <br>
 
-    <c:if test="${RatioFluxBean.ratio != null}">
-        <div class="container">
 
+    <div class="container">
+
+        <c:if test="${galaxyBean != null}">
             <c:choose>
 
-                <c:when test="${RatioFluxBean.ratio.size == 0}">
+                <c:when test="${galaxyBean.size == 0}">
                     <p> No resoult found</p>
                 </c:when>
 
                 <c:otherwise>
 
-
                     <table class="table table-condensed">
                         <thead>
                         <tr>
-                            <th>Resolution</th>
-                            <th>Result</th>
+                            <th>Name</th>
+                            <th>Alternative name</th>
+                            <th>Category</th>
+                            <th>Redshift</th>
                         </tr>
                         </thead>
 
                         <tbody>
+                        <c:forEach var="i" begin="0" end="${galaxyBean.size-1}">
 
-                        <c:forEach var="entry" items="${RatioFluxBean.ratio}">
                             <tr>
-                                <td><c:out value="${entry.key}"/></td>
-                                <td><c:out value="${entry.value}"/></td>
+                                <td><c:out value="${galaxyBean.getName(i)}"/></td>
+                                <td>${galaxyBean.getAlterName(i)}</td>
+                                <td>${galaxyBean.getCategory(i)}</td>
+                                <td>${galaxyBean.getRedshift(i)}</td>
                             </tr>
 
                         </c:forEach>
@@ -123,16 +142,12 @@
                         </tbody>
                     </table>
 
-
                 </c:otherwise>
-
             </c:choose>
 
-        </div>
+        </c:if>
 
-    </c:if>
-
-
+    </div>
 </div>
 </body>
 </html>

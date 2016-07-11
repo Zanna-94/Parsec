@@ -8,6 +8,11 @@ import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 
 import java.util.List;
 
+/**
+ * JavaBean contains all information about the location of a Galaxy.
+ *
+ * @see StatisticsQueryController#searchInRange(Ascension, Declination, Integer)
+ */
 public class PositionBean {
 
     private Integer ascensionHour;

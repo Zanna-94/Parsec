@@ -1,20 +1,14 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Generated;
-
-import javax.annotation.*;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.UUID;
 
 /**
  * Registered User Class.
  */
 @Entity
-@Table(name = "Consumer")
+@Table(name = "RegisteredUser")
 @SuppressWarnings("JpaDataSourceORMInspection")
 public class User {
 
@@ -40,10 +34,8 @@ public class User {
 
     private String email;
 
-    @OneToOne
-    @Cascade(CascadeType.ALL)
-    private Role role;
-
+    // An administrator has more permission in the system
+    private boolean isAdministrator;
 
     /**
      * @param toUpdate entity to update in database
@@ -55,17 +47,16 @@ public class User {
         this.email = toUpdate.getEmail();
         this.firstname = toUpdate.getFirstname();
         this.lastname = toUpdate.getLastname();
-        this.role = toUpdate.getRole();
+        this.isAdministrator = toUpdate.isAdministrator();
     }
 
     public boolean isAdministrator() {
-        if (role instanceof Administrator)
-            return true;
-
-        return false;
+        return isAdministrator;
     }
 
-    /* Getter and Setter */
+    public void setAdministrator(boolean administrator) {
+        isAdministrator = administrator;
+    }
 
     public String getFirstname() {
         return firstname;
@@ -107,12 +98,4 @@ public class User {
         this.email = email;
     }
 
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }

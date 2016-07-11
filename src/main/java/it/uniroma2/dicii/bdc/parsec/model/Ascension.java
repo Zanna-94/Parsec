@@ -1,14 +1,12 @@
 package it.uniroma2.dicii.bdc.parsec.model;
 
-import org.hibernate.loader.entity.CascadeEntityJoinWalker;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import java.util.*;
+
 
 /**
- * 
+ * @see Position#ascension
  */
 @Embeddable
 public class Ascension {
@@ -26,19 +24,19 @@ public class Ascension {
     }
 
     /**
-     * 
+     * ascension hour
      */
     @Column(columnDefinition = "int default -1")
     private Integer ascensionHour;
 
     /**
-     * 
+     * ascension minutes
      */
     @Column(columnDefinition = "int default -1")
     private Integer ascensionMin;
 
     /**
-     * 
+     * ascension seconds
      */
     @Column(columnDefinition = "real default -1")
     private Float ascensionSec;

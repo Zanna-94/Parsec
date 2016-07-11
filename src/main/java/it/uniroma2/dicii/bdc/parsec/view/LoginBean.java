@@ -19,20 +19,24 @@ public class LoginBean {
      */
     private boolean isLogged = false;
 
-
+    /**
+     * syntactic checks for loggin
+     *
+     * @return true if procedure ends successful and user exists in the System
+     */
     public boolean validate() {
 
         if (userId == null || password == null)
             return false;
 
-        LoginController controller = LoginController.getInstance();
-        User user = controller.login(userId, password);
+        LoginController controller = LoginController.getInstance(); // get controller
+        User user = controller.login(userId, password); // login return user instance
 
-        if (user == null)
+        if (user == null) // if user is null the entity is not in db
             return false;
 
-        isLogged = true;
-        isAdministrator = user.isAdministrator();
+        isLogged = true; // loggin
+        isAdministrator = user.isAdministrator(); // Check if user has administrator permission
 
         return true;
     }
