@@ -14,13 +14,14 @@ import java.util.Random;
 
 /**
  * Manage importation of new CSV file, loading data into database.
- * <p/>
+ *
  * Recognized files' format listed into Format enumeration.
  */
 public class CSVManager {
 
+    /* name of file to import   */
     private String filename;
-
+    /*  temporary file managed to parse    */
     private static String tmpFile = "tmp";
 
     /**
@@ -56,6 +57,11 @@ public class CSVManager {
     public CSVManager() {
     }
 
+
+    /**
+     * Constructor to link directly with a file
+     * @param filename name of file
+     */
     public CSVManager(String filename) {
         this.filename = filename;
     }
@@ -612,6 +618,14 @@ public class CSVManager {
         return f;
     }
 
+    /**
+     * After check if file has just been inserted into the system,
+     * if not, file is parsed and info in it are loaded into database
+     * and name of file and its format is saved into database too.
+     * @param form form containing filename to import
+     * @return CSVFile as entity associated to file to import
+     * @throws IOException
+     */
     public CSVFile saveNewFile(ImportForm form) throws IOException {
 
         filename = form.getFilename();
@@ -632,6 +646,10 @@ public class CSVManager {
         return file;
     }
 
+    /**
+     * List all file saved into database, which data has been previously imported in
+     * @return list of table tuple
+     */
     public List<String> getAllFiles() {
 
         List<String> files = new ArrayList<String>();
