@@ -31,16 +31,6 @@
 
 </head>
 
-<%
-    if (request.getParameter("Register") != null)
-        if (Register.validate()) {
-%>
-<jsp:forward page="index.jsp"/>
-<%
-        }
-%>
-
-
 <body>
 
 <%@include file="navbar.jsp" %>
@@ -115,6 +105,25 @@
     </div>
 </div>
 
-</body>
-</html>
+<%
+    if (request.getParameter("Register") != null) {
+        if (Register.validate()) {
+%>
+<jsp:forward page="index.jsp"/>
+<%
+} else {
+%>
+<br>
+<div class="alert alert-danger">
+    <strong>We are sorry!</strong> User-id already exist!!
+</div>
+<%
 
+        }
+    }
+%>
+
+
+</body>
+
+</html>

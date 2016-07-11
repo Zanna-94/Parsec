@@ -21,7 +21,7 @@ public class RegistrationForm {
 
     public boolean validate() {
 
-        if (firstname == null || lastname == null || email == null || password == null)
+        if (firstname == null || lastname == null || email == null || password == null || userId == null)
             return false;
 
         LoginController controller = LoginController.getInstance();

@@ -7,7 +7,7 @@ public class DemoLogin {
 
     public static void main(String args[]) {
 
-        User user0 = new User("Zanna", "password");
+        User user0 = new User("Zanna94", "password");
         user0.setFirstname("Emanuele");
         user0.setLastname("Vannacci");
         user0.setAdministrator(true);

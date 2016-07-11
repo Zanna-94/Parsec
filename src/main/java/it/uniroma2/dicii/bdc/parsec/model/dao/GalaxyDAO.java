@@ -81,7 +81,12 @@ public class GalaxyDAO {
         statement.setInt(4, ascension.getAscensionHour());
         statement.setInt(5, ascension.getAscensionMin());
         statement.setFloat(6, ascension.getAscensionSec());
-        statement.setInt(7, declination.getDeclinationDeg());
+
+        Integer declinationdeg = declination.getDeclinationDeg();
+        if (declination.getDeclinationSign() == '-')
+            declinationdeg *= -1;
+
+        statement.setInt(7, declinationdeg);
         statement.setInt(8, declination.getDeclinationMin());
         statement.setFloat(9, declination.getDeclinationSec());
         ResultSet rs = statement.executeQuery();

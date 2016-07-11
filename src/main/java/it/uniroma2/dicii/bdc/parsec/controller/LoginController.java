@@ -45,6 +45,10 @@ public class LoginController {
      */
     public User register(RegistrationForm form) {
 
+        // The user-Id is already used in the System
+        if (UserDAO.findBy(form.getUserId()) != null)
+            return null;
+
         User user = new User();
         user.setFirstname(form.getFirstname());
         user.setLastname(form.getLastname());
@@ -57,12 +61,7 @@ public class LoginController {
             user.setAdministrator(true);
         }
 
-        try {
-            UserDAO.store(user);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
+        UserDAO.store(user);
 
         return user;
 

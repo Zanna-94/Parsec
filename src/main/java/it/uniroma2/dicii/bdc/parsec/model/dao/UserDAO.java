@@ -14,9 +14,6 @@ public class UserDAO {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 
-        if (entityManager.find(User.class, user.getUserId()) != null)
-            throw new IllegalArgumentException("Entity already in db");
-
         entityManager.persist(user);
 
         entityManager.getTransaction().commit();
