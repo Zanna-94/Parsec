@@ -1,16 +1,11 @@
 package it.uniroma2.dicii.bdc.parsec.view;
 
 import it.uniroma2.dicii.bdc.parsec.controller.CSVManager;
-import it.uniroma2.dicii.bdc.parsec.model.Flux;
-import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
-import it.uniroma2.dicii.bdc.parsec.model.Luminosity;
-import it.uniroma2.dicii.bdc.parsec.model.Metallicity;
-import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 
 import java.util.*;
 
 /**
- *
+ * Class to manage dynamic composition of jsp page after query to show returning results.
  */
 public class ResultsBean {
 
@@ -67,7 +62,7 @@ public class ResultsBean {
     public Double getValue() {
         return value;
     }
-
+    
     public void setValue(Double value) {
         this.value = value;
     }
@@ -96,6 +91,10 @@ public class ResultsBean {
         this.operation = operation;
     }
 
+    /**
+     * List characteristics of position, distance, reshift, luminosity, metallicity and relative error
+     * of galaxy specified
+     */
     public void fillResultsForGalaxyDescription() {
 
         Integer n = description.size();
@@ -137,6 +136,9 @@ public class ResultsBean {
         }
     }
 
+    /**
+     * List into table rows, tuple of result of the values of line flux founded for the galaxy specified
+     */
     public void fillResultsForGalaxySpectralLines() {
 
         Integer n = description.size();
@@ -144,19 +146,19 @@ public class ResultsBean {
         results = "";
         while (iter < n) {
             results += "<tr>\n" +
-                    "<td>" + description.get(iter).get(0) + "</td>\n" +
+                    "<td>"+ description.get(iter).get(0) + "</td>\n" +
                     "<td>\n" + description.get(iter).get(1) + "</td>";
-            if (!description.get(iter).get(2).equals("-1")) {
-                results += "<td>" + description.get(iter).get(2) + "</td>\n";
+            if (!description.get(iter).get(2).equals("-1") ){
+                results += "<td>"+ description.get(iter).get(2) + "</td>\n";
             } else {
                 results += "<td>-</td>\n";
             }
-            if (!description.get(iter).get(3).equals("-1")) {
-                results += "<td>" + description.get(iter).get(3) + "</td>\n";
+            if (!description.get(iter).get(3).equals("-1") ){
+                results += "<td>"+ description.get(iter).get(3) + "</td>\n";
             } else {
                 results += "<td>-</td>\n";
             }
-            if (!description.get(iter).get(4).equals("*")) {
+            if (!description.get(iter).get(4).equals("*") ){
                 results += "<td>y</td>\n";
             } else {
                 results += "<td>n</td>\n";
@@ -165,23 +167,13 @@ public class ResultsBean {
         }
     }
 
-    /*public void fillLineFluxSelection() {
-
-        fluxes = FluxDAO.findAllLinesByGalaxy(galaxy);
-        results = "";
-        Integer iter = 0;
-        while (iter < fluxes.size()) {
-            results = results.concat("<option value=");
-            results = results.concat(fluxes.get(iter).getAtom());
-            results = results.concat(" </option>");
-            iter++;
-        }
-    }*/
-
+    /**
+     * Show value of ratio between two flux and if it is an upperlimit of lowerlimit
+     */
     public void fillResultsForTwoFluxesRatio() {
 
         results = "<td>" + ratio.get(0) + "</td>";
-        if (!ratio.get(1).equals("-")) {
+        if ( !ratio.get(1).equals("-")) {
             results = results.concat("<td>Upper limit</td>");
         } else if (!ratio.get(2).equals("*") && !ratio.get(2).equals("-")) {
             results = results.concat("<td>Lower limit</td>");
@@ -191,32 +183,48 @@ public class ResultsBean {
 
     }
 
+    /**
+     * List into table rows, tuple of result of the statistics operation chosen
+     */
     public void fillResultsForStatistics() {
 
         results = "<td>";
         results = results.concat(category);
         results = results.concat("</td><td>");
-        results = results.concat(operation);
+        if (operation.equals("avg"))
+            results = results.concat("Average value");
+        else if (operation.equals("astd"))
+            results = results.concat("Absolute average standard deviation");
+        else if (operation.equals("std"))
+            results = results.concat("Standard deviation");
+        else if (operation.equals("med"))
+            results = results.concat("Median value");
         results = results.concat("</td><td>");
         results = results.concat(value.toString());
         results = results.concat("</td><td>");
-        if (resolution.length() > 0) {
-            results = results.concat("resolution");
+        if ( resolution.length() != 0) {
+            results = results.concat(resolution);
+        } else {
+            results = results.concat("-");
         }
         results = results.concat("</td>");
     }
 
+    /**
+     * List name of file imported into system
+     */
     public void getListOfFiles() {
 
         CSVManager cm = new CSVManager();
         List<String> files = cm.getAllFiles();
 
+        results = "";
         if (files.size() == 0) {
             results = "No files uploaded.";
         } else {
             results += "<ul class=\"list-group\">";
-            Integer i;
-            for (i = 0; i < files.size(); i++) {
+                    Integer i;
+            for ( i = 0; i < files.size(); i++) {
                 results = results.concat("<li class=\"list-group-item\">");
                 results = results.concat(files.get(i));
                 results = results.concat("</li>");
