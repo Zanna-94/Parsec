@@ -48,6 +48,17 @@ public class GalaxyDAO {
         em.getTransaction().commit();
     }
 
+    public static Galaxy findByName(String name) {
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            return entityManager.createQuery("from Galaxy where (name = :name)", Galaxy.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
+
     public static List<Galaxy> findInRange(Ascension ascension, Declination declination, Integer howMany)
             throws SQLException, ClassNotFoundException {
 
@@ -71,8 +82,10 @@ public class GalaxyDAO {
                         "                                  (G.declinationdeg + G.declinationmin / 60 + G.declinationsec / 3600))" +
                         "                          ) as dist" +
                         "                        from galaxy as G" +
-                        "                      ) as D on H.name = D.name " +
-                        "order by dist";
+                        "                      ) as D on H.name = D.name WHERE ascensionsec != -1 AND ascensionmin != -1" +
+                        "                            AND H.ascensionhour != -1 AND H.declinationsec != -1 " +
+                        "                            AND H.declinationdeg != -1 AND H.declinationmin != -1" +
+                        "                               order by dist";
 
         statement = connection.prepareStatement(query);
         statement.setInt(1, ascension.getAscensionHour());
@@ -83,8 +96,9 @@ public class GalaxyDAO {
         statement.setFloat(6, ascension.getAscensionSec());
 
         Integer declinationdeg = declination.getDeclinationDeg();
-        if (declination.getDeclinationSign() == '-')
-            declinationdeg *= -1;
+        if (declination.getDeclinationSign() != null)
+            if (declination.getDeclinationSign() == '-')
+                declinationdeg *= -1;
 
         statement.setInt(7, declinationdeg);
         statement.setInt(8, declination.getDeclinationMin());
