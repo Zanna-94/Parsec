@@ -14,7 +14,6 @@
 
     <!-- Bootstrap core CSS -->
     <%@include file="header.html" %>
-    <link rel="stylesheet" href="resources/css/login.css">
 
 </head>
 

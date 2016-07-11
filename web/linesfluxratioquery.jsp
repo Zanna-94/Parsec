@@ -12,17 +12,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <!--<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">-->
 
     <!-- Bootstrap core CSS -->
     <%@include file="header.html" %>
-    <script src="resources/js/registration.js"></script>
-    <link rel="stylesheet" href="resources/css/login.css">
 </head>
 
 <body>
@@ -93,7 +85,7 @@
                     %>
                     <jsp:forward page="noresultsfound.jsp"/>
                         <%
-                    } else if (Results.getFluxes().size() < 2) {
+                    } else if (Results.getRatio().size() < 2) {
                      %>
                     <jsp:forward page="noresultsfound.jsp"/>
                     <%
@@ -105,8 +97,8 @@
                             <thead>
                             <tr>
                                 <th>Galaxy name</th>
-                                <th>Ratio Flux<%out.print(Results.getFluxes().get(0).getAtom());%>/
-                                    Flux<%out.print(Results.getFluxes().get(1).getAtom());%></th>
+                                <th>Ratio Flux<%out.print(Results.getRatio().get(1));%>/
+                                    Flux<%out.print(Results.getRatio().get(2));%></th>
                                 <th>Upper or Lower limit?</th>
                             </tr>
                             </thead>
