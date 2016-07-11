@@ -166,6 +166,10 @@ public class GalaxyDAO {
             }
         }
 
+        // resources release
+        statement.close();
+        connection.close();
+
         return galaxies;
     }
 

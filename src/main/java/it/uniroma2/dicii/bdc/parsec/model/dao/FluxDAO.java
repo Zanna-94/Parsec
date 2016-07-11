@@ -78,14 +78,14 @@ public class FluxDAO {
                 i++;
             }
             return results;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
         }
@@ -132,14 +132,14 @@ public class FluxDAO {
                 i++;
             }
             return results;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
         }
@@ -209,18 +209,18 @@ public class FluxDAO {
             statement.setString(1, category);
             statement.setString(2, category);
             ResultSet rs = statement.executeQuery();
-            if ( rs != null ) {
+            if (rs != null) {
                 result = rs.getDouble(0);
             }
             return result;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
         }
@@ -256,6 +256,9 @@ public class FluxDAO {
         }
         rs.close();
 
+        // resources release
+        statement.close();
+        connection.close();
         return result;
     }
 
@@ -282,18 +285,18 @@ public class FluxDAO {
             statement.setString(3, category);
             statement.setString(4, aperture);
             ResultSet rs = statement.executeQuery();
-            if ( rs != null ) {
+            if (rs != null) {
                 result = rs.getDouble(0);
             }
             return result;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
         }
@@ -330,14 +333,14 @@ public class FluxDAO {
                 i++;
             }
             return results;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
         }
@@ -367,19 +370,19 @@ public class FluxDAO {
             statement.setString(3, galaxyName);
             statement.setString(4, line2);
             ResultSet rs = statement.executeQuery();
-            if ( rs != null ) {
+            if (rs != null) {
                 result = rs.getDouble(0);
             }
 
             return result;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
         }
@@ -415,14 +418,14 @@ public class FluxDAO {
                 i++;
             }
             return results;
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // release resources
-            if(statement != null){
+            if (statement != null) {
                 statement.close();
             }
-            if(connection != null){
+            if (connection != null) {
                 connection.close();
             }
             return null;

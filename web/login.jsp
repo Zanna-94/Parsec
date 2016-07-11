@@ -19,7 +19,6 @@
 
 
 <%
-
     if (Login.isLogged()) {
         Login.logout();
 %>
