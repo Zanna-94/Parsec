@@ -12,6 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class SearchLinesByGalaxyTest {
 
+    /**
+     * REQ-FN-8: Values of line flux of a galaxy
+     * [atom, value, error, upperlimit]
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
     public void getFluxLinesValuesByGalaxy() throws SQLException, IOException, ClassNotFoundException {
 
@@ -19,7 +26,7 @@ public class SearchLinesByGalaxyTest {
         QueryBoundary q = new QueryBoundary();
         q.setGalaxyName("Mrk622");
 
-        /*  examples of line flux values of galaxy Mrk622   */
+        /*  known line flux values of galaxy Mrk622   */
         Double val1 = 10.9d;
         Double val2 = -1.0d;
         Double val3 = 9.5d;

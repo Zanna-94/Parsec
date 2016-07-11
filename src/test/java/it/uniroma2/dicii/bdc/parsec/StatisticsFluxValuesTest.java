@@ -2,6 +2,7 @@ package it.uniroma2.dicii.bdc.parsec;
 
 
 import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
+import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 import org.junit.Test;
 
@@ -11,46 +12,42 @@ import static org.junit.Assert.assertEquals;
 
 public class StatisticsFluxValuesTest {
 
+    /**
+     * REQ-FN-10: Values of ratio between lines by spectral group.
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
-    public void getStatisticsByCategory() throws SQLException, ClassNotFoundException {
+    public void getAverageByCategory() throws SQLException, ClassNotFoundException {
 
         QueryBoundary q = new QueryBoundary();
         q.setCategory("S2");
 
-        Double expectedAvg = 1.92d;
-        Double expectedMedian = 0.097786d;
-        Double expectedStdDev = 149.597636d;
-        Double expectedAbsStdDev = 96.864469d;
+        Double expectedAvg = 16.9d;
 
         q.setOperation("avg");
-        //assertEquals(expectedAvg, q.getStatistics().getValue(), 0.001d);
-        q.setOperation("med");
-        //assertEquals(expectedMedian, q.getStatistics().getValue(), 0.001d);
-        q.setOperation("std");
-        //assertEquals(expectedStdDev, q.getStatistics().getValue(), 5d);
-        q.setOperation("astd");
-        assertEquals(expectedAbsStdDev, q.getStatistics().getValue(), 1d);
-
+        assertEquals(expectedAvg, FluxDAO.findAverageFluxLinesRatioByCategory("S2"), 0.1d);
     }
 
+    /**
+     * REQ-FN-10.1: Values of ratio between lines by spectral group,
+     * specifying a type of aperture.
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
-    public void getStatisticsByCategoryAndAperture() {
+    public void getAverageByCategoryAndAperture() throws SQLException, ClassNotFoundException {
 
-        StatisticsQueryController q = new StatisticsQueryController();
+        StatisticsQueryController s = new StatisticsQueryController();
+        QueryBoundary q = new QueryBoundary();
+        q.setCategory("S2");
 
-        String category = "S2";
-        Double expectedAvg = 1.92d;
-        Double expectedMedian = 0.097786d;
-        Double expectedStdDev = 149.597636d;
-        Double expectedAbsStdDev = 96.864469d;
-        String resolution = "c";
+        Double expectedAvg = 10.3d;
 
-        System.out.printf("avg aperture %f\n", q.averageLinesRatioValuesByAperture(category, resolution));
-        System.out.printf("med aperture %f\n", q.medianLinesRatioValuesByAperture(category, resolution));
-        System.out.printf("std aperture %f\n", q.standarDeviationLinesRatioValuesByAperture(category, resolution));
-        System.out.printf("astd aperture %f\n", q.averageAbsoluteDeviationLinesRatioValuesByAperture(category, resolution));
-
-
+        q.setOperation("avg");
+        assertEquals(expectedAvg, FluxDAO.findAverageFluxLinesRatioByCategoryAndAperture("S2", "c"), 0.1d);
     }
 
 }

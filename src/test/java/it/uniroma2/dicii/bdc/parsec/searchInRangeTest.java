@@ -14,7 +14,8 @@ import java.util.List;
 import java.lang.Math;
 
 /**
- * Requisite 6 Test
+ * REQ-FN-6: Search first n-galaxies ordered by distance value in a
+ * range from a given value
  */
 public class searchInRangeTest {
 

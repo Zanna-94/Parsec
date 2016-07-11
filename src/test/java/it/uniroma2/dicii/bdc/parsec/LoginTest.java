@@ -9,6 +9,9 @@ import org.junit.Test;
 
 public class LoginTest {
 
+    /**
+     * REQ-FN-1: Registered user access with user id and password
+     */
     @Test
     public void userLogin() {
 
@@ -22,6 +25,10 @@ public class LoginTest {
 
     }
 
+    /**
+     * REQ-FN-2: Register new user with name, surname, email, password, userId
+     * as administrator or registered user
+     */
     @Test
     public void userRegistration() {
 

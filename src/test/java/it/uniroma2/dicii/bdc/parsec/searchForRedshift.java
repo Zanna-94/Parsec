@@ -8,7 +8,8 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * Requisite 7 Test
+ * REQ-FN-7: Search first n-galaxies ordered by redshift value greater
+ * or lower than a given one
  */
 public class searchForRedshift {
 
