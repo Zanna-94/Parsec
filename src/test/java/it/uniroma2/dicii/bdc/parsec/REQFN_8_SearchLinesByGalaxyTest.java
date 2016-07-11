@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class SearchLinesByGalaxyTest {
+public class REQFN_8_SearchLinesByGalaxyTest {
 
     /**
      * REQ-FN-8: Values of line flux of a galaxy

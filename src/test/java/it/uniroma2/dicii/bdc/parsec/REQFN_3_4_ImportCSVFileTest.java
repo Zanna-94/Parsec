@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class ImportCSVFileTest {
+public class REQFN_3_4_ImportCSVFileTest {
 
     /**
      * REQ-FN-3A: Import data of a CSV file into database

@@ -11,7 +11,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * REQ-FN-11: Ratio between line flux and continuous flux
  */
-public class RatioFluxContinuous {
+public class REQFN_11_RatioFluxContinuous {
 
     @Test
     public void calculateFluxRatio() {

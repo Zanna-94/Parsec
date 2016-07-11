@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 
-public class RatioTwoLinesValuesTest {
+public class REQFN_9_RatioTwoLinesValuesTest {
 
     /**
      * REQ-FN-9: Values of ratio between lines by spectral group.

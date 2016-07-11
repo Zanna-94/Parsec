@@ -11,7 +11,7 @@ import java.util.List;
  * REQ-FN-7: Search first n-galaxies ordered by redshift value greater
  * or lower than a given one
  */
-public class searchForRedshift {
+public class REQFN_7_SearchForRedshift {
 
     @Test
     public void searchForRedshift() {

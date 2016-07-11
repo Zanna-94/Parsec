@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 
-public class StatisticsFluxValuesTest {
+public class REQFN_10_StatisticsFluxValuesTest {
 
     /**
      * REQ-FN-10: Values of ratio between lines by spectral group.
