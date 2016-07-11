@@ -12,7 +12,7 @@
                     <c:if test="${Login.logged}">
                         <li><a href="login.jsp">Logout</a></li>
                         <c:if test="${Login.administrator}">
-                            <li><a href="importfile.jsp">Manage data</a></li>
+                            <li><a href="importFile.jsp">Manage data</a></li>
                             <li><a href="registration.jsp">Register a new User</a></li>
                         </c:if>
                     </c:if>

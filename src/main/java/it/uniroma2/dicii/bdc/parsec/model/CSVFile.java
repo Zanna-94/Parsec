@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
+ * Class represents a file imported in the database.
  */
 @Entity
 @Table(name = "Files")
@@ -15,6 +15,9 @@ public class CSVFile {
     @Id
     private String name;
 
+    /**
+     * file format (es. .csv)
+     */
     private Integer format;
 
     public CSVFile() {

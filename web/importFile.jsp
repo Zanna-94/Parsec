@@ -24,7 +24,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-    <form role="form" action="importfile.jsp">
+    <form role="form" action="importFile.jsp">
         <h2>Select a file to upload</h2>
             <hr class="colorgraph">
             <br>
@@ -48,14 +48,14 @@
                     if (request.getParameter("Upload") != null) {
                         if (Upload.validate()) {
                 %>
-                <jsp:forward page="fileimported.jsp"/>
+                <jsp:forward page="fileImported.jsp"/>
                 <%
                 } else {
                         String msg = "File just uploaded before.";
                         pageContext.setAttribute("msg", msg);
                         }
                 %>
-                        <jsp:forward page="importfile.jsp"/>
+                        <jsp:forward page="importFile.jsp"/>
                         <c:out value="${msg}"></c:out>
                 <%
                     }

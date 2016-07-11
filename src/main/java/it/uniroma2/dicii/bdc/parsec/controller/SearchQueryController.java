@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * Class to manage interaction between beans and database to elaborate queries.
- *
  */
 public class SearchQueryController {
 
@@ -23,6 +22,7 @@ public class SearchQueryController {
     /**
      * Calculation of value of ratio between two line flux values
      * specified into boundary for this query
+     *
      * @param query query containing name of galaxy and two lines
      * @return a tuple as result of query with: value of ratio,
      * indication of upperlimit for numerator value, indication of upperlimit for
@@ -33,7 +33,7 @@ public class SearchQueryController {
         try {
             List<String> list = FluxDAO.findRatioBetweenTwoLinesFluxValues(
                     query.getGalaxyName(), query.getFluxNum(), query.getFluxDen());
-            System.out.printf("%s",list);
+            System.out.printf("%s", list);
             return list;
         } catch (NoResultException e) {
             e.printStackTrace();

@@ -26,7 +26,7 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <form role="form" method="post" action="linesratiostatisticsquery.jsp" name="Query_Form" class="form-signin">
+            <form role="form" method="post" action="linesRatioStatisticsQuery.jsp" name="Query_Form" class="form-signin">
                 <h3 class="form-signin-heading">Select a statistics operation</h3>
                 <hr class="colorgraph">
                 <br>

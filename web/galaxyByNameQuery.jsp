@@ -15,7 +15,6 @@
 
     <!-- Bootstrap core CSS -->
     <%@include file="header.html" %>
-    <!--<link rel="stylesheet" href="resources/css/login.css">-->
 
 </head>
 
@@ -28,7 +27,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-        <form role="form" method="post" action="galaxybynamequery.jsp" name="Query_Form" class="form-signin">
+        <form role="form" method="post" action="galaxyByNameQuery.jsp" name="Query_Form" class="form-signin">
             <h3 class="form-signin-heading">Insert name of galaxy to search</h3>
             <hr class="colorgraph">
             <br>

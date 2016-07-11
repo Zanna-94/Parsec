@@ -41,21 +41,21 @@
     <div class="row marketing">
         <c:if test="${Login.logged}">
             <div class="col-lg-6">
-                <h4><a href="galaxybynamequery.jsp">Search a galaxy</a></h4>
+                <h4><a href="galaxyByNameQuery.jsp">Search a galaxy</a></h4>
                 <p>Using name of an existent galaxy, you can know its position, distance
                     (with relative redshift error), luminosity and metallicity (with relative errors).</p>
 
-                <h4><a href="linesfluxbynamequery.jsp">Search lines flux</a></h4>
+                <h4><a href="linesFluxByNameQuery.jsp">Search lines flux</a></h4>
                 <p>Using name of an existent galaxy and selecting which spectral lines you want to know value of flux,
                     you can visualize the value (and relative error) and the type of atom used for measurement.</p>
 
-                <h4><a href="linesfluxratioquery.jsp">Calculate lines flux ratio</a></h4>
+                <h4><a href="linesFluxRatioQuery.jsp">Calculate lines flux ratio</a></h4>
                 <p>Using name of an existent galaxy and selecting which spectral lines you want to divide value of,
                     you can visualize the result of ratio and if it's an upper or lower limit or not.</p>
             </div>
 
             <div class="col-lg-6">
-                <h4><a href="linesratiostatisticsquery.jsp">Calculate statistics of lines flux ratio</a></h4>
+                <h4><a href="linesRatioStatisticsQuery.jsp">Calculate statistics of lines flux ratio</a></h4>
                 <p>Selecting which statistics you want to know (average value, standard deviation, median,
                     absolute average deviation) about spectral lines values ratio, you can visualize
                     results grouped by spectral
