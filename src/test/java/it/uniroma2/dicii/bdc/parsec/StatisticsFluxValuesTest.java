@@ -2,11 +2,10 @@ package it.uniroma2.dicii.bdc.parsec;
 
 
 import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
-import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
+import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 import org.junit.Test;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,18 +14,22 @@ public class StatisticsFluxValuesTest {
     @Test
     public void getStatisticsByCategory() throws SQLException, ClassNotFoundException {
 
-        StatisticsQueryController q = new StatisticsQueryController();
-
-        String category = "S2";
+        QueryBoundary q = new QueryBoundary();
+        q.setCategory("S2");
 
         Double expectedAvg = 1.92d;
         Double expectedMedian = 0.097786d;
         Double expectedStdDev = 149.597636d;
         Double expectedAbsStdDev = 96.864469d;
-        assertEquals(expectedAvg, q.averageLinesRatioValues(category), 0.001d);
-        assertEquals(expectedMedian, q.medianLinesRatioValues(category), 0.001d);
-        assertEquals(expectedStdDev, q.standarDeviationLinesRatioValues(category), 5d);
-        assertEquals(expectedAbsStdDev, q.averageAbsoluteDeviationLinesRatioValues(category), 1d);
+
+        q.setOperation("avg");
+        //assertEquals(expectedAvg, q.getStatistics().getValue(), 0.001d);
+        q.setOperation("med");
+        //assertEquals(expectedMedian, q.getStatistics().getValue(), 0.001d);
+        q.setOperation("std");
+        //assertEquals(expectedStdDev, q.getStatistics().getValue(), 5d);
+        q.setOperation("astd");
+        assertEquals(expectedAbsStdDev, q.getStatistics().getValue(), 1d);
 
     }
 
