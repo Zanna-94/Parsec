@@ -15,7 +15,7 @@
 <%
     if (request.getParameter("Query") != null) {
 
-        if (!RatioFluxBean.calculate() || RatioFluxBean.getRatio() == null) {
+        if (!RatioFluxBean.calculate() || RatioFluxBean.getSize() == 0) {
 %>
 <jsp:forward page="noresultsfound.jsp"/>
 <%
@@ -32,7 +32,6 @@
 
     <!-- Bootstrap core CSS -->
     <%@include file="header.html" %>
-    <%--<link rel="stylesheet" href="resources/css/login.css">--%>
 
 </head>
 
@@ -107,7 +106,7 @@
 
             <c:choose>
 
-                <c:when test="${RatioFluxBean.ratio.size == 0}">
+                <c:when test="${RatioFluxBean.size == 0}">
                     <jsp:forward page="noresultsfound.jsp"/>
                 </c:when>
 

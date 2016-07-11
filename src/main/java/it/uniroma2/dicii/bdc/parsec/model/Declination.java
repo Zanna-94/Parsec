@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- *
+ * @see Position
  */
 @Embeddable
 public class Declination {
@@ -23,25 +23,25 @@ public class Declination {
     }
 
     /**
-     *
+     * Sign for declination ( '+' , '-' or Null )
      */
     @Column(columnDefinition = "varchar(1) default '*'")
     private Character declinationSign;
 
     /**
-     *
+     * declination minutes
      */
     @Column(columnDefinition = "int default -1")
     private Integer declinationMin;
 
     /**
-     *
+     * declination degree
      */
     @Column(columnDefinition = "int default -1")
     private Integer declinationDeg;
 
     /**
-     *
+     * declination seconds
      */
     @Column(columnDefinition = "real default -1")
     private Float declinationSec;

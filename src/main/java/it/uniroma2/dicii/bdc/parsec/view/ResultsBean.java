@@ -10,7 +10,7 @@ import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class ResultsBean {
 
@@ -67,7 +67,7 @@ public class ResultsBean {
     public Double getValue() {
         return value;
     }
-    
+
     public void setValue(Double value) {
         this.value = value;
     }
@@ -96,7 +96,7 @@ public class ResultsBean {
         this.operation = operation;
     }
 
-    public void fillResultsForGalaxyDescription(List<List<String>> description) {
+    public void fillResultsForGalaxyDescription() {
 
         Integer n = description.size();
         Integer iter = 0;
@@ -144,19 +144,19 @@ public class ResultsBean {
         results = "";
         while (iter < n) {
             results += "<tr>\n" +
-                    "<td>"+ description.get(iter).get(0) + "</td>\n" +
+                    "<td>" + description.get(iter).get(0) + "</td>\n" +
                     "<td>\n" + description.get(iter).get(1) + "</td>";
-            if (!description.get(iter).get(2).equals("-1") ){
-                results += "<td>"+ description.get(iter).get(2) + "</td>\n";
+            if (!description.get(iter).get(2).equals("-1")) {
+                results += "<td>" + description.get(iter).get(2) + "</td>\n";
             } else {
                 results += "<td>-</td>\n";
             }
-            if (!description.get(iter).get(3).equals("-1") ){
-                results += "<td>"+ description.get(iter).get(3) + "</td>\n";
+            if (!description.get(iter).get(3).equals("-1")) {
+                results += "<td>" + description.get(iter).get(3) + "</td>\n";
             } else {
                 results += "<td>-</td>\n";
             }
-            if (!description.get(iter).get(4).equals("*") ){
+            if (!description.get(iter).get(4).equals("*")) {
                 results += "<td>y</td>\n";
             } else {
                 results += "<td>n</td>\n";
@@ -181,7 +181,7 @@ public class ResultsBean {
     public void fillResultsForTwoFluxesRatio() {
 
         results = "<td>" + ratio.get(0) + "</td>";
-        if ( !ratio.get(1).equals("-")) {
+        if (!ratio.get(1).equals("-")) {
             results = results.concat("<td>Upper limit</td>");
         } else if (!ratio.get(2).equals("*") && !ratio.get(2).equals("-")) {
             results = results.concat("<td>Lower limit</td>");
@@ -200,7 +200,7 @@ public class ResultsBean {
         results = results.concat("</td><td>");
         results = results.concat(value.toString());
         results = results.concat("</td><td>");
-        if ( resolution.length() > 0) {
+        if (resolution.length() > 0) {
             results = results.concat("resolution");
         }
         results = results.concat("</td>");
@@ -215,8 +215,8 @@ public class ResultsBean {
             results = "No files uploaded.";
         } else {
             results += "<ul class=\"list-group\">";
-                    Integer i;
-            for ( i = 0; i < files.size(); i++) {
+            Integer i;
+            for (i = 0; i < files.size(); i++) {
                 results = results.concat("<li class=\"list-group-item\">");
                 results = results.concat(files.get(i));
                 results = results.concat("</li>");
