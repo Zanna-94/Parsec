@@ -8,14 +8,26 @@ import javax.persistence.NoResultException;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Class manages {@link Galaxy} persistence in the database
+ *
+ * @see Galaxy
+ */
+@SuppressWarnings("ALL")
 public class GalaxyDAO {
 
+    /**
+     * Save a new instance of Galaxy
+     *
+     * @param galaxy instance to persist
+     */
     public static void store(Galaxy galaxy) {
 
         EntityManager em = JPAInitializer.getEntityManager();
 
         em.getTransaction().begin();
 
+        // if the instance is already present in the db, just update
         Galaxy old;
         if ((old = em.find(Galaxy.class, galaxy.getName())) != null) {
             old.update(galaxy);
@@ -27,6 +39,11 @@ public class GalaxyDAO {
         em.getTransaction().commit();
     }
 
+    /**
+     * Delete an instance of Galaxy from the database
+     *
+     * @param toDelete instance to delete
+     */
     public static void delete(Galaxy toDelete) {
         EntityManager em = JPAInitializer.getEntityManager();
         em.getTransaction().begin();
@@ -37,6 +54,11 @@ public class GalaxyDAO {
         em.getTransaction().commit();
     }
 
+    /**
+     * Update an instance of Galaxy already present in the database
+     *
+     * @param toUpdate instance to update
+     */
     public static void update(Galaxy toUpdate) {
         EntityManager em = JPAInitializer.getEntityManager();
         em.getTransaction().begin();
@@ -48,6 +70,10 @@ public class GalaxyDAO {
         em.getTransaction().commit();
     }
 
+    /**
+     * @param name galaxy's id
+     * @return the instance of Galaxy found
+     */
     public static Galaxy findByName(String name) {
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
@@ -59,9 +85,21 @@ public class GalaxyDAO {
         }
     }
 
+    /**
+     * Given a spatial position it finds the n-nearest galaxies.
+     * Using jdbc because jpql doens't have trigonometric functions
+     *
+     * @param ascension   {@link Position#ascension}
+     * @param declination {@link Position#declination}
+     * @param howMany     Indicates how many instance of Galaxy must be returned most
+     * @return a list of Galaxy instances
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Galaxy> findInRange(Ascension ascension, Declination declination, Integer howMany)
             throws SQLException, ClassNotFoundException {
 
+        // Create db connection
         Connection connection = JDBCInitializer.getConnection();
         PreparedStatement statement;
         String query =
@@ -87,6 +125,7 @@ public class GalaxyDAO {
                         "                            AND H.declinationdeg != -1 AND H.declinationmin != -1" +
                         "                               order by dist";
 
+        // set parameters for the query
         statement = connection.prepareStatement(query);
         statement.setInt(1, ascension.getAscensionHour());
         statement.setInt(2, ascension.getAscensionMin());
@@ -95,6 +134,7 @@ public class GalaxyDAO {
         statement.setInt(5, ascension.getAscensionMin());
         statement.setFloat(6, ascension.getAscensionSec());
 
+        // include the sign of declination in the degree
         Integer declinationdeg = declination.getDeclinationDeg();
         if (declination.getDeclinationSign() != null)
             if (declination.getDeclinationSign() == '-')
@@ -105,16 +145,21 @@ public class GalaxyDAO {
         statement.setFloat(9, declination.getDeclinationSec());
         ResultSet rs = statement.executeQuery();
 
+        // Declare result variable
         ArrayList<Galaxy> galaxies = new ArrayList<Galaxy>();
         int i = 0;
+        // scroll the cursor and create new
+        // instance of galaxy with found information
         while (rs.next()) {
             Galaxy galaxy = new Galaxy();
             galaxy.setName(rs.getString("name"));
             galaxy.setAlterName(rs.getString("altername"));
             galaxy.setCategory(rs.getString("category"));
+            // add galaxy to results list
             galaxies.add(galaxy);
 
             i++;
+            // close the cursor and break
             if (i >= howMany) {
                 rs.close();
                 break;
@@ -124,6 +169,15 @@ public class GalaxyDAO {
         return galaxies;
     }
 
+    /**
+     * Find all information about a Galaxy specified by its name
+     *
+     * @param galaxyName galaxy's id
+     * @return a List of tuples. Each tuple has Galaxy's name, Position, distance,
+     * Luminosity and Metallicity
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<List<String>> findDescriptionByName(String galaxyName)
             throws SQLException, ClassNotFoundException {
 
@@ -175,6 +229,13 @@ public class GalaxyDAO {
         return null;
     }
 
+    /**
+     * Find All Galaxy belongs to a category
+     *
+     * @param category {@link Galaxy#category}
+     * @return list of galaxy instances
+     * @throws NoResultException if no instances found in db
+     */
     public static List<Galaxy> findByCategory(String category) throws NoResultException {
 
         try {
@@ -189,6 +250,13 @@ public class GalaxyDAO {
     }
 
 
+    /**
+     * Find all Galaxy that has a value of {@link Position#redshift} lower that specified one
+     *
+     * @param redshiftValue value for redshift
+     * @return list of galaxy instance
+     * @throws NoResultException if no instances found in db
+     */
     @SuppressWarnings("JpaQlInspection")
     public static List<Galaxy> findLower(Float redshiftValue) throws NoResultException {
         try {
@@ -202,6 +270,13 @@ public class GalaxyDAO {
         }
     }
 
+    /**
+     * Find all Galaxy that has a value of {@link Position#redshift} greater that specified one
+     *
+     * @param redshiftValue value for redshift
+     * @return list of galaxy instance
+     * @throws NoResultException if no instances found in db
+     */
     @SuppressWarnings("JpaQlInspection")
     public static List<Galaxy> findGreater(Float redshiftValue) throws NoResultException {
         try {
@@ -215,6 +290,11 @@ public class GalaxyDAO {
         }
     }
 
+    /**
+     * Find the names of the Galaxy instance in the database
+     *
+     * @return the list of galaxies'names
+     */
     public static List<String> findAllName() {
 
         EntityManager entityManager = JPAInitializer.getEntityManager();

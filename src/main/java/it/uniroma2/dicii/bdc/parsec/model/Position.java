@@ -29,14 +29,15 @@ public class Position {
     @Column(name = "redshift", columnDefinition = "real default -1")
     private Float redshift;
 
+
     /**
-     * @see Ascension
+     * It describes a location in the space
      */
     @Embedded
     private Ascension ascension;
 
     /**
-     * @see Declination
+     * It describes a location in the space
      */
     @Embedded
     private Declination declination;

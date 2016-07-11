@@ -7,6 +7,9 @@ import it.uniroma2.dicii.bdc.parsec.view.RegistrationForm;
 
 import javax.persistence.NoResultException;
 
+/**
+ * Class controller offers services for Login/in and Registration of a new user
+ */
 public class LoginController {
 
     private static LoginController instance;
@@ -31,24 +34,30 @@ public class LoginController {
 
         try {
 
+            // find User in database to check if it's registered
             return UserDAO.findBy(userId, password);
 
         } catch (NoResultException e) {
             e.printStackTrace();
-            return null;
+            return null;    // the user is not registered
         }
 
     }
 
     /**
+     * Save a new user instance in the System
+     *
      * @param form {@link RegistrationForm}
+     * @return The new User. Null if the {@link User#userId} is not valid
      */
     public User register(RegistrationForm form) {
 
-        // The user-Id is already used in the System
+        // The user-Id is already used in the System.
+        // It must be unique
         if (UserDAO.findBy(form.getUserId()) != null)
             return null;
 
+        // Create a new user instance
         User user = new User();
         user.setFirstname(form.getFirstname());
         user.setLastname(form.getLastname());
@@ -56,11 +65,12 @@ public class LoginController {
         user.setEmail(form.getEmail());
         user.setUserId(form.getUserId());
 
-        // set the user a an administrator
+        // set the user as an administrator
         if (form.isAdministrator()) {
             user.setAdministrator(true);
         }
 
+        // store in db
         UserDAO.store(user);
 
         return user;

@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 
 
 /**
- * @see Position#ascension
+ * @see Position
  */
 @Embeddable
 public class Ascension {
