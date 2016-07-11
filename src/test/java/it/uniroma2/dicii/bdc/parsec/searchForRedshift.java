@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+/**
+ * Requisite 7 Test
+ */
 public class searchForRedshift {
 
     @Test

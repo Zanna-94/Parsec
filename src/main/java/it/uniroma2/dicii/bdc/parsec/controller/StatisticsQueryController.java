@@ -35,12 +35,22 @@ public class StatisticsQueryController {
             return GalaxyDAO.findGreater(redshift);
     }
 
+    /**
+     * Given a spatial position it finds n-nearest galaxies
+     *
+     * @param ascension   describes position {@link Position#ascension}
+     * @param declination describes position {@link Position#declination}
+     * @param howMany     Indicates how many galaxies must be returned
+     * @return list of n-galaxies nearest the given position
+     */
     public List<Galaxy> searchInRange(Ascension ascension, Declination declination, Integer howMany) {
 
         List<Galaxy> galaxies;
 
         try {
+            // database query
             galaxies = GalaxyDAO.findInRange(ascension, declination, howMany);
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -49,6 +59,7 @@ public class StatisticsQueryController {
             return null;
         }
 
+        // return null if exception occurs
         return galaxies;
     }
 
@@ -66,31 +77,17 @@ public class StatisticsQueryController {
 
 
         try {
+            // db query
             results = FluxDAO.ratioFluxContinuous(fluxLine, galaxy); // all flux not continuous
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
 
+        // return null if exception occurs
         return results;
     }
 
-    /**
-     * Query to visualize position, distance and redshift value, luminosity, metallicity
-     * and relative errors
-     *
-     * @return {@link Galaxy}
-     */
-    /*public Galaxy searchGalaxyByName(String galaxyName) {
-
-        try {
-            return GalaxyDAO.findByName(galaxyName);
-
-        } catch (NoResultException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
     public Double calculateStatistics(QueryBoundary query) throws SQLException, ClassNotFoundException {
 
         if (query.getResolution() == null || query.getResolution().length() == 0) {
@@ -248,12 +245,12 @@ public class StatisticsQueryController {
 
         try {
             List<Double> f = FluxDAO.findAllFluxLinesRatioByCategory(category);
-            if ( f == null || f.size() == 0) {
+            if (f == null || f.size() == 0) {
                 return -1d;
             } else if (f.size() == 1) {
-                    return f.get(0);
+                return f.get(0);
             }
-            return f.get(f.size()/2);
+            return f.get(f.size() / 2);
 
         } catch (NoResultException e) {
             e.printStackTrace();

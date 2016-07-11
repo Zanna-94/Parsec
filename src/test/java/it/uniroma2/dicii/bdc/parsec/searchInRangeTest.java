@@ -13,6 +13,9 @@ import java.util.List;
 
 import java.lang.Math;
 
+/**
+ * Requisite 6 Test
+ */
 public class searchInRangeTest {
 
     @Test
