@@ -43,8 +43,10 @@ public class SearchQueryController {
     public List<String> calculateRatio(QueryBoundary query) {
 
         try {
-            return FluxDAO.findRatioBetweenTwoLinesFluxValues(
+            List<String> list = FluxDAO.findRatioBetweenTwoLinesFluxValues(
                     query.getGalaxyName(), query.getFluxNum(), query.getFluxDen());
+            System.out.printf("%s",list);
+            return list;
         } catch (NoResultException e) {
             e.printStackTrace();
             return null;

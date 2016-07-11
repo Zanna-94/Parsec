@@ -60,6 +60,14 @@ public class CSVManager {
         this.filename = filename;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     /**
      * Writing a unique temporary file to compose a CSV file, based on a parsable format
      *
@@ -606,16 +614,17 @@ public class CSVManager {
 
     public CSVFile saveNewFile(ImportForm form) throws IOException {
 
+        filename = form.getFilename();
         CSVFile file = new CSVFile();
-        file.setName(form.getFilename());
+        file.setName(filename);
         file.setFormat(readFormat(form.getFilename()));
 
-        if (!importFile()) {
-            return null;
-        }
-
         try {
-            CSV_DAO.store(file);
+            if ( CSV_DAO.store(file) ) {
+                if (!importFile()) {
+                    return null;
+                }
+            }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return null;

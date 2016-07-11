@@ -93,7 +93,7 @@ public class StatisticsQueryController {
     }*/
     public Double calculateStatistics(QueryBoundary query) throws SQLException, ClassNotFoundException {
 
-        if (query.getResolution() == null && query.getResolution().length() == 0) {
+        if (query.getResolution() == null || query.getResolution().length() == 0) {
             if (query.getOperation().compareTo("med") == 0) {
                 return medianLinesRatioValues(query.getCategory());
             } else if (query.getOperation().compareTo("avg") == 0) {
@@ -248,7 +248,12 @@ public class StatisticsQueryController {
 
         try {
             List<Double> f = FluxDAO.findAllFluxLinesRatioByCategory(category);
-            return calculateMedianRatioValues(f);
+            if ( f == null || f.size() == 0) {
+                return -1d;
+            } else if (f.size() == 1) {
+                    return f.get(0);
+            }
+            return f.get(f.size()/2);
 
         } catch (NoResultException e) {
             e.printStackTrace();

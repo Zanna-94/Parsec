@@ -134,7 +134,7 @@ public class GalaxyDAO {
                         "declinationsign,declinationdeg,declinationmin,declinationsec," +
                         "distance, redshift, l.val, m.val, m.error " +
                         "from (" +
-                        "galaxy as g join luminosity as l on g.name=l.galaxy_name" +
+                        "galaxy as g join luminosity as l on g.name=l.galaxy_name " +
                         "join metallicity as m on l.galaxy_name=m.galaxy_name) " +
                         "where g.name = ?";
         List<List<String>> results = new ArrayList<List<String>>();

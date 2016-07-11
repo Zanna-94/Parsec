@@ -22,31 +22,44 @@ public class CSV_DAO {
         this.name = name;
     }
 
-    public static void store(CSVFile file) {
+    public static Boolean store(CSVFile file) {
 
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
 
-        if (entityManager.find(CSVFile.class, file.getName()) != null)
-            throw new IllegalArgumentException("File already uploaded");
+        if (entityManager.find(CSVFile.class, file.getName()) != null) {
+            entityManager.getTransaction().commit();
+            return false;
+        }
 
         entityManager.persist(file);
 
         entityManager.getTransaction().commit();
 
+        return true;
     }
 
     public static List<CSVFile> allFiles() {
 
         try {
             EntityManager entityManager = JPAInitializer.getEntityManager();
-            return entityManager.createQuery("select f from files f ", CSVFile.class)
+            return entityManager.createQuery("select f from CSVFile f ", CSVFile.class)
                     .getResultList();
         } catch (NoResultException e) {
             throw new NoResultException();
         }
     }
 
+    public static List<CSVFile> searchFile(String name) {
 
-
+        try {
+            EntityManager entityManager = JPAInitializer.getEntityManager();
+            return entityManager.createQuery("select f from CSVFile f where (name = :name)",
+                    CSVFile.class)
+                    .setParameter("name", name)
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException();
+        }
+    }
 }
