@@ -3,8 +3,10 @@ package it.uniroma2.dicii.bdc.parsec;
 
 import it.uniroma2.dicii.bdc.parsec.controller.SearchQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.*;
+import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,7 +15,8 @@ import static org.junit.Assert.assertEquals;
 public class SearchGalaxyTest {
 
     @Test
-    public void searchGalaxyDescriptionByName() throws SQLException, ClassNotFoundException {
+    public void searchGalaxyDescriptionByName()
+            throws SQLException, ClassNotFoundException, IOException {
 
         Galaxy g = new Galaxy();
         g.setName("Mrk622");
@@ -26,8 +29,10 @@ public class SearchGalaxyTest {
         m.setVal(1.0);
         m.setError(-1f);
 
+        QueryBoundary query = new QueryBoundary();
+        query.setGalaxyName("Mrk622");
         SearchQueryController q = new SearchQueryController();
-        List<List<String>> result = q.searchGalaxyDescriptionByName("Mrk622");
+        List<List<String>> result = q.searchGalaxyDescriptionByName(query);
 
         assert g.getName().equals(result.get(0).get(0));
         assert g.getPosition().getAscension().getAscensionHour()

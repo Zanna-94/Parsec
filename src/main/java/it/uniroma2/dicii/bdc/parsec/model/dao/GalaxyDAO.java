@@ -70,18 +70,18 @@ public class GalaxyDAO {
             while (rs.next()) {
                 results.add(new ArrayList<String>());
                 results.get(i).add(rs.getString(1));
-                results.get(i).add(Integer.toString(rs.getInt("ascensionhour")));
-                results.get(i).add(Integer.toString(rs.getInt("ascensionmin")));
-                results.get(i).add(Float.toString(rs.getFloat("ascensionsec")));
-                results.get(i).add(rs.getString("declinationsign"));
-                results.get(i).add(Integer.toString(rs.getInt("declinationdeg")));
-                results.get(i).add(Integer.toString(rs.getInt("declinationmin")));
-                results.get(i).add(Float.toString(rs.getFloat("declinationsec")));
-                results.get(i).add(Float.toString(rs.getFloat("distance")));
-                results.get(i).add(Float.toString(rs.getFloat("redshift")));
+                results.get(i).add(Integer.toString(rs.getInt(2)));
+                results.get(i).add(Integer.toString(rs.getInt(3)));
+                results.get(i).add(Float.toString(rs.getFloat(4)));
+                results.get(i).add(rs.getString(5));
+                results.get(i).add(Integer.toString(rs.getInt(6)));
+                results.get(i).add(Integer.toString(rs.getInt(7)));
+                results.get(i).add(Float.toString(rs.getFloat(8)));
+                results.get(i).add(Float.toString(rs.getFloat(9)));
+                results.get(i).add(Float.toString(rs.getFloat(10)));
                 results.get(i).add(Double.toString(rs.getDouble(11)));
-                results.get(i).add(Double.toString(rs.getDouble("val")));
-                results.get(i).add(Float.toString(rs.getFloat("error")));
+                results.get(i).add(Double.toString(rs.getDouble(12)));
+                results.get(i).add(Float.toString(rs.getFloat(13)));
                 i++;
             }
             return results;
@@ -97,37 +97,6 @@ public class GalaxyDAO {
             }
         }
         return null;
-    }
-
-    public static void findFluxLinesValues(String galaxyName)
-            throws SQLException, ClassNotFoundException {
-
-        Connection connection = JDBCInitializer.getConnection();
-        PreparedStatement statement = null;
-        String query =
-                "";
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setString(1, galaxyName);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                String coffeeName = rs.getString("name");
-                int supplierID = rs.getInt("ascensionhour");
-                System.out.println(coffeeName + "\t" + supplierID +
-                        "\t" );
-                // TODO: 11/07/16  
-            }
-        } catch (SQLException e ) {
-            e.printStackTrace();
-        } finally{
-            // release resources
-            if(statement != null){
-                statement.close();
-            }
-            if(connection != null){
-                connection.close();
-            }
-        }
     }
 
     public static List<Galaxy> findByCategory(String category) throws NoResultException {

@@ -4,6 +4,7 @@ import it.uniroma2.dicii.bdc.parsec.controller.SearchQueryController;
 import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
 import it.uniroma2.dicii.bdc.parsec.model.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -231,14 +232,14 @@ public class QueryBoundary {
     }
 
     public ResultsBean getGalaxyDescriptionByName()
-            throws SQLException, ClassNotFoundException {
+            throws SQLException, ClassNotFoundException, IOException {
 
         if (galaxyName == null)
             return null;
 
         SearchQueryController controller = new SearchQueryController();
 
-        List<List<String>> description = controller.searchGalaxyDescriptionByName(galaxyName);
+        List<List<String>> description = controller.searchGalaxyDescriptionByName(this);
 
         if (description == null) {
             return null;
@@ -247,23 +248,24 @@ public class QueryBoundary {
         return new ResultsBean(description);
     }
 
-    /*public ResultsBean getGalaxySpectralLines() {
+    public ResultsBean getGalaxySpectralLines() throws SQLException, IOException, ClassNotFoundException {
 
         if (galaxyName == null)
             return null;
 
         SearchQueryController controller = new SearchQueryController();
 
-        List<Flux> fluxLines = controller.searchGalaxySpectralLines(this);
+        List<List<String>> fluxLines = controller.searchFluxLinesValuesByGalaxy(this);
 
         if (fluxLines == null) {
             return null;
         }
 
         return new ResultsBean(fluxLines);
-    }*/
+    }
 
-    public ResultsBean getStatistics() {
+
+    public ResultsBean getStatistics() throws SQLException, ClassNotFoundException {
 
         if (operation == null && resolution == null)
             return null;
@@ -294,7 +296,7 @@ public class QueryBoundary {
 
         return new ResultsBean(fluxLines);
     }*/
-/*
+
     public ResultsBean getTwoLinesFluxRatio() {
 
         if (galaxyName == null || fluxNum == null || fluxDen == null)
@@ -302,12 +304,15 @@ public class QueryBoundary {
 
         SearchQueryController controller = new SearchQueryController();
 
-        List<Flux> fluxLines = controller.searchGalaxySpectralLinesForRatio(this);
+        List<String> list = controller.calculateRatio(this);
 
-        if (fluxLines == null) {
+        if (list == null) {
             return null;
         }
 
-        return new ResultsBean(fluxLines);
-    }*/
+        ResultsBean r = new ResultsBean();
+        r.setRatio(list);
+
+        return r;
+    }
 }

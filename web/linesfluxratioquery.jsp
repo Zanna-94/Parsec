@@ -111,7 +111,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%  Results.fillResultsForFluxRatio();
+                            <%  Results.fillResultsForTwoFluxesRatio();
                                 String ratio = Results.getResults();
                                 pageContext.setAttribute("ratio", ratio);%>
                             <c:out value="${ratio}" escapeXml="false"></c:out>

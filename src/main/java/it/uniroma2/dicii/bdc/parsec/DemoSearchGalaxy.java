@@ -11,13 +11,13 @@ public class DemoSearchGalaxy {
 
     private static void byName(String name) {
         Galaxy galaxy = new Galaxy(name);
-
+/*
         try {
             GalaxyDAO.findByName(galaxy.getName());
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             System.exit(1);
-        }
+        }*/
     }
 
     private static void byRedshift() {

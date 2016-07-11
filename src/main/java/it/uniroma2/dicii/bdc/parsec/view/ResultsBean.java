@@ -16,7 +16,7 @@ public class ResultsBean {
 
     private String results;
     private List<List<String>> description;
-    private List<Flux> fluxes;
+    private List<String> ratio;
     private Double value;
     private String category;
     private String operation;
@@ -28,10 +28,6 @@ public class ResultsBean {
      */
     public ResultsBean() {
     }
-
-    /*public ResultsBean(List<Flux> fluxes) {
-        this.fluxes = fluxes;
-    }*/
 
     public ResultsBean(List<List<String>> description) {
         this.description = description;
@@ -60,6 +56,14 @@ public class ResultsBean {
         this.resolution = resolution;
     }
 
+    public List<String> getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(List<String> ratio) {
+        this.ratio = ratio;
+    }
+
     public Double getValue() {
         return value;
     }
@@ -74,14 +78,6 @@ public class ResultsBean {
 
     public void setResults(String results) {
         this.results = results;
-    }
-
-    public List<Flux> getFluxes() {
-        return fluxes;
-    }
-
-    public void setFluxes(List<Flux> fluxes) {
-        this.fluxes = fluxes;
     }
 
     public String getCategory() {
@@ -143,39 +139,28 @@ public class ResultsBean {
 
     public void fillResultsForGalaxySpectralLines() {
 
+        Integer n = description.size();
         Integer iter = 0;
-        while ( iter < fluxes.size()) {
-            results += "<tr>\n<td>";
-            results = results.concat(fluxes.get(0).getGalaxy().getName());
-            results = results.concat("</td>\n<td>");
-            results = results.concat(fluxes.get(iter).getAtom());
-            results = results.concat("</td>\n");
-
-            Double valueFlux;
-            Float errorFlux;
-            results = results.concat("<td>");
-
-            if ((valueFlux = fluxes.get(iter).getVal()) != -1) {
-                results = results.concat(valueFlux.toString());
+        results = "";
+        while (iter < n) {
+            results += "<tr>\n" +
+                    "<td>"+ description.get(iter).get(0) + "</td>\n" +
+                    "<td>\n" + description.get(iter).get(1) + "</td>";
+            if (!description.get(iter).get(2).equals("-1") ){
+                results += "<td>"+ description.get(iter).get(2) + "</td>\n";
             } else {
-                results = results.concat("- ");
+                results += "<td>-</td>\n";
             }
-            results = results.concat("[");
-            if ((errorFlux = fluxes.get(iter).getError()) != -1) {
-                results = results.concat(errorFlux.toString());
-                results = results.concat("]</td>\n");
+            if (!description.get(iter).get(3).equals("-1") ){
+                results += "<td>"+ description.get(iter).get(3) + "</td>\n";
             } else {
-                results = results.concat("-]</td>\n");
+                results += "<td>-</td>\n";
             }
-
-            results = results.concat("<td>");
-            if (fluxes.get(iter).getUpperLimit() != '*' && fluxes.get(iter).getUpperLimit() != '-') {
-                results = results.concat("y</td>\n");
+            if (!description.get(iter).get(4).equals("*") ){
+                results += "<td>y</td>\n";
             } else {
-                results = results.concat("n</td>\n");
+                results += "<td>n</td>\n";
             }
-
-            results = results.concat("</tr>\n");
             iter++;
         }
     }
@@ -193,31 +178,17 @@ public class ResultsBean {
         }
     }*/
 
-    public void fillResultsForFluxRatio() {
+    public void fillResultsForTwoFluxesRatio() {
 
-        Integer i = 0;
-        while (fluxes.get(i).getAtom().compareTo(fluxes.get(i + 1).getAtom()) == 0
-                && i < (fluxes.size() - 1)) {
-            i++;
-        }
-        Double ratio;
-        if ( fluxes.get(i).getVal() == 0d) {
-            results = "<p>Division by 0.</p>";
-            return;
-        }
-        ratio = fluxes.get(0).getVal() / fluxes.get(i+1).getVal();
-        results = "<td>";
-        results = results.concat(fluxes.get(0).getGalaxy().getName());
-        results = results.concat("</td><td>");
-        results = results.concat(ratio.toString());
-        results = results.concat("</td><td>");
-        if ( fluxes.get(0).getUpperLimit() != '*' && fluxes.get(0).getUpperLimit() != '-') {
+        results = "<td>" + ratio.get(0) + "</td>";
+        if ( !ratio.get(1).equals("-")) {
             results = results.concat("<td>Upper limit</td>");
-        } else if (fluxes.get(i+1).getUpperLimit() != '*' && fluxes.get(i+1).getUpperLimit() != '-') {
+        } else if (!ratio.get(2).equals("*") && !ratio.get(2).equals("-")) {
             results = results.concat("<td>Lower limit</td>");
         } else {
             results = results.concat("<td>-</td>");
         }
+
     }
 
     public void fillResultsForStatistics() {

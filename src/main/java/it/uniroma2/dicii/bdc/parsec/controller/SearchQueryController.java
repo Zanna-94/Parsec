@@ -9,6 +9,8 @@ import it.uniroma2.dicii.bdc.parsec.model.dao.MetallicityDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +40,21 @@ public class SearchQueryController {
         return galaxies;
     }
 
-    public Float calculateRatio(String fluxLine) {
+    public List<String> calculateRatio(QueryBoundary query) {
 
-        return null;
+        try {
+            return FluxDAO.findRatioBetweenTwoLinesFluxValues(
+                    query.getGalaxyName(), query.getFluxNum(), query.getFluxDen());
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -50,18 +64,27 @@ public class SearchQueryController {
      * @param galaxyName name of galaxy to search info about
      * @return {@link Galaxy}
      */
-    public List<List<String>> searchGalaxyDescriptionByName(String galaxyName)
-            throws SQLException, ClassNotFoundException {
+    public List<List<String>> searchGalaxyDescriptionByName(QueryBoundary query)
+            throws IOException, SQLException, ClassNotFoundException {
 
         try {
-            return GalaxyDAO.findDescriptionByName(galaxyName);
+            return GalaxyDAO.findDescriptionByName(query.getGalaxyName());
         } catch (NoResultException e) {
             e.printStackTrace();
             return null;
         }
     }
 
+    public List<List<String>> searchFluxLinesValuesByGalaxy(QueryBoundary query)
+            throws IOException, SQLException, ClassNotFoundException {
 
+        try {
+            return FluxDAO.findFluxLinesValuesByGalaxy(query.getGalaxyName());
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public List<Metallicity> searchMetallicityByGalaxy(String galaxyName) {
 
