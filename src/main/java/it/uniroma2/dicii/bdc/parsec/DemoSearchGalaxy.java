@@ -1,6 +1,8 @@
 package it.uniroma2.dicii.bdc.parsec;
 
 import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
+import it.uniroma2.dicii.bdc.parsec.model.Ascension;
+import it.uniroma2.dicii.bdc.parsec.model.Declination;
 import it.uniroma2.dicii.bdc.parsec.model.Galaxy;
 import it.uniroma2.dicii.bdc.parsec.model.dao.GalaxyDAO;
 
@@ -35,9 +37,20 @@ public class DemoSearchGalaxy {
         System.out.print(h.values());
     }
 
+    private static void inRange() {
+        StatisticsQueryController controller = new StatisticsQueryController();
+        Ascension ascension = new Ascension(0, 0, (float) 0);
+        Declination declination = new Declination(null, 0, 0, 0f);
+        List<Galaxy> galaxies = controller.searchInRange(ascension, declination, 10);
+
+        for (Galaxy galaxy : galaxies)
+            System.out.print(galaxy.getName());
+
+    }
+
     public static void main(String args[]) {
 
-        ratio();
+        inRange();
 
         System.exit(0);
     }

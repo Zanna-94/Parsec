@@ -44,7 +44,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
-            <form class="form-horizontal" action="ratioFluxContinuous.jsp" name="Query_Form">
+            <form class="form-horizontal" action="galaxiesInRange.jsp" name="Query_Form">
                 <h3 class="form-signin-heading"> Select flux line</h3>
                 <h4>Show the relationship between the line flux and the relative continuous flux</h4>
                 <hr class="colorgraph">
@@ -52,11 +52,11 @@
 
 
                 <div class="form-group">
-                    <div class="col-sm-4"><input type="number" step="0.0001" class="form-control" id="ascensionHour"
+                    <div class="col-sm-4"><input type="number" step="1" class="form-control" id="ascensionHour"
                                                  name="ascensionHour"
                                                  placeholder="ascensionHour" required=""
                                                  autofocus="" min="0"/></div>
-                    <div class="col-sm-4"><input type="number" step="0.0001" class="form-control" id="ascensionMin"
+                    <div class="col-sm-4"><input type="number" step="1" class="form-control" id="ascensionMin"
                                                  name="ascensionMin"
                                                  placeholder="ascensionMin" required=""
                                                  autofocus="" min="0"/></div>
@@ -67,11 +67,11 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-4"><input type="number" step="0.0001" class="form-control" id="declinationDeg"
+                    <div class="col-sm-4"><input type="number" step="1" class="form-control" id="declinationDeg"
                                                  name="declinationDeg"
                                                  placeholder="declinationDeg" required=""
                                                  autofocus=""/></div>
-                    <div class="col-sm-4"><input type="number" step="0.0001" class="form-control" id="declinationMin"
+                    <div class="col-sm-4"><input type="number" step="1" class="form-control" id="declinationMin"
                                                  name="declinationMin"
                                                  placeholder="declinationMin" required=""
                                                  autofocus="" min="0"/></div>
@@ -123,7 +123,6 @@
                             <th>Name</th>
                             <th>Alternative name</th>
                             <th>Category</th>
-                            <th>Redshift</th>
                         </tr>
                         </thead>
 
@@ -134,7 +133,6 @@
                                 <td><c:out value="${galaxyBean.getName(i)}"/></td>
                                 <td>${galaxyBean.getAlterName(i)}</td>
                                 <td>${galaxyBean.getCategory(i)}</td>
-                                <td>${galaxyBean.getRedshift(i)}</td>
                             </tr>
 
                         </c:forEach>

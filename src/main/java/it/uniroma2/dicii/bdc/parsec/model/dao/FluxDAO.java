@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FluxDAO {
@@ -224,6 +225,38 @@ public class FluxDAO {
             }
         }
         return null;
+    }
+
+    public static HashMap<String, Double> ratioFluxContinuous(String atom, String galaxy) throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement;
+        String query =
+                " select D1.val / D2.val as ratio, resolution " +
+                        "from (" +
+                        "   select r1.val,r1.resolution " +
+                        "   from flux AS r1 " +
+                        "   where r1.typeflux = 'l' and atom = ? and r1.galaxy_name = ?) as D1" +
+                        " cross join  (" +
+                        "   select r2.val" +
+                        "   from flux AS r2" +
+                        "   where r2.typeflux = 'c' and atom = ? and r2.galaxy_name = ?) as D2;";
+
+        statement = connection.prepareStatement(query);
+        statement.setString(1, atom);
+        statement.setString(2, galaxy);
+        statement.setString(3, atom);
+        statement.setString(4, galaxy);
+        ResultSet rs = statement.executeQuery();
+
+
+        HashMap<String, Double> result = new HashMap<String, Double>();
+        while (rs.next()) {
+            result.put(rs.getString("resolution"), rs.getDouble("ratio"));
+        }
+        rs.close();
+
+        return result;
     }
 
     public static Double findAverageFluxLinesRatioByCategoryAndAperture(String category, String aperture)

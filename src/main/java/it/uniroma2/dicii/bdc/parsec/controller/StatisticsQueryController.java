@@ -37,11 +37,14 @@ public class StatisticsQueryController {
 
     public List<Galaxy> searchInRange(Ascension ascension, Declination declination, Integer howMany) {
 
-        ArrayList<Galaxy> galaxies;
+        List<Galaxy> galaxies;
 
         try {
-            galaxies = (ArrayList<Galaxy>) GalaxyDAO.searchInRange(ascension, declination, howMany);
-        } catch (NoResultException e) {
+            galaxies = GalaxyDAO.findInRange(ascension, declination, howMany);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
@@ -59,24 +62,14 @@ public class StatisticsQueryController {
 
         //Contains all results from the division of the flux's value and the continuous flux.
         // The Key of the hashmap is the resolution of the flux line (3x3 , 5x5 , c )
-        HashMap<String, Double> results = new HashMap<String, Double>();
+        HashMap<String, Double> results;
 
-        //declare here vars to use them out of try/catch
-        List<Flux> elements;
-        Flux cont;
 
         try {
-            elements = FluxDAO.findLine(fluxLine, galaxy); // all flux not continuous
-            cont = FluxDAO.findContinuousFlux(fluxLine, galaxy); // return only continuous flux
-        } catch (NoResultException e) {
+            results = FluxDAO.ratioFluxContinuous(fluxLine, galaxy); // all flux not continuous
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.print(results.size());
             return null;
-        }
-
-        // calculate division and put results in the hashmap
-        for (Flux elem : elements) {
-            results.put(elem.getResolution(), elem.getVal() / cont.getVal());
         }
 
         return results;
@@ -98,7 +91,6 @@ public class StatisticsQueryController {
             return null;
         }
     }*/
-
     public Double calculateStatistics(QueryBoundary query) throws SQLException, ClassNotFoundException {
 
         if (query.getResolution() == null && query.getResolution().length() == 0) {

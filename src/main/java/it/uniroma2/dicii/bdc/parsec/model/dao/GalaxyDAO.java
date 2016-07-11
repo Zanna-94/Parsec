@@ -52,7 +52,7 @@ public class GalaxyDAO {
             throws SQLException, ClassNotFoundException {
 
         Connection connection = JDBCInitializer.getConnection();
-        PreparedStatement statement = null;
+        PreparedStatement statement;
         String query =
                 "select" +
                         "  H.name," +
@@ -86,11 +86,23 @@ public class GalaxyDAO {
         statement.setFloat(9, declination.getDeclinationSec());
         ResultSet rs = statement.executeQuery();
 
-        // TODO: 11/07/16  
+        ArrayList<Galaxy> galaxies = new ArrayList<Galaxy>();
+        int i = 0;
+        while (rs.next()) {
+            Galaxy galaxy = new Galaxy();
+            galaxy.setName(rs.getString("name"));
+            galaxy.setAlterName(rs.getString("altername"));
+            galaxy.setCategory(rs.getString("category"));
+            galaxies.add(galaxy);
 
-        return null;
+            i++;
+            if (i >= howMany) {
+                rs.close();
+                break;
+            }
+        }
 
-
+        return galaxies;
     }
 
     public static List<List<String>> findDescriptionByName(String galaxyName)
@@ -157,6 +169,7 @@ public class GalaxyDAO {
         }
     }
 
+
     @SuppressWarnings("JpaQlInspection")
     public static List<Galaxy> findLower(Float redshiftValue) throws NoResultException {
         try {
@@ -191,12 +204,4 @@ public class GalaxyDAO {
 
     }
 
-    public static List<Galaxy> searchInRange(Ascension ascension, Declination declination, Integer howMany)
-            throws NoResultException {
-
-        List<Galaxy> galaxy = new ArrayList<Galaxy>();
-        return galaxy;
-
-        // TODO: 10/07/16
-    }
 }

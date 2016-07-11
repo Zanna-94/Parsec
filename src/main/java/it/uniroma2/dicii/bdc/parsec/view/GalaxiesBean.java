@@ -14,15 +14,20 @@ import java.util.List;
 public class GalaxiesBean {
 
 
+    public GalaxiesBean() {
+    }
+
     public GalaxiesBean(List<Galaxy> galaxies) {
 
-        for (Galaxy g : galaxies) {
-            this.galaxyName.add(g.getName());
-            this.alterName.add(g.getAlterName());
-            this.category.add(g.getCategory());
-            this.redshift.add(g.getPosition().getRedshift().toString());
+        if (galaxies != null)
+            for (Galaxy g : galaxies) {
+                this.galaxyName.add(g.getName());
+                this.alterName.add(g.getAlterName());
+                this.category.add(g.getCategory());
 
-        }
+                if (g.getPosition() != null)
+                    this.redshift.add(g.getPosition().getRedshift().toString());
+            }
     }
 
     private List<String> galaxyName = new ArrayList<String>();

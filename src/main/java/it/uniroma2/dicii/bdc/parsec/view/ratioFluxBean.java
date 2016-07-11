@@ -51,4 +51,10 @@ public class ratioFluxBean {
         this.ratio = ratio;
     }
 
+    public int getSize() {
+        if (ratio != null)
+            return ratio.size();
+        return 0;
+    }
+
 }

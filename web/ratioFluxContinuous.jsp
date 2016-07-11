@@ -102,13 +102,13 @@
 
     <br>
 
-    <c:if test="${RatioFluxBean.ratio != null}">
+    <c:if test="${RatioFluxBean.size != 0}">
         <div class="container">
 
             <c:choose>
 
                 <c:when test="${RatioFluxBean.ratio.size == 0}">
-                    <p> No resoult found</p>
+                    <jsp:forward page="noresultsfound.jsp"/>
                 </c:when>
 
                 <c:otherwise>
