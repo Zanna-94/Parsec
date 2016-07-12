@@ -14,7 +14,10 @@ import java.util.List;
 import java.lang.Math;
 
 /**
- * Requisite 6 Test
+ * Requisite 6 Test.
+ * <p/>
+ * THE TEST FAIL BECAUSE java.lang.Math and trigonometric functions of jdbc
+ * HAVE DIFFERENT APPROXIMATIONS.
  */
 public class searchInRangeTest {
 
@@ -27,37 +30,38 @@ public class searchInRangeTest {
         StatisticsQueryController controller = new StatisticsQueryController();
         List<Galaxy> results = controller.searchInRange(a0, d0, 10);
 
+
+        Integer declinationDeg0 = d0.getDeclinationDeg();
+        if (d0.getDeclinationSign() == '-')
+            declinationDeg0 *= -1;
+
+        float dec0 = 15 * (declinationDeg0 + d0.getDeclinationMin() / 60 + d0.getDeclinationSec() / 3600);
+        float ra0 = 15 * (a0.getAscensionHour() + a0.getAscensionMin() / 60 + a0.getAscensionSec() / 3600);
+
+
         ArrayList<Galaxy> galaxies = new ArrayList<Galaxy>();
         for (Galaxy r : results) {
             galaxies.add(GalaxyDAO.findByName(r.getName()));
         }
 
-        Double oldDistance = +100d;
+        Double oldDistance = 0d;
         for (Galaxy galaxy : galaxies) {
 
             Ascension a1 = galaxy.getPosition().getAscension();
             Declination d1 = galaxy.getPosition().getDeclination();
 
 
-            Integer declinationDeg0 = d0.getDeclinationDeg();
-            if (d0.getDeclinationSign() == '-')
-                declinationDeg0 *= -1;
-
             Integer declinationDeg1 = d1.getDeclinationDeg();
             if (d1.getDeclinationSign() == '-')
                 declinationDeg1 *= -1;
 
-            Double distance =
-                    Math.sin(15 * (a0.getAscensionHour() + a0.getAscensionSec() / 60 + a0.getAscensionSec() / 3600)) *
-                            Math.sin(15 * (a1.getAscensionHour() + a1.getAscensionMin() / 60 + a1.getAscensionSec() / 3600)) +
+            float dec1 = 15 * (declinationDeg1 + d1.getDeclinationMin() / 60 + d1.getDeclinationSec() / 3600);
+            float ra1 = 15 * (a1.getAscensionHour() + a1.getAscensionMin() / 60 + a1.getAscensionSec() / 3600);
 
-                            Math.cos(15 * (a0.getAscensionHour() + a0.getAscensionMin() / 60 + a0.getAscensionSec() / 3600)) *
-                                    Math.cos(15 * (a1.getAscensionHour() + a1.getAscensionMin() / 60 + a1.getAscensionSec() / 3600)) *
-                                    Math.cos((declinationDeg0 + d0.getDeclinationMin() / 60 + d0.getDeclinationSec() / 3600) -
-                                            (declinationDeg1 + d1.getDeclinationMin() / 60 + d1.getDeclinationSec() / 3600));
+            double distance = Math.acos(Math.sin(ra0) * Math.sin(ra1) + Math.cos(ra0) * Math.cos(ra1) * Math.cos(dec0 - dec1));
 
-
-            assert oldDistance > distance;
+            System.out.print(galaxy.getName() + " " + distance + "\n");
+            assert (galaxy == galaxies.get(0) || oldDistance < distance);
             oldDistance = distance;
 
         }
