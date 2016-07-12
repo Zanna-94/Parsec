@@ -12,8 +12,15 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class SearchGalaxyTest {
+public class REQFN_5_SearchGalaxyByNameTest {
 
+    /**
+     * REQ-FN-5: Search of a galaxy object by name.
+     * [position, distance, redshift, luminosity, metallicity and relative errors
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
     public void searchGalaxyDescriptionByName()
             throws SQLException, ClassNotFoundException, IOException {

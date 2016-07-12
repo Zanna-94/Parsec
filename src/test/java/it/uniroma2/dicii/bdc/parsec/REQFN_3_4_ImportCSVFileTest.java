@@ -6,9 +6,14 @@ import it.uniroma2.dicii.bdc.parsec.view.ImportForm;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
-public class ImportCSVFileTest {
+public class REQFN_3_4_ImportCSVFileTest {
 
+    /**
+     * REQ-FN-3A: Import data of a CSV file into database
+     * @throws IOException
+     */
     @Test
     public void importNewCSVFile() throws IOException {
 

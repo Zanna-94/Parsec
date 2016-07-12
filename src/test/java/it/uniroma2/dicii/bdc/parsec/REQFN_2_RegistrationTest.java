@@ -6,22 +6,11 @@ import it.uniroma2.dicii.bdc.parsec.model.dao.UserDAO;
 import it.uniroma2.dicii.bdc.parsec.view.RegistrationForm;
 import org.junit.Test;
 
-
-public class LoginTest {
-
-    @Test
-    public void userLogin() {
-
-        LoginController controller = LoginController.getInstance();
-
-        User user0 = controller.login("Zanna", "password");
-
-        User user1 = UserDAO.findBy("Zanna");
-
-        assert ((user0 == null && user1 == null) || (user1 == user0));
-
-    }
-
+public class REQFN_2_RegistrationTest {
+    /**
+     * REQ-FN-2: Register new user with name, surname, email, password, userId
+     * as administrator or registered user
+     */
     @Test
     public void userRegistration() {
 

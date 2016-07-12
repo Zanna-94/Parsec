@@ -9,9 +9,9 @@ import java.util.HashMap;
 import static junit.framework.TestCase.assertEquals;
 
 /**
- * Requisite 11 Test
+ * REQ-FN-11: Ratio between line flux and continuous flux
  */
-public class RatioFluxContinuous {
+public class REQFN_11_RatioFluxContinuous {
 
     @Test
     public void calculateFluxRatio() {

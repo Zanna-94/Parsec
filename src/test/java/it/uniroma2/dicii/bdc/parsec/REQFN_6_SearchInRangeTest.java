@@ -14,12 +14,13 @@ import java.util.List;
 import java.lang.Math;
 
 /**
- * Requisite 6 Test.
- * <p/>
+ * REQ-FN-6: Search first n-galaxies ordered by distance value in a
+ * range from a given value.
+ *
  * THE TEST FAIL BECAUSE java.lang.Math and trigonometric functions of jdbc
  * HAVE DIFFERENT APPROXIMATIONS.
  */
-public class searchInRangeTest {
+public class REQFN_6_SearchInRangeTest {
 
     @Test
     public void searchInRange() {

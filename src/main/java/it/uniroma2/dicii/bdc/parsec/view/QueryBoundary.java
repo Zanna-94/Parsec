@@ -2,14 +2,13 @@ package it.uniroma2.dicii.bdc.parsec.view;
 
 import it.uniroma2.dicii.bdc.parsec.controller.SearchQueryController;
 import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
-import it.uniroma2.dicii.bdc.parsec.model.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
 /**
- *
+ * Manage interface request and elaboration.
  */
 public class QueryBoundary {
 
@@ -241,7 +240,7 @@ public class QueryBoundary {
 
         List<List<String>> description = controller.searchGalaxyDescriptionByName(this);
 
-        if (description == null) {
+        if (description == null || description.size() == 0) {
             return null;
         }
 
@@ -264,7 +263,6 @@ public class QueryBoundary {
         return new ResultsBean(fluxLines);
     }
 
-
     public ResultsBean getStatistics() throws SQLException, ClassNotFoundException {
 
         if (operation == null && resolution == null)
@@ -274,28 +272,12 @@ public class QueryBoundary {
 
         Double value = controller.calculateStatistics(this);
 
-        if ( value.equals(-1d) ) {
+        if ( value == null ) {
             return null;
         }
 
         return new ResultsBean(value, operation, category, resolution);
     }
-
-    /*public ResultsBean getAllGalaxySpectralLines() {
-
-        if (galaxyName == null)
-            return null;
-
-        SearchQueryController controller = new SearchQueryController();
-
-        List<Flux> fluxLines = controller.searchAllGalaxySpectralLines(this);
-
-        if (fluxLines == null) {
-            return null;
-        }
-
-        return new ResultsBean(fluxLines);
-    }*/
 
     public ResultsBean getTwoLinesFluxRatio() {
 
