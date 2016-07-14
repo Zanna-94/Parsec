@@ -52,10 +52,6 @@ public class LoginController {
      */
     public User register(RegistrationForm form) {
 
-        // The user-Id is already used in the System.
-        // It must be unique
-        if (UserDAO.findBy(form.getUserId()) != null)
-            return null;
 
         // Create a new user instance
         User user = new User();
@@ -71,7 +67,12 @@ public class LoginController {
         }
 
         // store in db
-        UserDAO.store(user);
+        try {
+            UserDAO.store(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
         return user;
 

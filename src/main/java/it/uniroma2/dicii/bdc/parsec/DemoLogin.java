@@ -22,7 +22,7 @@ public class DemoLogin {
         try {
             UserDAO.store(user0);
             UserDAO.store(user1);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }

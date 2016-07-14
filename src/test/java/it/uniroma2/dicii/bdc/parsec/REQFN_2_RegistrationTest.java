@@ -4,7 +4,10 @@ import it.uniroma2.dicii.bdc.parsec.controller.LoginController;
 import it.uniroma2.dicii.bdc.parsec.model.User;
 import it.uniroma2.dicii.bdc.parsec.model.dao.UserDAO;
 import it.uniroma2.dicii.bdc.parsec.view.RegistrationForm;
+import org.junit.Assert;
 import org.junit.Test;
+
+import javax.persistence.NoResultException;
 
 public class REQFN_2_RegistrationTest {
     /**
@@ -17,17 +20,31 @@ public class REQFN_2_RegistrationTest {
         LoginController controller = LoginController.getInstance();
 
         RegistrationForm form = new RegistrationForm();
-        form.setUserId("TestTest");
+        form.setUserId("TestTest1");
         form.setPassword("test");
         form.setFirstname("firstname");
         form.setLastname("lastname");
         form.setEmail("test@test.it");
 
-        User user0 = controller.register(form);
 
-        User user1 = UserDAO.findBy("TestTest");
+        boolean alreadyExist = form.validate();
 
-        assert (user0 != null && user1 != null && user0 == user1);
+
+        boolean found = false;
+
+        try {
+
+            UserDAO.findBy(form.getUserId());
+            found = true;
+
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            found = false;
+        }
+
+        System.out.print(alreadyExist);
+        System.out.print(found);
+        Assert.assertTrue((alreadyExist && found) || (!alreadyExist && found));
 
     }
 }

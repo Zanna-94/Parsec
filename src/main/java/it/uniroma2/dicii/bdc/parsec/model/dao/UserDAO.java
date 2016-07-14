@@ -17,9 +17,14 @@ public class UserDAO {
      *
      * @param user instance to save
      */
-    public static void store(User user) {
+    public static void store(User user) throws Exception {
         EntityManager entityManager = JPAInitializer.getEntityManager();
         entityManager.getTransaction().begin();
+
+        // if the user already exist throw exception
+        if (entityManager.find(User.class, user.getUserId()) != null) {
+            throw new Exception("The user already exist!");
+        }
 
         entityManager.persist(user);
 
