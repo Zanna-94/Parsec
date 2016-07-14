@@ -1,8 +1,5 @@
 package it.uniroma2.dicii.bdc.parsec;
 
-
-import it.uniroma2.dicii.bdc.parsec.controller.StatisticsQueryController;
-import it.uniroma2.dicii.bdc.parsec.model.dao.FluxDAO;
 import it.uniroma2.dicii.bdc.parsec.view.QueryBoundary;
 import org.junit.Test;
 
@@ -27,7 +24,37 @@ public class REQFN_10_StatisticsFluxValuesTest {
         Double expectedAvg = 16.9d;
 
         q.setOperation("avg");
-        assertEquals(expectedAvg, FluxDAO.findAverageFluxLinesRatioByCategory("S2"), 0.1d);
+        assertEquals(expectedAvg, q.getStatistics().getValue(), 0.1d);
+    }
+
+    @Test
+    public void getMedianByCategory() throws SQLException, ClassNotFoundException {
+        QueryBoundary s = new QueryBoundary();
+        s.setCategory("LIN");
+        s.setOperation("med");
+        Double expectedMed = 1d;
+
+        assertEquals(expectedMed, s.getStatistics().getValue(), 0.1d);
+    }
+
+    @Test
+    public void getStardardDeviationByCategory() throws SQLException, ClassNotFoundException {
+        QueryBoundary s = new QueryBoundary();
+        s.setCategory("LIN");
+        s.setOperation("std");
+        Double expectedMed = 79d;
+
+        assertEquals(expectedMed, s.getStatistics().getValue(), 0.2d);
+    }
+
+    @Test
+    public void getAverageStandarDeviationByCategory() throws SQLException, ClassNotFoundException {
+        QueryBoundary s = new QueryBoundary();
+        s.setCategory("LIN");
+        s.setOperation("astd");
+        Double expectedMed = 79d;
+
+        assertEquals(expectedMed, s.getStatistics().getValue(), 0.1d);
     }
 
     /**
@@ -40,14 +67,46 @@ public class REQFN_10_StatisticsFluxValuesTest {
     @Test
     public void getAverageByCategoryAndAperture() throws SQLException, ClassNotFoundException {
 
-        StatisticsQueryController s = new StatisticsQueryController();
         QueryBoundary q = new QueryBoundary();
         q.setCategory("S2");
+        q.setResolution("3x3");
 
-        Double expectedAvg = 10.3d;
+        Double expectedAvg = 13d;
 
         q.setOperation("avg");
-        assertEquals(expectedAvg, FluxDAO.findAverageFluxLinesRatioByCategoryAndAperture("S2", "c"), 0.1d);
+        assertEquals(expectedAvg, q.getStatistics().getValue(), 0.1d);
     }
 
+    @Test
+    public void getMedianByCategoryAndAperture() throws SQLException, ClassNotFoundException {
+        QueryBoundary s = new QueryBoundary();
+        s.setResolution("3x3");
+        s.setCategory("S2");
+        s.setOperation("med");
+        Double expectedMed = 1d;
+
+        assertEquals(expectedMed, s.getStatistics().getValue(), 0.1d);
+    }
+
+    @Test
+    public void getStardardDeviationByCategoryAndaperture() throws SQLException, ClassNotFoundException {
+        QueryBoundary s = new QueryBoundary();
+        s.setResolution("3x3");
+        s.setCategory("LIN");
+        s.setOperation("std");
+        Double expectedMed = 43d;
+
+        assertEquals(expectedMed, s.getStatistics().getValue(), 0.6d);
+    }
+
+    @Test
+    public void getAverageStandardDeviationByCategoryAndAperture() throws SQLException, ClassNotFoundException {
+        QueryBoundary s = new QueryBoundary();
+        s.setResolution("3x3");
+        s.setCategory("LIN");
+        s.setOperation("astd");
+        Double expectedMed = 79d;
+
+        assertEquals(expectedMed, s.getStatistics().getValue(), 0.1d);
+    }
 }

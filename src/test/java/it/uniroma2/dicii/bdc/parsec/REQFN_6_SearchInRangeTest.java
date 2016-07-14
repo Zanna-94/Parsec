@@ -24,17 +24,18 @@ public class REQFN_6_SearchInRangeTest {
     @Test
     public void searchInRange() {
 
+
         String[] extepectedArray = {
                 "NGC253",
                 "NGC7213",
+                "IRAS22017+0319",
                 "HS0052+2536",
                 "IRAS05024-1941",
+                "NGC7603",
                 "NGC1961",
+                "IRAS05189-2524",
                 "NGC5506",
-                "NGC1705",
-                "NGC7591",
-                "NGC5253",
-                "UGC4483"
+                "Mrk348"
         };
 
         List<String> extepectedGalaxies = Arrays.asList(extepectedArray);

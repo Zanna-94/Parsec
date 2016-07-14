@@ -25,43 +25,65 @@ public class REQFN_5_SearchGalaxyByNameTest {
     public void searchGalaxyDescriptionByName()
             throws SQLException, ClassNotFoundException, IOException {
 
+        Position position = new Position(-1f,
+                0.023229f,
+                new Declination('+', 0, 39, 15.2424f),
+                new Ascension(8, 7, 41.003f));
+
         Galaxy g = new Galaxy();
         g.setName("Mrk622");
-        g.setPosition(new Position(-1f, 0.023229f,
-                new Declination('+', 0, 39, 15.2424f),
-                new Ascension(8, 7, 41.003f)));
+        g.setPosition(position);
+
         Luminosity l = new Luminosity();
         l.setVal(40.63d);
+
         Metallicity m = new Metallicity();
         m.setVal(1.0);
         m.setError(-1f);
 
         QueryBoundary query = new QueryBoundary();
-        query.setGalaxyName("Mrk622");
+        query.setGalaxyName(g.getName());
         SearchQueryController q = new SearchQueryController();
-        List<List<String>> result = q.searchGalaxyDescriptionByName(query);
 
-        assert g.getName().equals(result.get(0).get(0));
-        assert g.getPosition().getAscension().getAscensionHour()
-                .equals(Integer.parseInt(result.get(0).get(1)));
-        assert g.getPosition().getAscension().getAscensionMin()
-                .equals(Integer.parseInt(result.get(0).get(2)));
-        assert g.getPosition().getAscension().getAscensionSec()
-                .equals(Float.parseFloat(result.get(0).get(3)));
-        assert g.getPosition().getDeclination().getDeclinationSign()
-                .equals(result.get(0).get(4).charAt(0));
-        assert g.getPosition().getDeclination().getDeclinationDeg()
-                .equals(Integer.parseInt(result.get(0).get(5)));
-        assert g.getPosition().getDeclination().getDeclinationMin()
-                .equals(Integer.parseInt(result.get(0).get(6)));
-        assert g.getPosition().getDeclination().getDeclinationSec()
-                .equals(Float.parseFloat(result.get(0).get(7)));
-        assert g.getPosition().getDistanceValue()
-                .equals(Float.parseFloat(result.get(0).get(8)));
-        assert g.getPosition().getRedshift()
-                .equals(Float.parseFloat(result.get(0).get(9)));
-        assertEquals(l.getVal(), Double.parseDouble(result.get(0).get(10)), 0.0001);
-        assertEquals(m.getVal(), Double.parseDouble(result.get(0).get(11)), 0.0001);
-        assert m.getError().equals(Float.parseFloat(result.get(0).get(12)));
+        List<String> foundGalaxy = q.searchGalaxyDescriptionByName(query).get(0);
+
+        /*  test pass if every comparison between info of
+            Galaxy and relative lumiosity and metallicity searched
+            is equal to info of Galaxy and luminosity and metallicity known    */
+
+        assertEquals(g.getName(), foundGalaxy.get(0));
+
+        assertEquals(g.getPosition().getAscension().getAscensionHour(),
+                new Integer (foundGalaxy.get(1)));
+
+        assertEquals(g.getPosition().getAscension().getAscensionMin(),
+                new Integer (foundGalaxy.get(2)));
+
+        assertEquals(g.getPosition().getAscension().getAscensionSec(),
+                new Float(foundGalaxy.get(3)));
+
+        assertEquals(g.getPosition().getDeclination().getDeclinationSign(),
+                new Character(foundGalaxy.get(4).charAt(0)));
+
+        assertEquals(g.getPosition().getDeclination().getDeclinationDeg(),
+                new Integer (foundGalaxy.get(5)));
+
+        assertEquals(g.getPosition().getDeclination().getDeclinationMin(),
+                new Integer (foundGalaxy.get(6)));
+
+        assertEquals(g.getPosition().getDeclination().getDeclinationSec(),
+                new Float (foundGalaxy.get(7)));
+
+        assertEquals(g.getPosition().getDistanceValue(),
+                new Float (foundGalaxy.get(8)));
+
+        assertEquals(g.getPosition().getRedshift(),
+                new Float (foundGalaxy.get(9)));
+
+        assertEquals(l.getVal(), Double.parseDouble(foundGalaxy.get(10)), 0.0001);
+
+        assertEquals(m.getVal(), Double.parseDouble(foundGalaxy.get(11)), 0.0001);
+
+        assertEquals(m.getError(), new Float (foundGalaxy.get(12)));
     }
 }

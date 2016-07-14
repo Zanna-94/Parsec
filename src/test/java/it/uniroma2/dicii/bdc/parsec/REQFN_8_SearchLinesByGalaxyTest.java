@@ -31,6 +31,7 @@ public class REQFN_8_SearchLinesByGalaxyTest {
         Double val2 = -1.0d;
         Double val3 = 9.5d;
 
+        /* some known values about line flux of Galaxy chosen    */
         List<List<String>> result = s.searchFluxLinesValuesByGalaxy(q);
 
         assertEquals(Double.parseDouble(result.get(1).get(2)), val1, 0.1d);

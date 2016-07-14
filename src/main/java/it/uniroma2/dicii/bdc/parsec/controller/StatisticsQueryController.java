@@ -88,6 +88,16 @@ public class StatisticsQueryController {
         return results;
     }
 
+    /**
+     * Calculate kind of statistics operation among average value, median value,
+     * standard deviation, absolute standard deviation of al ratio between values
+     * of galaxy.
+     *
+     * @param query user query containg type of operation, category and eventually aperture
+     * @return result of statistical operation
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Double calculateStatistics(QueryBoundary query) throws SQLException, ClassNotFoundException {
 
         if (query.getResolution() == null || query.getResolution().length() == 0) {
@@ -114,89 +124,7 @@ public class StatisticsQueryController {
         return null;
     }
 
-    private List<Double> linesRatioValues(List<Double> f) {
-
-        List<Double> list = new ArrayList<Double>();
-        Integer n = f.size();
-        Integer i = 0, j, k;
-        while (i < n) {
-            j = i;
-            while (j >= 0) {
-                if (!i.equals(j) && !f.get(j).equals(0d))
-                    list.add(f.get(i) / f.get(j));
-                j--;
-            }
-            k = i;
-            while (k <= (n - 1)) {
-                if (!k.equals(i) && !f.get(k).equals(0d)) {
-                    list.add(f.get(i) / f.get(k));
-                }
-                k++;
-            }
-            i++;
-        }
-        return list;
-    }
-
-
-    private Double calculateAverageRatioValues(List<Double> f, List<Double> list) {
-
-        if (f.size() == 0) {
-            return null;
-        }
-        if (list == null)
-            list = linesRatioValues(f);
-        Double sum = 0d;
-        Integer i = 0;
-        while (i < list.size()) {
-            sum += list.get(i);
-            i++;
-        }
-        return sum / list.size();
-    }
-
-    private Double calculateMedianRatioValues(List<Double> f) {
-
-        if (f.size() == 0) {
-            return null;
-        }
-        List<Double> list = linesRatioValues(f);
-        Collections.sort(list);
-        if (list.size() % 2 != 0) {
-            Integer index = (int) Math.ceil((list.size() / 2));
-            return list.get(index);
-        } else {
-            Integer index1 = (list.size() / 2) - 1;
-            Integer index2 = list.size() / 2;
-            return (list.get(index1) + list.get(index2)) / 2d;
-        }
-    }
-
-    private Double calculateStandardDeviationRatioValues(List<Double> f) {
-
-        if (f.size() == 0) {
-            return null;
-        }
-        List<Double> list = linesRatioValues(f);
-        Integer n = list.size();
-        Double m = calculateAverageRatioValues(f, list);
-        Double sum = 0d;
-        Integer i;
-        for (i = 0; i < n; i++) {
-            sum += (list.get(i) - m) * (list.get(i) - m);
-        }
-        return Math.sqrt((1d / n) * sum);
-    }
-
-    private Double calculateAverageAbsoluteDeviationRatioValues(List<Double> f) {
-
-        if (f.size() == 0) {
-            return null;
-        }
-        return 0.6475d * calculateStandardDeviationRatioValues(f);
-    }
-
-    public Double averageLinesRatioValuesByAperture(String category, String aperture) {
+    private Double averageLinesRatioValuesByAperture(String category, String aperture) {
 
         try {
             return FluxDAO.findAverageFluxLinesRatioByCategoryAndAperture(category, aperture);
@@ -212,7 +140,7 @@ public class StatisticsQueryController {
         }
     }
 
-    public Double averageLinesRatioValues(String category) throws SQLException, ClassNotFoundException {
+    private Double averageLinesRatioValues(String category) throws SQLException, ClassNotFoundException {
 
         try {
             return FluxDAO.findAverageFluxLinesRatioByCategory(category);
@@ -223,11 +151,10 @@ public class StatisticsQueryController {
         }
     }
 
-    public Double medianLinesRatioValuesByAperture(String category, String aperture) {
+    private Double medianLinesRatioValuesByAperture(String category, String aperture) {
 
         try {
-            List<Double> f = FluxDAO.findAllFluxLinesRatioByCategoryAndAperture(category, aperture);
-            return calculateMedianRatioValues(f);
+            return FluxDAO.findAllFluxLinesMedianRatioByCategoryAndAperture(category, aperture);
 
         } catch (NoResultException e) {
             e.printStackTrace();
@@ -241,28 +168,20 @@ public class StatisticsQueryController {
         }
     }
 
-    public Double medianLinesRatioValues(String category) throws SQLException, ClassNotFoundException {
+    private Double medianLinesRatioValues(String category) throws SQLException, ClassNotFoundException {
 
         try {
-            List<Double> f = FluxDAO.findAllFluxLinesRatioByCategory(category);
-            if (f == null || f.size() == 0) {
-                return -1d;
-            } else if (f.size() == 1) {
-                return f.get(0);
-            }
-            return f.get(f.size() / 2);
-
+            return FluxDAO.findAllFluxLinesMedianRatioByCategory(category);
         } catch (NoResultException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public Double averageAbsoluteDeviationLinesRatioValuesByAperture(String category, String aperture) {
+    private Double averageAbsoluteDeviationLinesRatioValuesByAperture(String category, String aperture) {
 
         try {
-            List<Double> f = FluxDAO.findAllFluxLinesRatioByCategoryAndAperture(category, aperture);
-            return calculateAverageAbsoluteDeviationRatioValues(f);
+            return 0.6475d * FluxDAO.findAllFluxLinesDeviationByCategory(category);
 
         } catch (NoResultException e) {
             e.printStackTrace();
@@ -276,11 +195,26 @@ public class StatisticsQueryController {
         }
     }
 
-    public Double averageAbsoluteDeviationLinesRatioValues(String category) {
+    private Double averageAbsoluteDeviationLinesRatioValues(String category) {
 
         try {
-            List<Double> f = FluxDAO.findAllFluxLinesRatioByCategory(category);
-            return calculateAverageAbsoluteDeviationRatioValues(f);
+            return 0.6475d * FluxDAO.findAllFluxLinesDeviationByCategory(category);
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Double standarDeviationLinesRatioValuesByAperture(String category, String aperture) {
+
+        try {
+            return 0.6475d * FluxDAO.findAllFluxLinesDeviationByCategoryAndAperture(category, aperture);
 
         } catch (NoResultException e) {
             e.printStackTrace();
@@ -294,30 +228,10 @@ public class StatisticsQueryController {
         }
     }
 
-    public Double standarDeviationLinesRatioValuesByAperture(String category, String aperture) {
+    private Double standarDeviationLinesRatioValues(String category) {
 
         try {
-            List<Double> f = FluxDAO.findAllFluxLinesRatioByCategoryAndAperture(category, aperture);
-            return calculateStandardDeviationRatioValues(f);
-
-        } catch (NoResultException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Double standarDeviationLinesRatioValues(String category) {
-
-        try {
-            List<Double> f = FluxDAO.findAllFluxLinesRatioByCategory(category);
-            return calculateStandardDeviationRatioValues(f);
-
+            return 0.6475d * FluxDAO.findAllFluxLinesDeviationByCategory(category);
         } catch (NoResultException e) {
             e.printStackTrace();
             return null;

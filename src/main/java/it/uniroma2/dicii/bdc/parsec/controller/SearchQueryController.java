@@ -58,7 +58,10 @@ public class SearchQueryController {
             throws IOException, SQLException, ClassNotFoundException {
 
         try {
-            return GalaxyDAO.findDescriptionByName(query.getGalaxyName());
+            List<List<String>> l = GalaxyDAO.findDescriptionByName(query.getGalaxyName());
+
+            System.out.printf("QUI: %s\n",l);
+            return l;
         } catch (NoResultException e) {
             e.printStackTrace();
             return null;

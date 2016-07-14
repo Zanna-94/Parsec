@@ -89,7 +89,7 @@ public class FluxDAO {
                 connection.close();
             }
         }
-        return null;
+        return results;
     }
 
     public static List<Flux> findAllLinesByGalaxy(Galaxy galaxy) {
@@ -106,12 +106,12 @@ public class FluxDAO {
         }
     }
 
-    public static List<Double> findAllFluxLinesRatioByCategory(String category) throws SQLException, ClassNotFoundException {
+    private static int findNumberOfRatioValuesByCategory(String category) throws SQLException, ClassNotFoundException {
 
         Connection connection = JDBCInitializer.getConnection();
         PreparedStatement statement = null;
         String query =
-                "select r1.val/r2.val from (" +
+                "select count(r1.val/r2.val) as r from (" +
                         "select id,val,category from " +
                         "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
                         "where category = ? and typeflux='l') as r1 " +
@@ -119,18 +119,264 @@ public class FluxDAO {
                         "select id,val,category from " +
                         "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
                         "where category = ? and typeflux='l') as r2 " +
-                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id";
+                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id ";
+        Integer result = -1;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, category);
+            statement.setString(2, category);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // release resources
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+
+    private static int findNumberOfRatioValuesByCategoryAndAperture(String category, String aperture) throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement = null;
+        String query =
+                "select count(r1.val/r2.val) as r from (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l' and resolution = ?) as r1 " +
+                        "cross join (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l' and resolution = ?) as r2 " +
+                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id ";
+        Integer result = -1;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, category);
+            statement.setString(2, aperture);
+            statement.setString(3, category);
+            statement.setString(4, aperture);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // release resources
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+
+    public static Double findAllFluxLinesMedianRatioByCategory(String category) throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement = null;
+        int counter = findNumberOfRatioValuesByCategory(category);
+        String query =
+                "select r1.val/r2.val as r from (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l') as r1 " +
+                        "cross join (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l') as r2 " +
+                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id " +
+                        "order by r " +
+                        "LIMIT 1 OFFSET ? ";
+        Double result = -1d;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, category);
+            statement.setString(2, category);
+            statement.setInt(3, counter/2);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next() ) {
+                return result = rs.getDouble(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // release resources
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+
+    public static Double findAllFluxLinesMedianRatioByCategoryAndAperture(String category, String aperture) throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement = null;
+        int counter = findNumberOfRatioValuesByCategoryAndAperture(category, aperture);
+        String query =
+                "select r1.val/r2.val as r from (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l' and resolution = ?) as r1 " +
+                        "cross join (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l' and resolution = ?) as r2 " +
+                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id " +
+                        "order by r " +
+                        "LIMIT 1 OFFSET ? ";
+        Double result = -1d;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, category);
+            statement.setString(2, aperture);
+            statement.setString(3, category);
+            statement.setString(4, aperture);
+            statement.setInt(5, counter/2);
+            ResultSet rs = statement.executeQuery();
+            if ( rs.next() ) {
+                return result = rs.getDouble(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // release resources
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+
+    public static Double findAllFluxLinesDeviationByCategory(String category) throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement = null;
+        String query =
+                "select STDDEV(r1.val/r2.val) from ( " +
+                        "select id,val,category, galaxy_name from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l') as r1 " +
+                        "cross join ( " +
+                        "select id,val,category, galaxy_name from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l') as r2 " +
+                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id ";
+        Double result = -1d;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, category);
+            statement.setString(2, category);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next() ) {
+                return result = rs.getDouble(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // release resources
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+
+    public static Double findAllFluxLinesDeviationByCategoryAndAperture(String category, String aperture) throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement = null;
+        String query =
+                "select STDDEV(r1.val/r2.val) from ( " +
+                        "select id,val,category, galaxy_name from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l' and resolution = ?) as r1 " +
+                        "cross join ( " +
+                        "select id,val,category, galaxy_name from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l' and resolution = ?) as r2 " +
+                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id ";
+        Double result = -1d;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, category);
+            statement.setString(2, aperture);
+            statement.setString(3, category);
+            statement.setString(4, aperture);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // release resources
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+
+    public static List<Double> findAllFluxLinesRatioByCategory(String category) throws SQLException, ClassNotFoundException {
+
+        Connection connection = JDBCInitializer.getConnection();
+        PreparedStatement statement = null;
+        String query =
+                "select r1.val/r2.val as r from (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l') as r1 " +
+                        "cross join (" +
+                        "select id,val,category from " +
+                        "flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
+                        "where category = ? and typeflux='l') as r2 " +
+                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id order by r ";
         List<Double> results = new ArrayList<Double>();
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, category);
             statement.setString(2, category);
             ResultSet rs = statement.executeQuery();
-            Integer i = 0;
-            while (rs.next()) {
-                results.add(rs.getDouble(i));
-                i++;
+
+            Integer rowCount = 0, i = 0;
+            if (rs.last()) {
+                rowCount = rs.getRow();
+                rs.beforeFirst();
             }
+            while (rs.next() && !i.equals(rowCount)) {
+            }
+            results.add(rs.getDouble(1));
             return results;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -143,7 +389,7 @@ public class FluxDAO {
                 connection.close();
             }
         }
-        return null;
+        return results;
     }
 
     public static List<Double> findAllFluxLinesRatioByCategoryAndAperture(
@@ -186,7 +432,7 @@ public class FluxDAO {
                 connection.close();
             }
         }
-        return null;
+        return results;
     }
 
     public static Double findAverageFluxLinesRatioByCategory(String category) throws SQLException, ClassNotFoundException {
@@ -209,8 +455,8 @@ public class FluxDAO {
             statement.setString(1, category);
             statement.setString(2, category);
             ResultSet rs = statement.executeQuery();
-            if (rs != null) {
-                result = rs.getDouble(0);
+            if (rs.next()) {
+                result = rs.getDouble(1);
             }
             return result;
         } catch (SQLException e) {
@@ -224,7 +470,7 @@ public class FluxDAO {
                 connection.close();
             }
         }
-        return null;
+        return result;
     }
 
     public static HashMap<String, Double> ratioFluxContinuous(String atom, String galaxy) throws SQLException, ClassNotFoundException {
@@ -285,8 +531,8 @@ public class FluxDAO {
             statement.setString(3, category);
             statement.setString(4, aperture);
             ResultSet rs = statement.executeQuery();
-            if (rs != null) {
-                result = rs.getDouble(0);
+            if (rs.next()) {
+                result = rs.getDouble(1);
             }
             return result;
         } catch (SQLException e) {
@@ -300,93 +546,7 @@ public class FluxDAO {
                 connection.close();
             }
         }
-        return null;
-    }
-
-
-    public static List<List<String>> findAllFluxLinesRatioByGalaxy(String galaxyName) throws SQLException, ClassNotFoundException {
-
-        Connection connection = JDBCInitializer.getConnection();
-        PreparedStatement statement = null;
-        String query =
-                "select r1.val/r2.val, r1.upperlimit, r2.upperlimit from (" +
-                        "select id,val,upperlimit from " +
-                        "    flux JOIN galaxy on flux.galaxy_name = galaxy.name " +
-                        "   where galaxy_name = ? and typeflux='l') as r1 " +
-                        "cross join " +
-                        "(select id,val,upperlimit from " +
-                        "   flux inner JOIN galaxy on flux.galaxy_name = galaxy.name " +
-                        "   where galaxy_name = ? and typeflux='l') as r2 " +
-                        "where r1.val<>-1 and r2.val<>-1 and r1.id<>r2.id";
-        List<List<String>> results = new ArrayList<List<String>>();
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setString(1, galaxyName);
-            statement.setString(2, galaxyName);
-            ResultSet rs = statement.executeQuery();
-            Integer i = 0;
-            while (rs.next()) {
-                results.add(new ArrayList<String>());
-                results.get(i).add(Double.toString(rs.getDouble(1)));
-                results.get(i).add(rs.getString(2));
-                results.get(i).add(rs.getString(3));
-                i++;
-            }
-            return results;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            // release resources
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-        return null;
-    }
-
-    public static Double findTwoFluxLinesRatio(
-            String galaxyName, String line1, String line2) throws SQLException, ClassNotFoundException {
-
-        Connection connection = JDBCInitializer.getConnection();
-        PreparedStatement statement = null;
-        String query =
-                "select r1.val/r2.val from (" +
-                        "select distinct val from flux " +
-                        "   join galaxy on flux.galaxy_name = galaxy.name " +
-                        "   where galaxy_name = ? and typeflux='l' and atom = ?) as r1 " +
-                        "cross join (" +
-                        "select distinct val from flux " +
-                        "join galaxy on flux.galaxy_name = galaxy.name " +
-                        "where galaxy_name = ? and typeflux='l' and atom = ?) as r2 " +
-                        "where r1.val<>-1 and r2.val<>-1 and r2.val<>0";
-        Double result = -1d;
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setString(1, galaxyName);
-            statement.setString(2, line1);
-            statement.setString(3, galaxyName);
-            statement.setString(4, line2);
-            ResultSet rs = statement.executeQuery();
-            if (rs != null) {
-                result = rs.getDouble(0);
-            }
-
-            return result;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            // release resources
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-        return null;
+        return result;
     }
 
     public static List<String> findRatioBetweenTwoLinesFluxValues(String galaxyName, String line1, String line2) throws SQLException, ClassNotFoundException {
@@ -428,120 +588,7 @@ public class FluxDAO {
             if (connection != null) {
                 connection.close();
             }
-            return null;
         }
-    }
-
-    @SuppressWarnings("JpaQlInspection")
-    public static List<Flux> findLine(String fluxLine, String galaxy) throws NoResultException {
-        EntityManager entityManager = JPAInitializer.getEntityManager();
-
-        try {
-            return entityManager.createQuery("select f from Flux f " +
-                    "where galaxy_name = :galaxy and atom = :line and typeFlux != 'c'", Flux.class)
-                    .setParameter("galaxy", galaxy)
-                    .setParameter("line", fluxLine)
-                    .getResultList();
-
-        } catch (NoResultException e) {
-            throw new NoResultException();
-        }
-
-    }
-
-    @SuppressWarnings("JpaQlInspection")
-    public static Flux findContinuousFlux(String fluxLine, String galaxy) throws NoResultException {
-        EntityManager entityManager = JPAInitializer.getEntityManager();
-
-        try {
-            return entityManager.createQuery("select f from Flux f " +
-                    "where galaxy_name = :galaxy and atom = :line and typeFlux = 'c'", Flux.class)
-                    .setParameter("galaxy", galaxy)
-                    .setParameter("line", fluxLine)
-                    .getSingleResult();
-
-        } catch (NoResultException e) {
-            throw new NoResultException();
-        }
-
-    }
-
-    public static List<Flux> findLinesByGalaxy(Galaxy galaxy, List<String> lines) {
-
-        try {
-            List<Flux> results = new ArrayList<Flux>();
-            EntityManager entityManager = JPAInitializer.getEntityManager();
-
-            Integer i = 0;
-            while (i < lines.size()) {
-                List<Flux> r = entityManager.createQuery("select distinct f from Flux f where " +
-                        "(galaxy = :galaxy) and (typeFlux = 'l') and (atom = :atom)", Flux.class)
-                        .setParameter("galaxy", galaxy)
-                        .setParameter("atom", lines.get(i))
-                        .getResultList();
-                results.addAll(r);
-                i++;
-            }
-            return results;
-        } catch (NoResultException e) {
-            throw new NoResultException();
-        }
-    }
-
-    public static List<Double> findLinesByCategory(String category) {
-
-        try {
-            EntityManager entityManager = JPAInitializer.getEntityManager();
-            List<Double> results = new ArrayList<Double>();
-
-            List<Flux> f = entityManager.createQuery("" +
-                    "select distinct f from Flux f " +
-                    "inner join f.galaxy " +
-                    "where (f.galaxy.category = :category) " +
-                    "and (f.typeFlux = 'l')", Flux.class)
-                    .setParameter("category", category)
-                    .getResultList();
-
-            if (f.size() > 0) {
-                Integer i;
-                for (i = 0; i < f.size(); i++) {
-                    results.add(f.get(i).getVal());
-                }
-            }
-            return results;
-
-        } catch (NoResultException e) {
-            throw new NoResultException();
-        }
-    }
-
-    public static List<Double> findLinesByCategoryAndAperture(String category, String aperture) {
-
-        try {
-            EntityManager entityManager = JPAInitializer.getEntityManager();
-            List<Double> results = new ArrayList<Double>();
-
-            List<Flux> f = entityManager.createQuery("" +
-                    "select distinct f from Flux f " +
-                    "inner join f.galaxy " +
-                    "where (f.galaxy.category = :category) " +
-                    "and (f.resolution = :aperture) and (f.typeFlux = 'l')", Flux.class)
-                    .setParameter("category", category)
-                    .setParameter("aperture", aperture)
-                    .getResultList();
-
-            if (f.size() > 0) {
-                Integer i;
-                for (i = 0; i < f.size(); i++) {
-                    Double v = f.get(i).getVal();
-                    if (!v.equals(-1d))
-                        results.add(v);
-                }
-            }
-            return results;
-
-        } catch (NoResultException e) {
-            throw new NoResultException();
-        }
+        return results;
     }
 }

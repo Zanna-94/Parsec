@@ -27,6 +27,7 @@ public class REQFN_9_RatioTwoLinesValuesTest {
         q.setFluxNum("NeII12.8");
         q.setFluxDen("NeV14.3");
 
+        /* ratio expected based on two values relative to NeII12.8 and NeV14.3   */
         Double ratioExpected = 9.73/3.81;
 
         assertEquals(ratioExpected,
